@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     Database* DB = Database::getInstance();
 
     this->populateConferenceDropDownBox("Both");
+    ui->tabWidget->setCurrentIndex(0);
 
 }
 
@@ -199,4 +200,25 @@ void MainWindow::on_TeamsComboBox_currentIndexChanged(const QString &arg1)
 
 
     qDebug() << arg1;
+}
+
+void MainWindow::on_tabWidget_tabBarClicked(int index)
+{
+    ui->tabWidget->setCurrentIndex(index);
+    QSqlQueryModel *model = new QSqlQueryModel();
+    QSqlQuery query;
+
+    query.prepare("SELECT StadiumName AS 'Stadium Name', TeamName AS 'Team Name' FROM Teams WHERE Conference = ? ORDER BY StadiumName");
+    query.addBindValue("National Football Conference");
+    query.exec();
+    model->setQuery(query);
+
+    ui->StadiumTableView->setModel(model);
+
+   // ui->StadiumTableView->resizeColumnsToContents();
+    ui->StadiumTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->StadiumTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    ui->StadiumTableView->verticalHeader()->setHidden(true);
+    ui->StadiumTableView->verticalHeader()->setHidden(true);
+
 }
