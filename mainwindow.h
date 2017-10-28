@@ -26,6 +26,8 @@ private slots:
 
     void on_TeamsComboBox_currentIndexChanged(const QString &arg1);
 
+    void on_tabWidget_tabBarClicked(int index);
+
 private:
     Ui::MainWindow *ui;
 };
