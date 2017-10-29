@@ -208,17 +208,33 @@ void MainWindow::on_tabWidget_tabBarClicked(int index)
     QSqlQueryModel *model = new QSqlQueryModel();
     QSqlQuery query;
 
-    query.prepare("SELECT StadiumName AS 'Stadium Name', TeamName AS 'Team Name' FROM Teams WHERE Conference = ? ORDER BY StadiumName");
-    query.addBindValue("National Football Conference");
-    query.exec();
-    model->setQuery(query);
+    switch(index)
+    {
+    case 1 :
+        query.prepare("SELECT StadiumName AS 'Stadium Name', TeamName AS 'Team Name' FROM Teams WHERE Conference = ? ORDER BY StadiumName");
+        query.addBindValue("National Football Conference");
+        query.exec();
+        model->setQuery(query);
 
-    ui->StadiumTableView->setModel(model);
+        ui->StadiumTableView->setModel(model);
 
-   // ui->StadiumTableView->resizeColumnsToContents();
-    ui->StadiumTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->StadiumTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-    ui->StadiumTableView->verticalHeader()->setHidden(true);
-    ui->StadiumTableView->verticalHeader()->setHidden(true);
+        // ui->StadiumTableView->resizeColumnsToContents();
+        ui->StadiumTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        ui->StadiumTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+        ui->StadiumTableView->verticalHeader()->setHidden(true);
+        ui->StadiumTableView->verticalHeader()->setHidden(true);
+        break;
+
+    case 2:
+        query.prepare("SELECT StarPlayer AS 'Star Player', TeamName AS 'Team Name' FROM Teams ORDER BY TeamName");
+        query.exec();
+        model->setQuery(query);
+
+        ui->StarPlayerView->setModel(model);
+        ui->StarPlayerView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        ui->StarPlayerView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+        ui->StarPlayerView->verticalHeader()->setHidden(true);
+        break;
+    }
 
 }
