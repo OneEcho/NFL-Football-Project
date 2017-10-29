@@ -18,7 +18,7 @@
     <item row="0" column="1">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="Conference">
        <attribute name="title">
@@ -126,11 +126,40 @@
         </layout>
        </widget>
       </widget>
+      <widget class="QWidget" name="StarPlayers">
+       <attribute name="title">
+        <string>Star Players</string>
+       </attribute>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>320</x>
+          <y>20</y>
+          <width>481</width>
+          <height>501</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLabel" name="StarPlayerLabel">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:28pt; font-weight:600; text-decoration: underline; color:#3465a4;&quot;&gt;Star Players&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTableView" name="StarPlayerView">
+           <property name="textElideMode">
+            <enum>Qt::ElideLeft</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
      </widget>
     </item>
    </layout>
-   <zorder>StadiumTableView</zorder>
-   <zorder>tabWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -138,7 +167,7 @@
      <x>0</x>
      <y>0</y>
      <width>1120</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
