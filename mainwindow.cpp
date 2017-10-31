@@ -3,8 +3,12 @@
 #include "database.h"
 #include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QSortFilterProxyModel>
 
-
+/*!
+ * \fn MainWindow::MainWindow
+ * \param parent
+ */
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -15,14 +19,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->populateConferenceDropDownBox("Both");
     ui->tabWidget->setCurrentIndex(0);
-
+//    ui->ConferenceTableView->setSortingEnabled(false);
 }
 
+/*!
+ * \fn brief MainWindow::~MainWindow
+ */
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+/*!
+ * \fn MainWindow::populateConferenceDropDownBox
+ * \param box
+ */
 void MainWindow::populateConferenceDropDownBox(QString box)
 {
     QSqlQuery query;
@@ -30,6 +41,7 @@ void MainWindow::populateConferenceDropDownBox(QString box)
     ui->TeamsComboBox->clear();
     ui->TeamsComboBox->addItem("Select A Team");
 
+    /*! \brief If option is AFL */
     if(box == "AFL")
     {
         query.prepare("SELECT distinct TeamName FROM Teams WHERE Conference = \"American Football Conference\" ORDER BY TeamName ASC");
@@ -41,6 +53,7 @@ void MainWindow::populateConferenceDropDownBox(QString box)
             ui->TeamsComboBox->addItem(query.value(0).toString());
         }
     }
+    /*! \brief If option is NFL */
     else if(box  == "NFL")
     {
         query.prepare("SELECT distinct TeamName FROM Teams WHERE Conference = \"National Football Conference\" ORDER BY TeamName ASC");
@@ -52,6 +65,7 @@ void MainWindow::populateConferenceDropDownBox(QString box)
             ui->TeamsComboBox->addItem(query.value(0).toString());
         }
     }
+    /*! \brief If option is both AFL and NFL */
     else if(box == "Both")
     {
         query.prepare("SELECT distinct TeamName FROM Teams ORDER BY TeamName ASC");
@@ -66,6 +80,9 @@ void MainWindow::populateConferenceDropDownBox(QString box)
     }
 }
 
+/*!
+ * \fn MainWindow::on_AFLCheckBox_clicked
+ */
 void MainWindow::on_AFLCheckBox_clicked()
 {
     ui->NFLCheckBox->setChecked(false);
@@ -93,15 +110,23 @@ void MainWindow::on_AFLCheckBox_clicked()
     model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
     model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
 
+    /*! \brief allows the table to be sorted by clicking on the header*/
+    QSortFilterProxyModel *m = new QSortFilterProxyModel(this);
+    m->setDynamicSortFilter(true);
+    m->setSourceModel(model);
 
-
-    ui->ConferenceTableView->setModel(model);
+    ui->ConferenceTableView->setModel(m);
     ui->ConferenceTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->ConferenceTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->ConferenceTableView->verticalHeader()->setHidden(true);
 
+
+    ui->AFLCheckBox->setChecked(true);
 }
 
+/*!
+ * \fn MainWindow::on_NFLCheckBox_clicked
+ */
 void MainWindow::on_NFLCheckBox_clicked()
 {
     ui->AFLCheckBox->setChecked(false);
@@ -129,14 +154,22 @@ void MainWindow::on_NFLCheckBox_clicked()
     model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
     model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
 
+    /*! \brief allows the table to be sorted by clicking on the header*/
+    QSortFilterProxyModel *m = new QSortFilterProxyModel(this);
+    m->setDynamicSortFilter(true);
+    m->setSourceModel(model);
 
-    ui->ConferenceTableView->setModel(model);
+    ui->ConferenceTableView->setModel(m);
     ui->ConferenceTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->ConferenceTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->ConferenceTableView->verticalHeader()->setHidden(true);
 
+    ui->NFLCheckBox->setChecked(true);
 }
 
+/*!
+ * \fn MainWindow::on_BothCheckBox_clicked
+ */
 void MainWindow::on_BothCheckBox_clicked()
 {
     ui->NFLCheckBox->setChecked(false);
@@ -163,15 +196,29 @@ void MainWindow::on_BothCheckBox_clicked()
     model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
     model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
 
-    ui->ConferenceTableView->setModel(model);
+    /*! \brief allows the table to be sorted by clicking on the header*/
+    QSortFilterProxyModel *m = new QSortFilterProxyModel(this);
+    m->setDynamicSortFilter(true);
+    m->setSourceModel(model);
+
+    ui->ConferenceTableView->setModel(m);
     ui->ConferenceTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->ConferenceTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->ConferenceTableView->verticalHeader()->setHidden(true);
 
+    ui->BothCheckBox->setChecked(true);
 }
 
+/*!
+ * \fn MainWindow::on_TeamsComboBox_currentIndexChanged
+ * \param arg1
+ */
 void MainWindow::on_TeamsComboBox_currentIndexChanged(const QString &arg1)
 {
+    ui->AFLCheckBox->setChecked(false);
+    ui->NFLCheckBox->setChecked(false);
+    ui->BothCheckBox->setChecked(false);
+
     QSqlQueryModel* model = new QSqlQueryModel;
 
     QSqlQuery query;
@@ -192,49 +239,19 @@ void MainWindow::on_TeamsComboBox_currentIndexChanged(const QString &arg1)
     model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
     model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
 
+    /*! \brief allows the table to be sorted by clicking on the header*/
+    QSortFilterProxyModel *m = new QSortFilterProxyModel(this);
+    m->setDynamicSortFilter(true);
+    m->setSourceModel(model);
 
-    ui->ConferenceTableView->setModel(model);
+    ui->ConferenceTableView->setModel(m);
     ui->ConferenceTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->ConferenceTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     ui->ConferenceTableView->verticalHeader()->setHidden(true);
-
-
-    qDebug() << arg1;
 }
 
-void MainWindow::on_tabWidget_tabBarClicked(int index)
+void MainWindow::on_ConferenceTableView_clicked(const QModelIndex &index)
 {
-    ui->tabWidget->setCurrentIndex(index);
-    QSqlQueryModel *model = new QSqlQueryModel();
-    QSqlQuery query;
 
-    switch(index)
-    {
-    case 1 :
-        query.prepare("SELECT StadiumName AS 'Stadium Name', TeamName AS 'Team Name' FROM Teams WHERE Conference = ? ORDER BY StadiumName");
-        query.addBindValue("National Football Conference");
-        query.exec();
-        model->setQuery(query);
-
-        ui->StadiumTableView->setModel(model);
-
-        // ui->StadiumTableView->resizeColumnsToContents();
-        ui->StadiumTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-        ui->StadiumTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-        ui->StadiumTableView->verticalHeader()->setHidden(true);
-        ui->StadiumTableView->verticalHeader()->setHidden(true);
-        break;
-
-    case 2:
-        query.prepare("SELECT StarPlayer AS 'Star Player', TeamName AS 'Team Name' FROM Teams ORDER BY TeamName");
-        query.exec();
-        model->setQuery(query);
-
-        ui->StarPlayerView->setModel(model);
-        ui->StarPlayerView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-        ui->StarPlayerView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-        ui->StarPlayerView->verticalHeader()->setHidden(true);
-        break;
-    }
-
+    qDebug() << index.row();
 }
