@@ -315,8 +315,10 @@ void MainWindow::on_TeamsComboBox_currentIndexChanged(const QString &arg1)
     ui->ConferenceTableView->verticalHeader()->setHidden(true);
 }
 
-void MainWindow::on_ConferenceTableView_clicked(const QModelIndex &index)
-{
 
-    qDebug() << index.row();
+
+void MainWindow::on_adminButton_clicked()
+{
+    // Open Admin window/tab/whatever we are using for the admin page
+
 }

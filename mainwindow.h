@@ -30,8 +30,8 @@ private slots:
     /*! \fn TeamsComboBox_currentIndexChanged */
     void on_TeamsComboBox_currentIndexChanged(const QString &arg1);
 
-    /*! \fn ConferenceTableView_clicked */
-    void on_ConferenceTableView_clicked(const QModelIndex &index);
+    /*! \fn adminButton_clicked */
+    void on_adminButton_clicked();
 
 private:
     Ui::MainWindow *ui;
