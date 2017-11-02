@@ -4,6 +4,7 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <QSortFilterProxyModel>
+#include <QPalette>
 
 /*!
  * \fn MainWindow::MainWindow
@@ -19,7 +20,26 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->populateConferenceDropDownBox("Both");
     ui->tabWidget->setCurrentIndex(0);
-//    ui->ConferenceTableView->setSortingEnabled(false);
+
+
+    // get the palette
+    QPalette palette = ui->lcdNumber->palette();
+    ui->lcdNumber->setAutoFillBackground(true);
+
+
+    palette.setColor(QPalette::Normal, QPalette::Window, Qt::white);
+    palette.setColor(palette.Light, Qt::darkGreen /*QColor(255, 0, 0));*/);
+    ui->lcdNumber->setPalette(palette);
+    ui->lcdNumber->setStyleSheet("border: 1px solid transparent");
+
+
+    palette = ui->label->palette();
+    palette.setColor(ui->label->foregroundRole(), Qt::darkGreen);
+    ui->label->setPalette(palette);
+    QFont font = ui->label->font();
+    font.setPointSize(15);
+    ui->label->setFont(font);
+    ui->label->setText("Total Seating Capacity: ");
 }
 
 /*!
@@ -99,6 +119,19 @@ void MainWindow::on_AFLCheckBox_clicked()
 
     query.exec();
 
+    int total = 0;
+    QString temp;
+
+    while(query.next())
+    {
+        temp = query.value(2).toString();
+        temp.remove(",");
+        total += temp.toInt();
+    }
+
+    ui->lcdNumber->setDigitCount(7);
+    ui->lcdNumber->display(QString::number(total));
+
     model->setQuery(query);
 
     model->setHeaderData( 0, Qt::Horizontal, QObject::tr("Team Name") );
@@ -143,6 +176,20 @@ void MainWindow::on_NFLCheckBox_clicked()
 
     query.exec();
 
+    int total = 0;
+    QString temp;
+
+    while(query.next())
+    {
+        temp = query.value(2).toString();
+        temp.remove(",");
+        total += temp.toInt();
+    }
+
+    ui->lcdNumber->setDigitCount(7);
+    ui->lcdNumber->display(QString::number(total));
+
+
     model->setQuery(query);
 
     model->setHeaderData( 0, Qt::Horizontal, QObject::tr("Team Name") );
@@ -184,6 +231,22 @@ void MainWindow::on_BothCheckBox_clicked()
     query.prepare("SELECT * FROM Teams ORDER BY TeamName ASC");
 
     query.exec();
+
+    int total = 0;
+    QString temp;
+
+    while(query.next())
+    {
+        temp = query.value(2).toString();
+        temp.remove(",");
+        total += temp.toInt();
+    }
+
+    total -= 82500;
+
+    ui->lcdNumber->setDigitCount(7);
+    ui->lcdNumber->display(QString::number(total));
+
 
     model->setQuery(query);
 
@@ -227,6 +290,8 @@ void MainWindow::on_TeamsComboBox_currentIndexChanged(const QString &arg1)
     query.addBindValue(arg1);
 
     query.exec();
+
+    ui->lcdNumber->display(QString::number(0));
 
     model->setQuery(query);
 
