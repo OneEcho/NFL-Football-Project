@@ -5,6 +5,7 @@
 #include <QSqlQueryModel>
 #include <QSortFilterProxyModel>
 #include <QPalette>
+#include <QMessageBox>
 
 /*!
  * \fn MainWindow::MainWindow
@@ -14,6 +15,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
+    this->admin = new adminWindow;
+
     ui->setupUi(this);
 
     Database* DB = Database::getInstance();
@@ -40,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent) :
     font.setPointSize(15);
     ui->label->setFont(font);
     ui->label->setText("Total Seating Capacity: ");
+
+    this->setWindowTitle("NFL Information");
 }
 
 /*!
@@ -320,5 +326,5 @@ void MainWindow::on_TeamsComboBox_currentIndexChanged(const QString &arg1)
 void MainWindow::on_adminButton_clicked()
 {
     // Open Admin window/tab/whatever we are using for the admin page
-
+    this->admin->newShow();
 }
