@@ -46,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->label->setText("Total Seating Capacity: ");
 
     this->setWindowTitle("NFL Information");
+
+    this->on_BothCheckBox_clicked();
 }
 
 /*!
@@ -111,56 +113,64 @@ void MainWindow::populateConferenceDropDownBox(QString box)
  */
 void MainWindow::on_AFLCheckBox_clicked()
 {
-    ui->NFLCheckBox->setChecked(false);
-    ui->BothCheckBox->setChecked(false);
-
-    this->populateConferenceDropDownBox("AFL");
-
-    QSqlQueryModel* model = new QSqlQueryModel;
-
-    QSqlQuery query;
-
-    query.prepare("SELECT * FROM Teams WHERE Conference = ? ORDER BY TeamName ASC");
-    query.addBindValue("American Football Conference");
-
-    query.exec();
-
-    int total = 0;
-    QString temp;
-
-    while(query.next())
+    if(ui->AFLCheckBox->isChecked())
     {
-        temp = query.value(2).toString();
-        temp.remove(",");
-        total += temp.toInt();
+        ui->NFLCheckBox->setChecked(false);
+        ui->BothCheckBox->setChecked(false);
+
+        this->populateConferenceDropDownBox("AFL");
+
+        QSqlQueryModel* model = new QSqlQueryModel;
+
+        QSqlQuery query;
+
+        query.prepare("SELECT * FROM Teams WHERE Conference = ? ORDER BY TeamName ASC");
+        query.addBindValue("American Football Conference");
+
+        query.exec();
+
+        int total = 0;
+        QString temp;
+
+        while(query.next())
+        {
+            temp = query.value(2).toString();
+            temp.remove(",");
+            total += temp.toInt();
+        }
+
+        ui->lcdNumber->setDigitCount(7);
+        ui->lcdNumber->display(QString::number(total));
+
+        model->setQuery(query);
+
+        model->setHeaderData( 0, Qt::Horizontal, QObject::tr("Team Name") );
+        model->setHeaderData( 1, Qt::Horizontal, QObject::tr("Stadium Name") );
+        model->setHeaderData( 2, Qt::Horizontal, QObject::tr("Seating Capacity") );
+        model->setHeaderData( 3, Qt::Horizontal, QObject::tr("Location") );
+        model->setHeaderData( 4, Qt::Horizontal, QObject::tr("Conference") );
+        model->setHeaderData( 5, Qt::Horizontal, QObject::tr("Surface Type") );
+        model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
+        model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
+
+        /*! \brief allows the table to be sorted by clicking on the header*/
+        QSortFilterProxyModel *m = new QSortFilterProxyModel(this);
+        m->setDynamicSortFilter(true);
+        m->setSourceModel(model);
+
+        ui->ConferenceTableView->setModel(m);
+        ui->ConferenceTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        ui->ConferenceTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        ui->ConferenceTableView->verticalHeader()->setHidden(true);
+
+        ui->AFLCheckBox->setChecked(true);
     }
-
-    ui->lcdNumber->setDigitCount(7);
-    ui->lcdNumber->display(QString::number(total));
-
-    model->setQuery(query);
-
-    model->setHeaderData( 0, Qt::Horizontal, QObject::tr("Team Name") );
-    model->setHeaderData( 1, Qt::Horizontal, QObject::tr("Stadium Name") );
-    model->setHeaderData( 2, Qt::Horizontal, QObject::tr("Seating Capacity") );
-    model->setHeaderData( 3, Qt::Horizontal, QObject::tr("Location") );
-    model->setHeaderData( 4, Qt::Horizontal, QObject::tr("Conference") );
-    model->setHeaderData( 5, Qt::Horizontal, QObject::tr("Surface Type") );
-    model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
-    model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
-
-    /*! \brief allows the table to be sorted by clicking on the header*/
-    QSortFilterProxyModel *m = new QSortFilterProxyModel(this);
-    m->setDynamicSortFilter(true);
-    m->setSourceModel(model);
-
-    ui->ConferenceTableView->setModel(m);
-    ui->ConferenceTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->ConferenceTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->ConferenceTableView->verticalHeader()->setHidden(true);
-
-
-    ui->AFLCheckBox->setChecked(true);
+    else
+    {
+        ui->NFLCheckBox->setChecked(false);
+        ui->BothCheckBox->setChecked(false);
+        ui->AFLCheckBox->setChecked(false);
+    }
 }
 
 /*!

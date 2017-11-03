@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="Pages">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page_0">
        <widget class="QLineEdit" name="usernameLineEdit">
@@ -110,7 +110,21 @@
         </layout>
        </widget>
       </widget>
-      <widget class="QWidget" name="page_1"/>
+      <widget class="QWidget" name="page_1">
+       <widget class="QLabel" name="label_2">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>190</y>
+          <width>111</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>admin login stuff</string>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </item>
    </layout>
