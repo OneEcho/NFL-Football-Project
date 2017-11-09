@@ -306,8 +306,11 @@ void MainWindow::on_TeamsComboBox_currentIndexChanged(const QString &arg1)
     query.addBindValue(arg1);
 
     query.exec();
+    query.next();
 
-    ui->lcdNumber->display(QString::number(0));
+    QString temp = query.value(2).toString().remove(",");
+
+    ui->lcdNumber->display(temp);
 
     model->setQuery(query);
 
@@ -331,8 +334,9 @@ void MainWindow::on_TeamsComboBox_currentIndexChanged(const QString &arg1)
     ui->ConferenceTableView->verticalHeader()->setHidden(true);
 }
 
-
-
+/*!
+ * \fn MainWindow::on_adminButton_clicked
+ */
 void MainWindow::on_adminButton_clicked()
 {
     // Open Admin window/tab/whatever we are using for the admin page
