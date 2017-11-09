@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "adminwindow.h"
 #include <QString>
 
 namespace Ui {
@@ -35,6 +36,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    adminWindow *admin;
 };
 
 #endif // MAINWINDOW_H
