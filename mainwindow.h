@@ -2,8 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "adminwindow.h"
 #include <QString>
-#include <QDebug>
+
 namespace Ui {
 class MainWindow;
 }
@@ -30,14 +31,16 @@ private slots:
     /*! \fn TeamsComboBox_currentIndexChanged */
     void on_TeamsComboBox_currentIndexChanged(const QString &arg1);
 
-    /*! \fn ConferenceTableView_clicked */
-    void on_ConferenceTableView_clicked(const QModelIndex &index);
+    /*! \fn adminButton_clicked */
+    void on_adminButton_clicked();
+    
     /*!
-     * \brief on_comboBox_currentIndexChanged*/
+    * \brief on_comboBox_currentIndexChanged*/
     void on_roofComboBox_currentIndexChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
+    adminWindow *admin;
 };
 
 #endif // MAINWINDOW_H
