@@ -334,6 +334,69 @@ void MainWindow::on_TeamsComboBox_currentIndexChanged(const QString &arg1)
     ui->ConferenceTableView->verticalHeader()->setHidden(true);
 }
 
+void MainWindow::on_roofComboBox_currentIndexChanged(const QString &arg1)
+{
+    ui->AFLCheckBox->setChecked(false);
+    ui->NFLCheckBox->setChecked(false);
+    ui->BothCheckBox->setChecked(false);
+
+    QSqlQueryModel* model = new QSqlQueryModel;
+
+    QSqlQuery query;
+
+    if(ui->roofComboBox->currentText() == "Open")
+    {
+        query.prepare("SELECT * FROM Teams WHERE StadiumRoofType = ? ORDER BY TeamName ASC");
+        query.addBindValue("Open");
+        query.exec();
+
+        model->setQuery(query);
+    }
+    else if(ui->roofComboBox->currentText() == "Retractable")
+    {
+        query.prepare("SELECT * FROM Teams WHERE StadiumRoofType = ? ORDER BY TeamName ASC");
+        query.addBindValue("Retractable");
+        query.exec();
+
+        model->setQuery(query);
+    }
+    else if(ui->roofComboBox->currentText() == "Fixed")
+    {
+        query.prepare("SELECT * FROM Teams WHERE StadiumRoofType = ? ORDER BY TeamName ASC");
+        query.addBindValue("Fixed");
+        query.exec();
+
+        model->setQuery(query);
+    }
+    else
+    {
+        query.prepare("SELECT * FROM Teams ORDER BY TeamName ASC");
+        query.exec();
+
+        model->setQuery(query);
+    }
+
+    model->setHeaderData( 0, Qt::Horizontal, QObject::tr("Team Name") );
+    model->setHeaderData( 1, Qt::Horizontal, QObject::tr("Stadium Name") );
+    model->setHeaderData( 2, Qt::Horizontal, QObject::tr("Seating Capacity") );
+    model->setHeaderData( 3, Qt::Horizontal, QObject::tr("Location") );
+    model->setHeaderData( 4, Qt::Horizontal, QObject::tr("Conference") );
+    model->setHeaderData( 5, Qt::Horizontal, QObject::tr("Surface Type") );
+    model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
+    model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
+
+    /*! \brief allows the table to be sorted by clicking on the header*/
+    QSortFilterProxyModel *m = new QSortFilterProxyModel(this);
+    m->setDynamicSortFilter(true);
+    m->setSourceModel(model);
+
+    ui->ConferenceTableView->setModel(m);
+    ui->ConferenceTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->ConferenceTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    ui->ConferenceTableView->verticalHeader()->setHidden(true);
+
+}
+
 /*!
  * \fn MainWindow::on_adminButton_clicked
  */
@@ -342,3 +405,4 @@ void MainWindow::on_adminButton_clicked()
     // Open Admin window/tab/whatever we are using for the admin page
     this->admin->newShow();
 }
+

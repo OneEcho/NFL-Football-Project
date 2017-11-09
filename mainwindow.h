@@ -33,6 +33,10 @@ private slots:
 
     /*! \fn adminButton_clicked */
     void on_adminButton_clicked();
+    
+    /*!
+    * \brief on_comboBox_currentIndexChanged*/
+    void on_roofComboBox_currentIndexChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
