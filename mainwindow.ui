@@ -61,6 +61,32 @@
            </property>
           </widget>
          </item>
+         <item row="3" column="0" colspan="2">
+          <widget class="QLabel" name="roofLabel">
+           <property name="text">
+            <string>Choose a Roof Type: </string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" colspan="2">
+          <widget class="QComboBox" name="roofComboBox">
+           <item>
+            <property name="text">
+             <string>Open</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Fixed</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Retractable</string>
+            </property>
+           </item>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -87,7 +113,7 @@
      <string>Admin</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>9</x>
@@ -152,7 +178,7 @@
      <x>0</x>
      <y>0</y>
      <width>1120</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
