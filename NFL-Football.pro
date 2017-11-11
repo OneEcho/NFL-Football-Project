@@ -26,11 +26,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     database.cpp \
-    adminwindow.cpp
+    adminwindow.cpp \
+    modifystadiuminfo.cpp
 
 HEADERS  += mainwindow.h \
     database.h \
-    adminwindow.h
+    adminwindow.h \
+    modifystadiuminfo.h
 
 FORMS    += mainwindow.ui \
-    adminwindow.ui
+    adminwindow.ui \
+    modifystadiuminfo.ui
