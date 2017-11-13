@@ -24,14 +24,14 @@ void adminWindow::newShow()
     this->show();
     QRegExp limit("[A-Za-z(-) ,]{1,100}");
     QRegExp limitForCap("^[0-9]+$");
-    ui->lineEditConference->setText("<Enter Conference>");
-    ui->lineEditTeamName->setText("<Enter Team>");
-    ui->lineEditSeatingCap->setText("<Enter Capacity>");
-    ui->lineEditSurfaceType->setText("<Enter Surface Type>");
-    ui->lineEditLocation->setText("<Enter Location>");
-    ui->lineEditStadiumName->setText("<Enter Stadium>");
-    ui->lineEditRoofType->setText("<Enter Roof Type>");
-    ui->lineEditStarPleyer->setText("<Enter Star Player>");
+//    ui->lineEditConference->setText("<Enter Conference>");
+//    ui->lineEditTeamName->setText("<Enter Team>");
+//    ui->lineEditSeatingCap->setText("<Enter Capacity>");
+//    ui->lineEditSurfaceType->setText("<Enter Surface Type>");
+//    ui->lineEditLocation->setText("<Enter Location>");
+//    ui->lineEditStadiumName->setText("<Enter Stadium>");
+//    ui->lineEditRoofType->setText("<Enter Roof Type>");
+//    ui->lineEditStarPleyer->setText("<Enter Star Player>");
     QSqlQueryModel* model = new QSqlQueryModel();
 
      ui->lineEditConference->setValidator(new QRegExpValidator(limit, this));
@@ -55,14 +55,15 @@ void adminWindow::newShow()
     model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
     ui->stadiumTableView->verticalHeader()->setHidden(true);
     ui->stadiumTableView->setModel(model);
-    ui->stadiumTableView->setColumnWidth(0,160);
-    ui->stadiumTableView->setColumnWidth(1,165);
-    ui->stadiumTableView->setColumnWidth(2,170);
-    ui->stadiumTableView->setColumnWidth(3,170);
-    ui->stadiumTableView->setColumnWidth(4,165);
-    ui->stadiumTableView->setColumnWidth(5,170);
-    ui->stadiumTableView->setColumnWidth(6,165);
-    ui->stadiumTableView->setColumnWidth(7,170);
+    ui->stadiumTableView->resizeColumnsToContents();
+//    ui->stadiumTableView->setColumnWidth(0,160);
+//    ui->stadiumTableView->setColumnWidth(1,165);
+//    ui->stadiumTableView->setColumnWidth(2,170);
+//    ui->stadiumTableView->setColumnWidth(3,170);
+//    ui->stadiumTableView->setColumnWidth(4,165);
+//    ui->stadiumTableView->setColumnWidth(5,170);
+//    ui->stadiumTableView->setColumnWidth(6,165);
+//    ui->stadiumTableView->setColumnWidth(7,170);
 //    ui->Pages->setCurrentIndex(0);
     // this->show();
 }
