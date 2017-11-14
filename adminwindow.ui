@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>773</width>
-    <height>573</height>
+    <width>1143</width>
+    <height>615</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page_0">
        <widget class="QLineEdit" name="usernameLineEdit">
@@ -117,39 +117,18 @@
        </widget>
       </widget>
       <widget class="QWidget" name="page_1">
-       <widget class="QLabel" name="label_2">
-        <property name="geometry">
-         <rect>
-          <x>300</x>
-          <y>190</y>
-          <width>111</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>admin login stuff</string>
-        </property>
-       </widget>
-      </widget>
-      <widget class="QWidget" name="modifyStadiumPage">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_2">
-        <item row="1" column="1">
-         <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="1" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
-           <widget class="QLabel" name="label_11">
+           <widget class="QLabel" name="label_23">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Enter Stadium Information&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_3">
+           <widget class="QLabel" name="label_24">
             <property name="font">
              <font>
               <weight>50</weight>
@@ -175,7 +154,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_4">
+           <widget class="QLabel" name="label_25">
             <property name="font">
              <font>
               <weight>50</weight>
@@ -198,7 +177,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_5">
+           <widget class="QLabel" name="label_26">
             <property name="font">
              <font>
               <weight>50</weight>
@@ -221,7 +200,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_6">
+           <widget class="QLabel" name="label_27">
             <property name="font">
              <font>
               <weight>50</weight>
@@ -250,7 +229,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_9">
+           <widget class="QLabel" name="label_28">
             <property name="font">
              <font>
               <weight>50</weight>
@@ -273,7 +252,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_8">
+           <widget class="QLabel" name="label_29">
             <property name="font">
              <font>
               <weight>50</weight>
@@ -296,7 +275,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_10">
+           <widget class="QLabel" name="label_30">
             <property name="font">
              <font>
               <weight>50</weight>
@@ -319,7 +298,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_7">
+           <widget class="QLabel" name="label_31">
             <property name="font">
              <font>
               <weight>50</weight>
@@ -355,7 +334,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="verticalSpacer">
+           <spacer name="verticalSpacer_3">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -369,10 +348,10 @@
           </item>
          </layout>
         </item>
-        <item row="1" column="3">
-         <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item row="1" column="1">
+         <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
-           <widget class="QLabel" name="label_12">
+           <widget class="QLabel" name="label_32">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Double Click To Modify Information&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -394,7 +373,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>773</width>
+     <width>1143</width>
      <height>21</height>
     </rect>
    </property>

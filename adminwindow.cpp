@@ -32,8 +32,40 @@ void adminWindow::on_passwordLineEdit_returnPressed()
        ui->passwordLineEdit->text() == "password")
     {
         ui->Pages->setCurrentIndex(1);
+//        ui->Pages->setCurrentIndex(3);
         ui->usernameLineEdit->clear();
         ui->passwordLineEdit->clear();
+        //this->show();
+        QRegExp limit("[A-Za-z(-) ,]{1,100}");
+        QRegExp limitForCap("^[0-9]+$");
+
+        QSqlQueryModel* model = new QSqlQueryModel();
+
+         ui->lineEditConference->setValidator(new QRegExpValidator(limit, this));
+         ui->lineEditTeamName->setValidator(new QRegExpValidator(limit, this));
+         ui->lineEditSeatingCap->setValidator(new QRegExpValidator(limitForCap, this));
+         ui->lineEditSurfaceType->setValidator(new QRegExpValidator(limit, this));
+         ui->lineEditLocation->setValidator(new QRegExpValidator(limit, this));
+         ui->lineEditStadiumName->setValidator(new QRegExpValidator(limit, this));
+         ui->lineEditRoofType->setValidator(new QRegExpValidator(limit, this));
+         ui->lineEditStarPleyer->setValidator(new QRegExpValidator(limit, this));
+
+//        ui->Pages->setCurrentWidget(ui->modifyStadiumPage);
+        model = Database::getInstance()->getStadiumInfo();
+        model->setHeaderData( 0, Qt::Horizontal, QObject::tr("Team Name") );
+        model->setHeaderData( 1, Qt::Horizontal, QObject::tr("Stadium Name") );
+        model->setHeaderData( 2, Qt::Horizontal, QObject::tr("Seating Capacity") );
+        model->setHeaderData( 3, Qt::Horizontal, QObject::tr("Location") );
+        model->setHeaderData( 4, Qt::Horizontal, QObject::tr("Conference") );
+        model->setHeaderData( 5, Qt::Horizontal, QObject::tr("Surface Type") );
+        model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
+        model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
+        ui->stadiumTableView->verticalHeader()->setHidden(true);
+        ui->stadiumTableView->setModel(model);
+        ui->stadiumTableView->resizeColumnsToContents();
+        ui->stadiumTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+
     }
     else
     {
@@ -41,6 +73,7 @@ void adminWindow::on_passwordLineEdit_returnPressed()
         ui->usernameLineEdit->clear();
         ui->passwordLineEdit->clear();
     }
+
 
 }
 
@@ -56,38 +89,39 @@ void adminWindow::on_loginButton_clicked()
     if(ui->usernameLineEdit->text() == "admin" &&
        ui->passwordLineEdit->text() == "password")
     {
-       // ui->Pages->setCurrentIndex(1);
-        ui->Pages->setCurrentWidget(ui->modifyStadiumPage);
-//        ui->usernameLineEdit->clear();
-//        ui->passwordLineEdit->clear();
-//        //this->show();
-//        QRegExp limit("[A-Za-z(-) ,]{1,100}");
-//        QRegExp limitForCap("^[0-9]+$");
+        ui->Pages->setCurrentIndex(1);
+//        ui->Pages->setCurrentIndex(3);
+        ui->usernameLineEdit->clear();
+        ui->passwordLineEdit->clear();
+        //this->show();
+        QRegExp limit("[A-Za-z(-) ,]{1,100}");
+        QRegExp limitForCap("^[0-9]+$");
 
-//        QSqlQueryModel* model = new QSqlQueryModel();
+        QSqlQueryModel* model = new QSqlQueryModel();
 
-//         ui->lineEditConference->setValidator(new QRegExpValidator(limit, this));
-//         ui->lineEditTeamName->setValidator(new QRegExpValidator(limit, this));
-//         ui->lineEditSeatingCap->setValidator(new QRegExpValidator(limitForCap, this));
-//         ui->lineEditSurfaceType->setValidator(new QRegExpValidator(limit, this));
-//         ui->lineEditLocation->setValidator(new QRegExpValidator(limit, this));
-//         ui->lineEditStadiumName->setValidator(new QRegExpValidator(limit, this));
-//         ui->lineEditRoofType->setValidator(new QRegExpValidator(limit, this));
-//         ui->lineEditStarPleyer->setValidator(new QRegExpValidator(limit, this));
+         ui->lineEditConference->setValidator(new QRegExpValidator(limit, this));
+         ui->lineEditTeamName->setValidator(new QRegExpValidator(limit, this));
+         ui->lineEditSeatingCap->setValidator(new QRegExpValidator(limitForCap, this));
+         ui->lineEditSurfaceType->setValidator(new QRegExpValidator(limit, this));
+         ui->lineEditLocation->setValidator(new QRegExpValidator(limit, this));
+         ui->lineEditStadiumName->setValidator(new QRegExpValidator(limit, this));
+         ui->lineEditRoofType->setValidator(new QRegExpValidator(limit, this));
+         ui->lineEditStarPleyer->setValidator(new QRegExpValidator(limit, this));
 
 //        ui->Pages->setCurrentWidget(ui->modifyStadiumPage);
-//        model = Database::getInstance()->getStadiumInfo();
-//        model->setHeaderData( 0, Qt::Horizontal, QObject::tr("Team Name") );
-//        model->setHeaderData( 1, Qt::Horizontal, QObject::tr("Stadium Name") );
-//        model->setHeaderData( 2, Qt::Horizontal, QObject::tr("Seating Capacity") );
-//        model->setHeaderData( 3, Qt::Horizontal, QObject::tr("Location") );
-//        model->setHeaderData( 4, Qt::Horizontal, QObject::tr("Conference") );
-//        model->setHeaderData( 5, Qt::Horizontal, QObject::tr("Surface Type") );
-//        model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
-//        model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
-//        ui->stadiumTableView->verticalHeader()->setHidden(true);
-//        ui->stadiumTableView->setModel(model);
-//        ui->stadiumTableView->resizeColumnsToContents();
+        model = Database::getInstance()->getStadiumInfo();
+        model->setHeaderData( 0, Qt::Horizontal, QObject::tr("Team Name") );
+        model->setHeaderData( 1, Qt::Horizontal, QObject::tr("Stadium Name") );
+        model->setHeaderData( 2, Qt::Horizontal, QObject::tr("Seating Capacity") );
+        model->setHeaderData( 3, Qt::Horizontal, QObject::tr("Location") );
+        model->setHeaderData( 4, Qt::Horizontal, QObject::tr("Conference") );
+        model->setHeaderData( 5, Qt::Horizontal, QObject::tr("Surface Type") );
+        model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
+        model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
+        ui->stadiumTableView->verticalHeader()->setHidden(true);
+        ui->stadiumTableView->setModel(model);
+        ui->stadiumTableView->resizeColumnsToContents();
+        ui->stadiumTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     }
     else
