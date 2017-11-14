@@ -31,39 +31,7 @@ void adminWindow::on_passwordLineEdit_returnPressed()
     if(ui->usernameLineEdit->text() == "admin" &&
        ui->passwordLineEdit->text() == "password")
     {
-        ui->Pages->setCurrentIndex(1);
-//        ui->Pages->setCurrentIndex(3);
-        ui->usernameLineEdit->clear();
-        ui->passwordLineEdit->clear();
-        //this->show();
-        QRegExp limit("[A-Za-z(-) ,]{1,100}");
-        QRegExp limitForCap("^[0-9]+$");
-
-        QSqlQueryModel* model = new QSqlQueryModel();
-
-         ui->lineEditConference->setValidator(new QRegExpValidator(limit, this));
-         ui->lineEditTeamName->setValidator(new QRegExpValidator(limit, this));
-         ui->lineEditSeatingCap->setValidator(new QRegExpValidator(limitForCap, this));
-         ui->lineEditSurfaceType->setValidator(new QRegExpValidator(limit, this));
-         ui->lineEditLocation->setValidator(new QRegExpValidator(limit, this));
-         ui->lineEditStadiumName->setValidator(new QRegExpValidator(limit, this));
-         ui->lineEditRoofType->setValidator(new QRegExpValidator(limit, this));
-         ui->lineEditStarPleyer->setValidator(new QRegExpValidator(limit, this));
-
-//        ui->Pages->setCurrentWidget(ui->modifyStadiumPage);
-        model = Database::getInstance()->getStadiumInfo();
-        model->setHeaderData( 0, Qt::Horizontal, QObject::tr("Team Name") );
-        model->setHeaderData( 1, Qt::Horizontal, QObject::tr("Stadium Name") );
-        model->setHeaderData( 2, Qt::Horizontal, QObject::tr("Seating Capacity") );
-        model->setHeaderData( 3, Qt::Horizontal, QObject::tr("Location") );
-        model->setHeaderData( 4, Qt::Horizontal, QObject::tr("Conference") );
-        model->setHeaderData( 5, Qt::Horizontal, QObject::tr("Surface Type") );
-        model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
-        model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
-        ui->stadiumTableView->verticalHeader()->setHidden(true);
-        ui->stadiumTableView->setModel(model);
-        ui->stadiumTableView->resizeColumnsToContents();
-        ui->stadiumTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        openStadiumModifyPage();
 
 
     }
@@ -122,40 +90,46 @@ void adminWindow::on_usernameLineEdit_returnPressed()
 void adminWindow::on_pushButtonAddStadium_clicked()
 {
     bool invalidInfo = false;
-
-    QString inputData[8];
+    const int AR_SIZE = 8;
+    QString inputData[AR_SIZE];
     inputData[0] = ui->lineEditTeamName->text();
     inputData[1] = ui->lineEditStadiumName->text();
     inputData[2] = ui->lineEditSeatingCap->text();
     inputData[3] = ui->lineEditLocation->text();
-    inputData[4] = ui->lineEditConference->text();
+    inputData[4] = ui->comboBoxConference->currentText();
     inputData[5] = ui->lineEditSurfaceType->text();
-    inputData[6] = ui->lineEditRoofType->text();
+    inputData[6] = ui->comboBoxRoofType->currentText();
     inputData[7] = ui->lineEditStarPleyer->text();
     int index = 0;
-    while(!invalidInfo && index < 8) {
-        if(inputData[index] == "") {
-            invalidInfo = true;
-            QMessageBox::critical(this, "Invalid Information", "Please insert information Into all columns");
+    if(inputData[4] == "<Select Conference Here>" || inputData[6] == "<Select Roof Type Here>") {
+        QMessageBox::critical(this, "Invalid Information", "Please Select Valid Options In Drop Down Menus");
 
-        }
-        index++;
     }
+    else {
+        while(!invalidInfo && index < AR_SIZE) {
+            if(inputData[index] == "") {
+                invalidInfo = true;
+                QMessageBox::critical(this, "Invalid Information", "Please Insert Information Into all columns");
 
-    if(!invalidInfo) {
-        QSqlQuery query;
-        query.prepare("INSERT INTO `Teams` VALUES (:teamName,:stadiumName,:capacity,:location,:conference,:surfaceType,:roofType,:starPlayer)");
-        query.bindValue(":teamName", inputData[0]);
-        query.bindValue(":stadiumName", inputData[1]);
-        query.bindValue(":capacity", inputData[2]);
-        query.bindValue(":location", inputData[3]);
-        query.bindValue(":conference", inputData[4]);
-        query.bindValue(":surfaceType", inputData[5]);
-        query.bindValue(":roofType", inputData[6]);
-        query.bindValue(":starPlayer", inputData[7]);
-        query.exec();
+            }
+            index++;
+        }
+        if(!invalidInfo) {
+            QSqlQuery query;
+            query.prepare("INSERT INTO `Teams` VALUES (:teamName,:stadiumName,:capacity,:location,:conference,:surfaceType,:roofType,:starPlayer)");
+            query.bindValue(":teamName", inputData[0]);
+            query.bindValue(":stadiumName", inputData[1]);
+            query.bindValue(":capacity", inputData[2]);
+            query.bindValue(":location", inputData[3]);
+            query.bindValue(":conference", inputData[4]);
+            query.bindValue(":surfaceType", inputData[5]);
+            query.bindValue(":roofType", inputData[6]);
+            query.bindValue(":starPlayer", inputData[7]);
+            query.exec();
+        }
     }
     this->openStadiumModifyPage();
+
 
 }
 void adminWindow::on_stadiumTableView_doubleClicked(const QModelIndex &index)
@@ -163,6 +137,7 @@ void adminWindow::on_stadiumTableView_doubleClicked(const QModelIndex &index)
     QModelIndex teamNameIndex = index.sibling(index.row(), 0);
     QModelIndex stadiumNameIndex = index.sibling(index.row(),1);
 
+    QString header;
     QModelIndex columnToUpdate = index.sibling(index.row(), index.column());
     QString dataToOverwrite = ui->stadiumTableView->model()->data(columnToUpdate).toString();
     QString teamName = ui->stadiumTableView->model()->data(teamNameIndex).toString();
@@ -175,20 +150,28 @@ void adminWindow::on_stadiumTableView_doubleClicked(const QModelIndex &index)
     QString columnName = "";
     switch(index.column()) {
         case 0: columnName = "TeamName";
+                header = "Team Name";
             break;
         case 1: columnName = "StadiumName";
+                header = "StadiumName";
             break;
         case 2: columnName = "SeatingCapacity";
+                header = "Seating Capacity";
              break;
         case 3: columnName = "Location";
+                header = "Location";
              break;
         case 4: columnName = "Conference";
+                header = "Conference";
              break;
         case 5: columnName = "SurfaceType";
+                header = "Surface Type";
             break;
         case 6: columnName = "StadiumRoofType";
+                header = "Roof Type";
             break;
         case 7: columnName = "StarPlayer";
+                header = "Star Player";
             break;
         default: columnName = "";
     }
@@ -196,11 +179,8 @@ void adminWindow::on_stadiumTableView_doubleClicked(const QModelIndex &index)
 
         modifyStadiumInfo *newInput = new modifyStadiumInfo(*this, &adminWindow::openStadiumModifyPage);
         // store index from tableview selection
-        newInput->setTeamName(teamName);
-        newInput->setStadiumName(stadiumName);
-        newInput->setColumn(columnName);
-        newInput->setDataToOverwrite(dataToOverwrite);
-        //newInput->setAttribute(Qt::WA_DeleteOnClose);
+        newInput->setData(dataToOverwrite, teamName, stadiumName, columnName, header);
+
         newInput->exec();
 
         delete newInput;
@@ -210,22 +190,28 @@ void adminWindow::on_stadiumTableView_doubleClicked(const QModelIndex &index)
 void adminWindow::openStadiumModifyPage() {
 
     ui->Pages->setCurrentIndex(1);
-//        ui->Pages->setCurrentIndex(3);
-    ui->usernameLineEdit->clear();
-    ui->passwordLineEdit->clear();
-    //this->show();
+
     QRegExp limit("[A-Za-z(-) ,]{1,100}");
     QRegExp limitForCap("^[0-9]+$");
-
+    QStringList conferences = {"<Select Conference Here>", "American Football Conference", "National Football Conference"};
+    QStringList roofTypes = {"<Select Roof Type Here>", "Open", "Retractable", "Fixed"};
+    ui->comboBoxConference->addItems(conferences);
+    ui->comboBoxRoofType->addItems(roofTypes);
+    ui->comboBoxConference->setCurrentIndex(0);
+    ui->comboBoxRoofType->setCurrentIndex(0);
+    ui->lineEditLocation->clear();
+    ui->lineEditSeatingCap->clear();
+    ui->lineEditStadiumName->clear();
+    ui->lineEditStarPleyer->clear();
+    ui->lineEditSurfaceType->clear();
+    ui->lineEditTeamName->clear();
     QSqlQueryModel* model = new QSqlQueryModel();
 
-     ui->lineEditConference->setValidator(new QRegExpValidator(limit, this));
      ui->lineEditTeamName->setValidator(new QRegExpValidator(limit, this));
      ui->lineEditSeatingCap->setValidator(new QRegExpValidator(limitForCap, this));
      ui->lineEditSurfaceType->setValidator(new QRegExpValidator(limit, this));
      ui->lineEditLocation->setValidator(new QRegExpValidator(limit, this));
      ui->lineEditStadiumName->setValidator(new QRegExpValidator(limit, this));
-     ui->lineEditRoofType->setValidator(new QRegExpValidator(limit, this));
      ui->lineEditStarPleyer->setValidator(new QRegExpValidator(limit, this));
 
 //        ui->Pages->setCurrentWidget(ui->modifyStadiumPage);
