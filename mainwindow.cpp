@@ -117,6 +117,7 @@ void MainWindow::on_AFLCheckBox_clicked()
     {
         ui->NFLCheckBox->setChecked(false);
         ui->BothCheckBox->setChecked(false);
+        ui->roofComboBox->setCurrentIndex(0);
 
         this->populateConferenceDropDownBox("AFL");
 
@@ -180,6 +181,7 @@ void MainWindow::on_NFLCheckBox_clicked()
 {
     ui->AFLCheckBox->setChecked(false);
     ui->BothCheckBox->setChecked(false);
+    ui->roofComboBox->setCurrentIndex(0);
 
     this->populateConferenceDropDownBox("NFL");
 
@@ -237,6 +239,7 @@ void MainWindow::on_BothCheckBox_clicked()
 {
     ui->NFLCheckBox->setChecked(false);
     ui->AFLCheckBox->setChecked(false);
+    ui->roofComboBox->setCurrentIndex(0);
 
     this->populateConferenceDropDownBox("Both");
 
@@ -340,6 +343,12 @@ void MainWindow::on_roofComboBox_currentIndexChanged(const QString &arg1)
     ui->NFLCheckBox->setChecked(false);
     ui->BothCheckBox->setChecked(false);
 
+    QString roofLabelMessage = "Total number of roof type: ";
+    int numberOfRoofType = 0;
+    //set values to change the lcd seating number
+    int total = 0;
+    QString temp;
+
     QSqlQueryModel* model = new QSqlQueryModel;
 
     QSqlQuery query;
@@ -348,8 +357,29 @@ void MainWindow::on_roofComboBox_currentIndexChanged(const QString &arg1)
     {
         query.prepare("SELECT * FROM Teams WHERE StadiumRoofType = ? ORDER BY TeamName ASC");
         query.addBindValue("Open");
+
+
         query.exec();
 
+        //geting the size of the query after exec
+        while(query.next())
+        {
+            //incrementing the rooftype
+            numberOfRoofType++;
+            //adding to the seating number
+            temp = query.value(2).toString();
+            temp.remove(",");
+            total += temp.toInt();
+
+        }
+        //subtract the total seating number that the GIANTS and the JETS
+        //share the same stadium
+        total -= 82500;
+        ui->lcdNumber->setDigitCount(7);
+        ui->lcdNumber->display(QString::number(total));
+
+        //sets the label to show the number of stadiums with the specific rooftype
+        ui->roofNumberLabel->setText(roofLabelMessage + QString::number(numberOfRoofType));
         model->setQuery(query);
     }
     else if(ui->roofComboBox->currentText() == "Retractable")
@@ -358,6 +388,19 @@ void MainWindow::on_roofComboBox_currentIndexChanged(const QString &arg1)
         query.addBindValue("Retractable");
         query.exec();
 
+        //geting the size of the query after exec
+        while(query.next())
+        {
+            numberOfRoofType++;
+            //adding to the seating number
+            temp = query.value(2).toString();
+            temp.remove(",");
+            total += temp.toInt();
+        }
+        ui->lcdNumber->setDigitCount(7);
+        ui->lcdNumber->display(QString::number(total));
+        //sets the label to show the number of stadiums with the specific rooftype
+        ui->roofNumberLabel->setText(roofLabelMessage + QString::number(numberOfRoofType));
         model->setQuery(query);
     }
     else if(ui->roofComboBox->currentText() == "Fixed")
@@ -365,14 +408,27 @@ void MainWindow::on_roofComboBox_currentIndexChanged(const QString &arg1)
         query.prepare("SELECT * FROM Teams WHERE StadiumRoofType = ? ORDER BY TeamName ASC");
         query.addBindValue("Fixed");
         query.exec();
-
+        //geting the size of the query after exec
+        while(query.next())
+        {
+            numberOfRoofType++;
+            //adding to the seating number
+            temp = query.value(2).toString();
+            temp.remove(",");
+            total += temp.toInt();
+        }
+        ui->lcdNumber->setDigitCount(7);
+        ui->lcdNumber->display(QString::number(total));
+        //sets the label to show the number of stadiums with the specific rooftype
+        ui->roofNumberLabel->setText(roofLabelMessage + QString::number(numberOfRoofType));
         model->setQuery(query);
     }
     else
     {
         query.prepare("SELECT * FROM Teams ORDER BY TeamName ASC");
         query.exec();
-
+        //sets the label to show the number of stadiums with the specific rooftype
+        ui->roofNumberLabel->setText(roofLabelMessage);
         model->setQuery(query);
     }
 

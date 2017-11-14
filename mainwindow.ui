@@ -14,184 +14,182 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
-      <widget class="QWidget" name="Conference">
-       <attribute name="title">
-        <string>Team By Conferences</string>
-       </attribute>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0" colspan="2">
-         <widget class="QGroupBox" name="groupBox">
-          <property name="title">
-           <string>Choose your team or conference!</string>
-          </property>
-          <layout class="QFormLayout" name="formLayout">
-           <item row="0" column="0" colspan="2">
-            <widget class="QComboBox" name="TeamsComboBox"/>
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>9</y>
+      <width>1101</width>
+      <height>541</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="Conference">
+     <attribute name="title">
+      <string>Team By Conferences</string>
+     </attribute>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0" colspan="2">
+       <widget class="QGroupBox" name="groupBox">
+        <property name="title">
+         <string>Choose your team or conference!</string>
+        </property>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0" colspan="2">
+          <widget class="QComboBox" name="TeamsComboBox"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="NFLCheckBox">
+           <property name="text">
+            <string>NFL</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QCheckBox" name="AFLCheckBox">
+           <property name="text">
+            <string>AFL</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QCheckBox" name="BothCheckBox">
+           <property name="text">
+            <string>Both</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" colspan="2">
+          <widget class="QLabel" name="roofLabel">
+           <property name="text">
+            <string>Choose a Roof Type: </string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="2">
+          <widget class="QComboBox" name="roofComboBox">
+           <item>
+            <property name="text">
+             <string>Choose a roof type</string>
+            </property>
            </item>
-           <item row="1" column="0">
-            <widget class="QCheckBox" name="NFLCheckBox">
-             <property name="text">
-              <string>NFL</string>
-             </property>
-            </widget>
+           <item>
+            <property name="text">
+             <string>Open</string>
+            </property>
            </item>
-           <item row="1" column="1">
-            <widget class="QCheckBox" name="AFLCheckBox">
-             <property name="text">
-              <string>AFL</string>
-             </property>
-            </widget>
+           <item>
+            <property name="text">
+             <string>Fixed</string>
+            </property>
            </item>
-           <item row="2" column="0">
-            <widget class="QCheckBox" name="BothCheckBox">
-             <property name="text">
-              <string>Both</string>
-             </property>
-            </widget>
+           <item>
+            <property name="text">
+             <string>Retractable</string>
+            </property>
            </item>
-           <item row="3" column="0" colspan="2">
-            <widget class="QLabel" name="roofLabel">
-             <property name="text">
-              <string>Choose a Roof Type: </string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0" colspan="2">
-            <widget class="QComboBox" name="roofComboBox">
-             <item>
-              <property name="text">
-               <string>Open</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Fixed</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Retractable</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QTableView" name="ConferenceTableView">
-          <property name="sortingEnabled">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <spacer name="horizontalSpacer_5">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="font">
-         <font>
-          <family>Ebrima</family>
-          <pointsize>15</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Total Seating Capacity: </string>
-        </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0" colspan="2">
+          <widget class="QLabel" name="roofNumberLabel">
+           <property name="text">
+            <string>Total number of roof type:</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
-      <item>
-       <widget class="QLCDNumber" name="lcdNumber">
-        <property name="digitCount">
-         <number>7</number>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="adminButton">
-        <property name="text">
-         <string>Admin</string>
+      <item row="0" column="2">
+       <widget class="QTableView" name="ConferenceTableView">
+        <property name="sortingEnabled">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
      </layout>
-    </item>
-   </layout>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="adminButton">
+    <property name="geometry">
+     <rect>
+      <x>1040</x>
+      <y>0</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Admin</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>546</y>
+      <width>1101</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <family>Ebrima</family>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Total Seating Capacity: </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLCDNumber" name="lcdNumber">
+       <property name="digitCount">
+        <number>7</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -199,7 +197,7 @@
      <x>0</x>
      <y>0</y>
      <width>1120</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
@@ -209,3 +207,4 @@
  <resources/>
  <connections/>
 </ui>
+
