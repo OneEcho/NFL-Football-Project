@@ -23,8 +23,8 @@ public:
     explicit modifyStadiumInfo(adminWindow& pw, functionName func);
     void setDataToOverwrite(QString d);
     void setColumn(QString);
-
-
+    void setTeamName(QString);
+    void setStadiumName(QString);
 
 private slots:
     void on_PB_Update_clicked();
@@ -33,6 +33,8 @@ private:
     Ui::modifyStadiumInfo *ui;
     QString columnName;
     QString oldData;
+    QString teamName;
+    QString stadiumName;
 };
 
 #endif // MODIFYSTADIUMINFO_H

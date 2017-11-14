@@ -29,6 +29,7 @@ private slots:
 
 
     void on_stadiumTableView_doubleClicked(const QModelIndex &index);
+    void openStadiumModifyPage();
 
 private:
     Ui::adminWindow *ui;

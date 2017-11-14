@@ -89,39 +89,7 @@ void adminWindow::on_loginButton_clicked()
     if(ui->usernameLineEdit->text() == "admin" &&
        ui->passwordLineEdit->text() == "password")
     {
-        ui->Pages->setCurrentIndex(1);
-//        ui->Pages->setCurrentIndex(3);
-        ui->usernameLineEdit->clear();
-        ui->passwordLineEdit->clear();
-        //this->show();
-        QRegExp limit("[A-Za-z(-) ,]{1,100}");
-        QRegExp limitForCap("^[0-9]+$");
-
-        QSqlQueryModel* model = new QSqlQueryModel();
-
-         ui->lineEditConference->setValidator(new QRegExpValidator(limit, this));
-         ui->lineEditTeamName->setValidator(new QRegExpValidator(limit, this));
-         ui->lineEditSeatingCap->setValidator(new QRegExpValidator(limitForCap, this));
-         ui->lineEditSurfaceType->setValidator(new QRegExpValidator(limit, this));
-         ui->lineEditLocation->setValidator(new QRegExpValidator(limit, this));
-         ui->lineEditStadiumName->setValidator(new QRegExpValidator(limit, this));
-         ui->lineEditRoofType->setValidator(new QRegExpValidator(limit, this));
-         ui->lineEditStarPleyer->setValidator(new QRegExpValidator(limit, this));
-
-//        ui->Pages->setCurrentWidget(ui->modifyStadiumPage);
-        model = Database::getInstance()->getStadiumInfo();
-        model->setHeaderData( 0, Qt::Horizontal, QObject::tr("Team Name") );
-        model->setHeaderData( 1, Qt::Horizontal, QObject::tr("Stadium Name") );
-        model->setHeaderData( 2, Qt::Horizontal, QObject::tr("Seating Capacity") );
-        model->setHeaderData( 3, Qt::Horizontal, QObject::tr("Location") );
-        model->setHeaderData( 4, Qt::Horizontal, QObject::tr("Conference") );
-        model->setHeaderData( 5, Qt::Horizontal, QObject::tr("Surface Type") );
-        model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
-        model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
-        ui->stadiumTableView->verticalHeader()->setHidden(true);
-        ui->stadiumTableView->setModel(model);
-        ui->stadiumTableView->resizeColumnsToContents();
-        ui->stadiumTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    this->openStadiumModifyPage();
 
     }
     else
@@ -169,14 +137,6 @@ void adminWindow::on_pushButtonAddStadium_clicked()
         if(inputData[index] == "") {
             invalidInfo = true;
             QMessageBox::critical(this, "Invalid Information", "Please insert information Into all columns");
-            ui->lineEditConference->setText("<Enter Conference>");
-            ui->lineEditTeamName->setText("<Enter Team>");
-            ui->lineEditSeatingCap->setText("<Enter Capacity>");
-            ui->lineEditSurfaceType->setText("<Enter Surface Type>");
-            ui->lineEditLocation->setText("<Enter Location>");
-            ui->lineEditStadiumName->setText("<Enter Stadium>");
-            ui->lineEditRoofType->setText("<Enter Roof Type>");
-            ui->lineEditStarPleyer->setText("<Enter Star Player>");
 
         }
         index++;
@@ -195,17 +155,24 @@ void adminWindow::on_pushButtonAddStadium_clicked()
         query.bindValue(":starPlayer", inputData[7]);
         query.exec();
     }
-    this->newShow();
+    this->openStadiumModifyPage();
 
 }
 void adminWindow::on_stadiumTableView_doubleClicked(const QModelIndex &index)
 {
-    QModelIndex campusIndex = index.sibling(index.row(), index.column());
-    QString dataToOverwrite = ui->stadiumTableView->model()->data(campusIndex).toString();
+    QModelIndex teamNameIndex = index.sibling(index.row(), 0);
+    QModelIndex stadiumNameIndex = index.sibling(index.row(),1);
+
+    QModelIndex columnToUpdate = index.sibling(index.row(), index.column());
+    QString dataToOverwrite = ui->stadiumTableView->model()->data(columnToUpdate).toString();
+    QString teamName = ui->stadiumTableView->model()->data(teamNameIndex).toString();
+    QString stadiumName = ui->stadiumTableView->model()->data(stadiumNameIndex).toString();
     qDebug() << "dataToOverwrite: " << dataToOverwrite;
+      qDebug() << "teamName: " << teamName;
+      qDebug() << "stadiumName: " << stadiumName;
 
     // convert selection into a qstring
-    QString columnName;
+    QString columnName = "";
     switch(index.column()) {
         case 0: columnName = "TeamName";
             break;
@@ -225,12 +192,55 @@ void adminWindow::on_stadiumTableView_doubleClicked(const QModelIndex &index)
             break;
         default: columnName = "";
     }
-    modifyStadiumInfo *newInput = new modifyStadiumInfo(*this, &adminWindow::newShow);
-    // store index from tableview selection
-    newInput->setColumn(columnName);
-    newInput->setDataToOverwrite(dataToOverwrite);
+    if(columnName != "") {
 
+        modifyStadiumInfo *newInput = new modifyStadiumInfo(*this, &adminWindow::openStadiumModifyPage);
+        // store index from tableview selection
+        newInput->setTeamName(teamName);
+        newInput->setStadiumName(stadiumName);
+        newInput->setColumn(columnName);
+        newInput->setDataToOverwrite(dataToOverwrite);
+        //newInput->setAttribute(Qt::WA_DeleteOnClose);
+        newInput->exec();
 
-    newInput->exec();
-    delete newInput;
+        delete newInput;
+    }
+
+}
+void adminWindow::openStadiumModifyPage() {
+
+    ui->Pages->setCurrentIndex(1);
+//        ui->Pages->setCurrentIndex(3);
+    ui->usernameLineEdit->clear();
+    ui->passwordLineEdit->clear();
+    //this->show();
+    QRegExp limit("[A-Za-z(-) ,]{1,100}");
+    QRegExp limitForCap("^[0-9]+$");
+
+    QSqlQueryModel* model = new QSqlQueryModel();
+
+     ui->lineEditConference->setValidator(new QRegExpValidator(limit, this));
+     ui->lineEditTeamName->setValidator(new QRegExpValidator(limit, this));
+     ui->lineEditSeatingCap->setValidator(new QRegExpValidator(limitForCap, this));
+     ui->lineEditSurfaceType->setValidator(new QRegExpValidator(limit, this));
+     ui->lineEditLocation->setValidator(new QRegExpValidator(limit, this));
+     ui->lineEditStadiumName->setValidator(new QRegExpValidator(limit, this));
+     ui->lineEditRoofType->setValidator(new QRegExpValidator(limit, this));
+     ui->lineEditStarPleyer->setValidator(new QRegExpValidator(limit, this));
+
+//        ui->Pages->setCurrentWidget(ui->modifyStadiumPage);
+    model = Database::getInstance()->getStadiumInfo();
+    model->setHeaderData( 0, Qt::Horizontal, QObject::tr("Team Name") );
+    model->setHeaderData( 1, Qt::Horizontal, QObject::tr("Stadium Name") );
+    model->setHeaderData( 2, Qt::Horizontal, QObject::tr("Seating Capacity") );
+    model->setHeaderData( 3, Qt::Horizontal, QObject::tr("Location") );
+    model->setHeaderData( 4, Qt::Horizontal, QObject::tr("Conference") );
+    model->setHeaderData( 5, Qt::Horizontal, QObject::tr("Surface Type") );
+    model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
+    model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
+    ui->stadiumTableView->verticalHeader()->setHidden(true);
+    ui->stadiumTableView->setModel(model);
+    ui->stadiumTableView->resizeColumnsToContents();
+    ui->stadiumTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 }
