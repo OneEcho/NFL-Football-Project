@@ -101,20 +101,27 @@ void adminWindow::on_pushButtonAddStadium_clicked()
     inputData[6] = ui->comboBoxRoofType->currentText();
     inputData[7] = ui->lineEditStarPleyer->text();
     int index = 0;
-    if(inputData[4] == "<Select Conference Here>" || inputData[6] == "<Select Roof Type Here>") {
+    int errorCount = 0;
+    while(!invalidInfo && index < AR_SIZE) {
+        for(int k = 0; k < inputData[index].size(); ++k) {
+            if(inputData[index].at(k) == " ") {
+                errorCount++;
+            }
+        }
+        if(errorCount == inputData[index].size()) {
+            invalidInfo = true;
+            QMessageBox::critical(this, "Invalid Information", "Please Insert Valid Information");
+
+        }
+        index++;
+        errorCount = 0;
+    }
+    if((inputData[4] == "<Select Conference Here>" || inputData[6] == "<Select Roof Type Here>")&& !invalidInfo) {
         QMessageBox::critical(this, "Invalid Information", "Please Select Valid Options In Drop Down Menus");
 
     }
-    else {
-        while(!invalidInfo && index < AR_SIZE) {
-            if(inputData[index] == "") {
-                invalidInfo = true;
-                QMessageBox::critical(this, "Invalid Information", "Please Insert Information Into all columns");
+    else if(!invalidInfo){
 
-            }
-            index++;
-        }
-        if(!invalidInfo) {
             QSqlQuery query;
             query.prepare("INSERT INTO `Teams` VALUES (:teamName,:stadiumName,:capacity,:location,:conference,:surfaceType,:roofType,:starPlayer)");
             query.bindValue(":teamName", inputData[0]);
@@ -126,7 +133,7 @@ void adminWindow::on_pushButtonAddStadium_clicked()
             query.bindValue(":roofType", inputData[6]);
             query.bindValue(":starPlayer", inputData[7]);
             query.exec();
-        }
+
     }
     this->openStadiumModifyPage();
 
@@ -153,7 +160,7 @@ void adminWindow::on_stadiumTableView_doubleClicked(const QModelIndex &index)
                 header = "Team Name";
             break;
         case 1: columnName = "StadiumName";
-                header = "StadiumName";
+                header = "Stadium Name";
             break;
         case 2: columnName = "SeatingCapacity";
                 header = "Seating Capacity";
@@ -195,6 +202,9 @@ void adminWindow::openStadiumModifyPage() {
     QRegExp limitForCap("^[0-9]+$");
     QStringList conferences = {"<Select Conference Here>", "American Football Conference", "National Football Conference"};
     QStringList roofTypes = {"<Select Roof Type Here>", "Open", "Retractable", "Fixed"};
+
+    ui->comboBoxConference->clear();
+    ui->comboBoxRoofType->clear();
     ui->comboBoxConference->addItems(conferences);
     ui->comboBoxRoofType->addItems(roofTypes);
     ui->comboBoxConference->setCurrentIndex(0);

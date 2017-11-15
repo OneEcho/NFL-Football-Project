@@ -40,7 +40,7 @@ void modifyStadiumInfo::setData(QString eraseData, QString team, QString stadium
 
     if(column == "SeatingCapacity") {
         ui->stackedWidget->setCurrentWidget(ui->TypeNewInfoPage);
-        ui->columnName->setText("Enter updated seating capacity");
+        ui->columnName->setText("Enter Updated Seating Capacity");
         QRegExp limitForCap("^[0-9]+$");
         ui->newData->setValidator(new QRegExpValidator(limitForCap, this));
     }
@@ -48,7 +48,7 @@ void modifyStadiumInfo::setData(QString eraseData, QString team, QString stadium
         ui->stackedWidget->setCurrentWidget(ui->ClickPage);
         QStringList list = {"<Select Roof Type Here>", "Open", "Retractable", "Fixed"};
         ui->comboBox->addItems(list);
-        ui->label_dropDownHeader->setText("Update roof type");
+        ui->label_dropDownHeader->setText("Update Roof Type");
     }
     else if(column == "Conference") {
         ui->stackedWidget->setCurrentWidget(ui->ConferencePage);
@@ -97,26 +97,44 @@ void modifyStadiumInfo::on_PB_Conference_clicked()
     else {
         updateData("American Football Conference");
     }
+    ui->PB_Conference->setFocus();
 }
 void modifyStadiumInfo::updateData(QString newData) {
     QSqlQuery query;
     Database::getInstance();
     // changes price in souvenir table
-    qDebug() << "column name: " << this->columnName;
-    qDebug() << "old value: " << this->oldData;
-    qDebug() << "new value: " << ui->newData->text();
 
+    int errorCount = 0;
+    for(int i = 0;i < newData.size(); ++i) {
+        if(newData.at(i) == " ") {
+            errorCount++;
+        }
+    }
+    qDebug() << "newData.size(): " << newData.size();
+    qDebug() << "errorCount " << errorCount;
 
-    query.prepare(QString("UPDATE Teams SET %1 = :newValue WHERE TeamName = :teamName AND StadiumName = :stadiumName").arg(columnName));
-    query.bindValue(":newValue", newData);
-    query.bindValue(":teamName", teamName);
-    query.bindValue(":stadiumName", stadiumName);
-    query.exec();
-    (parentWindow.*functor)();
-    this->close();
+    if(errorCount == newData.size()) {
+        QMessageBox::critical(this, "Invalid", "Please Enter a Valid " + headerName);
+        ui->newData->clear();
+
+    }
+    else {
+        query.prepare(QString("UPDATE Teams SET %1 = :newValue WHERE TeamName = :teamName AND StadiumName = :stadiumName").arg(columnName));
+        query.bindValue(":newValue", newData);
+        query.bindValue(":teamName", teamName);
+        query.bindValue(":stadiumName", stadiumName);
+        query.exec();
+        (parentWindow.*functor)();
+        this->close();
+    }
 }
 
 void modifyStadiumInfo::on_cancel_conference_clicked()
 {
     this->close();
+}
+
+void modifyStadiumInfo::on_PB_Conference_pressed()
+{
+    on_PB_Conference_clicked();
 }

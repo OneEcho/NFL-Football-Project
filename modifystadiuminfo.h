@@ -35,6 +35,8 @@ private slots:
 
     void on_cancel_conference_clicked();
 
+    void on_PB_Conference_pressed();
+
 private:
     Ui::modifyStadiumInfo *ui;
     QString columnName;
