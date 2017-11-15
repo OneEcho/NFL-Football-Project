@@ -240,3 +240,9 @@ void adminWindow::openStadiumModifyPage() {
     ui->stadiumTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
 }
+
+void adminWindow::on_modifySouvenirsButton_clicked()
+{
+    modifySouvenirsWindow = new modifysouvenirs;
+    modifySouvenirsWindow->show();
+}

@@ -332,6 +332,13 @@
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QPushButton" name="modifySouvenirsButton">
+            <property name="text">
+             <string>Modify Souvenirs</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item row="1" column="1">
@@ -360,7 +367,7 @@
      <x>0</x>
      <y>0</y>
      <width>1143</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
