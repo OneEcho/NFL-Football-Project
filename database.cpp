@@ -37,5 +37,15 @@ Database* Database::getInstance(){
     return instance; /*! \brief if the instance exists, it'll return a copy of the isntance
     // Or if the new instance has been made, it will return that*/
 }
+QSqlQueryModel* Database::getStadiumInfo() {
+
+    QSqlQuery query;
+    QSqlQueryModel *model = new QSqlQueryModel();
+
+    query.prepare("Select * FROM Teams");
+    query.exec();
+    model->setQuery(query);
+    return model;
+}
 
 

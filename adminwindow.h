@@ -25,6 +25,12 @@ private slots:
 
     void on_usernameLineEdit_returnPressed();
 
+    void on_pushButtonAddStadium_clicked();
+
+
+    void on_stadiumTableView_doubleClicked(const QModelIndex &index);
+    void openStadiumModifyPage();
+
 private:
     Ui::adminWindow *ui;
 };

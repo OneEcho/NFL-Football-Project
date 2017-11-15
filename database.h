@@ -1,5 +1,6 @@
 #ifndef DATABASE_H
 #define DATABASE_H
+#include <QSqlQueryModel>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QDebug>
@@ -18,6 +19,8 @@ public:
 
     /*! * \fn addToDatabase*/
     void addToDatabase();
+
+    QSqlQueryModel* getStadiumInfo();
 
 private:
     /*!  \fn Database*/
