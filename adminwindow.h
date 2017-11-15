@@ -2,6 +2,7 @@
 #define ADMINWINDOW_H
 
 #include <QMainWindow>
+#include "modifysouvenirs.h"
 
 namespace Ui {
 class adminWindow;
@@ -31,8 +32,11 @@ private slots:
     void on_stadiumTableView_doubleClicked(const QModelIndex &index);
     void openStadiumModifyPage();
 
+    void on_modifySouvenirsButton_clicked();
+
 private:
     Ui::adminWindow *ui;
+    modifysouvenirs *modifySouvenirsWindow;
 };
 
 #endif // ADMINWINDOW_H
