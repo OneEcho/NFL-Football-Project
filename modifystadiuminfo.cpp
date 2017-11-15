@@ -52,11 +52,12 @@ void modifyStadiumInfo::setData(QString eraseData, QString team, QString stadium
     }
     else if(column == "Conference") {
         ui->stackedWidget->setCurrentWidget(ui->ConferencePage);
-        if(oldData == "American Football League") {
-            ui->conference_label->setText("Would you like to change the Conference to National Football League?");
+        qDebug() << "conference type: " << oldData;
+        if(eraseData == "American Football Conference") {
+            ui->conference_label->setText("Would you like to change the Conference to National Football Conference?");
         }
         else {
-            ui->conference_label->setText("Would you like to change the Conference to American Football League?");
+            ui->conference_label->setText("Would you like to change the Conference to American Football Conference?");
         }
     }
     else {
