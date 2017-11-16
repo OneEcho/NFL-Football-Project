@@ -10,10 +10,10 @@ adminWindow::adminWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
     this->setWindowTitle("Admin Window");
 
 }
-
 adminWindow::~adminWindow()
 {
     delete ui;
