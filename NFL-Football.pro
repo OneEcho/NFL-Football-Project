@@ -39,3 +39,6 @@ FORMS    += mainwindow.ui \
     adminwindow.ui \
     modifystadiuminfo.ui \
     modifysouvenirs.ui
+
+RESOURCES += \
+    nfl_logos.qrc

@@ -16,6 +16,14 @@ modifysouvenirs::modifysouvenirs(QWidget *parent) :
     ui->souvenirView->sortByColumn(0, Qt::SortOrder::AscendingOrder);
     ui->souvenirView->resizeColumnsToContents();
     ui->souvenirView->horizontalHeader()->setStretchLastSection(true);
+
+    //Sets up the team combo box
+    QSqlQuery teamsList("SELECT teamName FROM Teams ORDER BY teamName");
+
+    while(teamsList.next())
+    {
+        ui->teamComboBox->addItem(teamsList.value(0).toString());
+    }
 }
 
 modifysouvenirs::~modifysouvenirs()
@@ -29,21 +37,6 @@ void modifysouvenirs::on_addSouvenir_clicked()
     QSqlQuery insertSouvenir;
     QSqlQuery teamSouvenirsQuery;
 
-    //Error checking for empty boxes
-    if(ui->nflTeamLineEdit->text() == "")
-    {
-        msgBox.setText("Please enter a team name!");
-        msgBox.exec();
-        return;
-    }
-
-    if(ui->souvenirLineEdit->text() == "")
-    {
-        msgBox.setText("Please enter a souvenir name!");
-        msgBox.exec();
-        return;
-    }
-
     if(ui->priceLineEdit->text() == "")
     {
         msgBox.setText("Please enter a price!");
@@ -53,7 +46,7 @@ void modifysouvenirs::on_addSouvenir_clicked()
 
     //Performs query to pull the specified team's souvenirs
     teamSouvenirsQuery.prepare("SELECT NFLTeam, Souvenir FROM Souvenirs WHERE NFLTeam=:nflteamname");
-    teamSouvenirsQuery.bindValue(":nflteamname", ui->nflTeamLineEdit->text());
+    teamSouvenirsQuery.bindValue(":nflteamname", ui->teamComboBox->currentText());
     teamSouvenirsQuery.exec();
 
     QStringList teamNames;
@@ -65,17 +58,9 @@ void modifysouvenirs::on_addSouvenir_clicked()
         souvenirNames.append(teamSouvenirsQuery.value("Souvenir").toString());
     }
 
-
-    //Checking if the team specified exists and if the souvenir that wants to be added already exists
-    if(!teamNames.contains(ui->nflTeamLineEdit->text()))
+    if(souvenirNames.contains(ui->newSouvenirLineEdit->text()))
     {
-        msgBox.setText("No team named " + ui->nflTeamLineEdit->text() + " found.");
-        msgBox.exec();
-        return;
-    }
-    else if(souvenirNames.contains(ui->souvenirLineEdit->text()))
-    {
-        msgBox.setText("Souvenir " + ui->souvenirLineEdit->text() + " already exists.");
+        msgBox.setText("Souvenir " + ui->newSouvenirLineEdit->text() + " already exists.");
         msgBox.exec();
         return;
     }
@@ -83,12 +68,12 @@ void modifysouvenirs::on_addSouvenir_clicked()
     //Query to insert the new souvenir into the database
     insertSouvenir.prepare("INSERT INTO Souvenirs (NFLTeam, Souvenir, Price)"
                             "VALUES (:teamName, :souvenirName, :price)");
-    insertSouvenir.bindValue(":teamName", ui->nflTeamLineEdit->text());
-    insertSouvenir.bindValue(":souvenirName", ui->souvenirLineEdit->text());
+    insertSouvenir.bindValue(":teamName", ui->teamComboBox->currentText());
+    insertSouvenir.bindValue(":souvenirName", ui->newSouvenirLineEdit->text());
     insertSouvenir.bindValue(":price", ui->priceLineEdit->text());
     insertSouvenir.exec();
 
-    msgBox.setText("Souvenir " + ui->souvenirLineEdit->text() + " added successfully!");
+    msgBox.setText("Souvenir " + ui->newSouvenirLineEdit->text() + " added successfully!");
     msgBox.exec();
 }
 
@@ -98,52 +83,16 @@ void modifysouvenirs::on_deleteSouvenir_clicked()
     QSqlQuery teamSouvenirsQuery;
     QMessageBox msgBox;
 
-    //Error checking for empty boxes
-    if(ui->nflTeamLineEdit->text() == "")
-    {
-        msgBox.setText("Please enter a team name!");
-        msgBox.exec();
-        return;
-    }
-
-    if(ui->souvenirLineEdit->text() == "")
-    {
-        msgBox.setText("Please enter a souvenir name!");
-        msgBox.exec();
-        return;
-    }
-
     teamSouvenirsQuery.prepare("SELECT Souvenir FROM Souvenirs WHERE NFLTeam=:teamname");
-    teamSouvenirsQuery.bindValue(":teamname", ui->nflTeamLineEdit->text());
+    teamSouvenirsQuery.bindValue(":teamname", ui->teamComboBox->currentText());
     teamSouvenirsQuery.exec();
-
-    QStringList souvenirNames;
-
-    while(teamSouvenirsQuery.next())
-    {
-        souvenirNames.append(teamSouvenirsQuery.value("Souvenir").toString());
-    }
-
-    //Checking if the specified team and souvenir exists
-    if(souvenirNames.size() == 0)
-    {
-        msgBox.setText("No team named " + ui->nflTeamLineEdit->text() + " found.");
-        msgBox.exec();
-        return;
-    }
-    else if(!souvenirNames.contains(ui->souvenirLineEdit->text()))
-    {
-        msgBox.setText("No souvenir named " + ui->souvenirLineEdit->text() + " found.");
-        msgBox.exec();
-        return;
-    }
 
     //Query to delete the specified souvenir from the database
     deleteQuery.prepare("DELETE FROM Souvenirs WHERE NFLTeam=:teamName AND Souvenir=:souvenirName");
-    deleteQuery.bindValue(":teamName", ui->nflTeamLineEdit->text());
-    deleteQuery.bindValue(":souvenirName", ui->souvenirLineEdit->text());
+    deleteQuery.bindValue(":teamName", ui->teamComboBox->currentText());
+    deleteQuery.bindValue(":souvenirName", ui->souvenirComboBox->currentText());
     deleteQuery.exec();
-    msgBox.setText("Souvenir " + ui->souvenirLineEdit->text() + " deleted successfully!");
+    msgBox.setText("Souvenir " + ui->souvenirComboBox->currentText() + " deleted successfully!");
     msgBox.exec();
 }
 
@@ -153,21 +102,6 @@ void modifysouvenirs::on_modifySouvenir_clicked()
     QSqlQuery updateSouvenirQuery;
     QMessageBox msgBox;
 
-    //Error checking for empty boxes
-    if(ui->nflTeamLineEdit->text() == "")
-    {
-        msgBox.setText("Please enter a team name!");
-        msgBox.exec();
-        return;
-    }
-
-    if(ui->souvenirLineEdit->text() == "")
-    {
-        msgBox.setText("Please enter a souvenir name!");
-        msgBox.exec();
-        return;
-    }
-
     if(ui->priceLineEdit->text() == "")
     {
         msgBox.setText("Please enter a price!");
@@ -176,37 +110,17 @@ void modifysouvenirs::on_modifySouvenir_clicked()
     }
 
     teamSouvenirsQuery.prepare("SELECT Souvenir FROM Souvenirs WHERE NFLTeam=:teamname");
-    teamSouvenirsQuery.bindValue(":teamname", ui->nflTeamLineEdit->text());
+    teamSouvenirsQuery.bindValue(":teamname", ui->teamComboBox->currentText());
     teamSouvenirsQuery.exec();
 
-    QStringList souvenirNames;
-
-    while(teamSouvenirsQuery.next())
-    {
-        souvenirNames.append(teamSouvenirsQuery.value("Souvenir").toString());
-    }
-
-    //Checking if the specified team and souvenir exists
-    if(souvenirNames.size() == 0)
-    {
-        msgBox.setText("No team named " + ui->nflTeamLineEdit->text() + " found.");
-        msgBox.exec();
-        return;
-    }
-    else if(!souvenirNames.contains(ui->souvenirLineEdit->text()))
-    {
-        msgBox.setText("No souvenir named " + ui->souvenirLineEdit->text() + " found.");
-        msgBox.exec();
-        return;
-    }
-
     //Query to modify the specifed souvenir
-    updateSouvenirQuery.prepare("UPDATE Souvenirs SET Price=:price WHERE Souvenir=:souvenirName");
+    updateSouvenirQuery.prepare("UPDATE Souvenirs SET Price=:price WHERE Souvenir=:souvenirName AND NFLTeam=:teamName");
     updateSouvenirQuery.bindValue(":price", ui->priceLineEdit->text());
-    updateSouvenirQuery.bindValue(":souvenirName", ui->souvenirLineEdit->text());
+    updateSouvenirQuery.bindValue(":souvenirName", ui->souvenirComboBox->currentText());
+    updateSouvenirQuery.bindValue(":teamName", ui->teamComboBox->currentText());
     updateSouvenirQuery.exec();
 
-    msgBox.setText("Updated " + ui->souvenirLineEdit->text() + " sucessfully!");
+    msgBox.setText("Updated " + ui->souvenirComboBox->currentText() + " sucessfully!");
     msgBox.exec();
 }
 
@@ -278,4 +192,18 @@ void modifysouvenirs::on_addSandiegoSailorsButton_clicked()
 
    msgBox.setText("San Diego Sailors added Successfully!");
    msgBox.exec();
+}
+
+void modifysouvenirs::on_teamComboBox_currentIndexChanged(const QString &arg1)
+{
+    ui->souvenirComboBox->clear();
+    QSqlQuery souvenirQuery;
+    souvenirQuery.prepare("SELECT DISTINCT Souvenir FROM Souvenirs WHERE NFLTeam=:teamName");
+    souvenirQuery.bindValue(":teamName", arg1);
+    souvenirQuery.exec();
+
+    while(souvenirQuery.next())
+    {
+        ui->souvenirComboBox->addItem(souvenirQuery.value(0).toString());
+    }
 }

@@ -31,6 +31,8 @@ private slots:
 
     void on_addSandiegoSailorsButton_clicked();
 
+    void on_teamComboBox_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::modifysouvenirs *ui;
 };

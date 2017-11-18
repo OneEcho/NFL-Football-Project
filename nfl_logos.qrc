@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/logos">
+        <file>Pictures/NFL LOGOS/Arizona Cardinals.png</file>
+        <file>Pictures/NFL LOGOS/Atlanta Falcons.png</file>
+        <file>Pictures/NFL LOGOS/Baltimore Ravens.png</file>
+        <file>Pictures/NFL LOGOS/Buffalo Bills.png</file>
+        <file>Pictures/NFL LOGOS/Carolina Panthers.png</file>
+        <file>Pictures/NFL LOGOS/Chicago Bears.png</file>
+        <file>Pictures/NFL LOGOS/Cincinnati Bengals.png</file>
+        <file>Pictures/NFL LOGOS/Cleveland Browns.png</file>
+        <file>Pictures/NFL LOGOS/Dallas Cowboys.png</file>
+        <file>Pictures/NFL LOGOS/Denver Broncos.png</file>
+        <file>Pictures/NFL LOGOS/Detroit Lions.png</file>
+        <file>Pictures/NFL LOGOS/Green Bay Packers.png</file>
+        <file>Pictures/NFL LOGOS/Houston Texans.png</file>
+        <file>Pictures/NFL LOGOS/Indianapolis Colts.png</file>
+        <file>Pictures/NFL LOGOS/Jacksonville Jaguars.png</file>
+        <file>Pictures/NFL LOGOS/Kansas City Chiefs.png</file>
+        <file>Pictures/NFL LOGOS/Los Angeles Chargers.png</file>
+        <file>Pictures/NFL LOGOS/Los Angeles Rams.png</file>
+        <file>Pictures/NFL LOGOS/Miami Dolphins.png</file>
+        <file>Pictures/NFL LOGOS/Minnesota Vikings.png</file>
+        <file>Pictures/NFL LOGOS/New England Patriots.gif</file>
+        <file>Pictures/NFL LOGOS/New Orleans Saints.png</file>
+        <file>Pictures/NFL LOGOS/New York Giants.gif</file>
+        <file>Pictures/NFL LOGOS/New York Jets.png</file>
+        <file>Pictures/NFL LOGOS/Oakland Raiders.png</file>
+        <file>Pictures/NFL LOGOS/Philadelphia Eagles.png</file>
+        <file>Pictures/NFL LOGOS/Pittsburgh Steelers.png</file>
+        <file>Pictures/NFL LOGOS/San Diego Sailors.jpg</file>
+        <file>Pictures/NFL LOGOS/San Francisco 49ers.png</file>
+        <file>Pictures/NFL LOGOS/Seattle Seahawks.png</file>
+        <file>Pictures/NFL LOGOS/Tampa Bay Buccaneers.png</file>
+        <file>Pictures/NFL LOGOS/Tennessee Titans.png</file>
+        <file>Pictures/NFL LOGOS/Washington Redskins.png</file>
+    </qresource>
+</RCC>
