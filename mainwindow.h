@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "adminwindow.h"
 #include <QString>
+#include <QStandardItemModel>
 
 namespace Ui {
 class MainWindow;
@@ -41,9 +42,15 @@ private slots:
 
     void on_tabWidget_tabBarClicked(int index);
 
+    void on_addToTripButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     adminWindow *admin;
+
+    //index to track row additions
+    int tripTableViewRowNumber;
+    QStandardItemModel *table;
 };
 
 #endif // MAINWINDOW_H

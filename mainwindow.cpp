@@ -48,6 +48,12 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle("NFL Information");
 
     this->on_BothCheckBox_clicked();
+
+
+    //trip creator table view
+    tripTableViewRowNumber = 0;
+    table = new QStandardItemModel(this);
+
 }
 
 /*!
@@ -483,4 +489,35 @@ void MainWindow::on_adminButton_clicked()
 void MainWindow::on_tabWidget_tabBarClicked(int index)
 {
     this->populateTripSelectionDropDownBox();
+
+
+    table->clear();
+    tripTableViewRowNumber = 0;
+    table->setHorizontalHeaderItem(0, new QStandardItem(QString("Stadium Name")) );
+
+    ui->tripTableView->setModel(table);
+    ui->tripTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tripTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    ui->tripTableView->verticalHeader()->setHidden(true);
+}
+
+void MainWindow::on_addToTripButton_clicked()
+{
+    //setting the current index of the combo to this variable
+    int choosenStadiumIndex = ui->tripCreationComboBox->currentIndex();
+
+    if(choosenStadiumIndex > 0) {
+        //set the current text of the choosen box to the stadium as long as the stadium is
+        //a valid selection
+        QString choosenStadium = ui->tripCreationComboBox->currentText();
+
+        table->setItem(tripTableViewRowNumber ,new QStandardItem(choosenStadium));
+        tripTableViewRowNumber++;
+
+    }
+
+
+    //qDebug() << choosenStadium;
+    qDebug() << choosenStadiumIndex;
+
 }
