@@ -108,6 +108,23 @@ void MainWindow::populateConferenceDropDownBox(QString box)
     }
 }
 
+void MainWindow::populateTripSelectionDropDownBox()
+{
+    QSqlQuery query;
+
+    ui->tripCreationComboBox->clear();
+    ui->tripCreationComboBox->addItem("Select a Stadium");
+
+    query.prepare("SELECT stadiumName FROM Teams");
+
+    query.exec();
+
+    while(query.next())
+    {
+        ui->tripCreationComboBox->addItem(query.value(0).toString());
+    }
+}
+
 /*!
  * \fn MainWindow::on_AFLCheckBox_clicked
  */
@@ -462,3 +479,8 @@ void MainWindow::on_adminButton_clicked()
     this->admin->newShow();
 }
 
+
+void MainWindow::on_tabWidget_tabBarClicked(int index)
+{
+    this->populateTripSelectionDropDownBox();
+}

@@ -17,6 +17,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void populateConferenceDropDownBox(QString box);
+    void populateTripSelectionDropDownBox();
 
 private slots:
     /*! \fn AFLCheckBox_clicked */
@@ -37,6 +38,8 @@ private slots:
     /*!
     * \brief on_comboBox_currentIndexChanged*/
     void on_roofComboBox_currentIndexChanged(const QString &arg1);
+
+    void on_tabWidget_tabBarClicked(int index);
 
 private:
     Ui::MainWindow *ui;
