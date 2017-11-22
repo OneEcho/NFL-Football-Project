@@ -44,6 +44,8 @@ private slots:
 
     void on_addToTripButton_clicked();
 
+    void on_tripCreationComboBox_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     adminWindow *admin;
