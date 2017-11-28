@@ -7,6 +7,12 @@
 #include <QStandardItemModel>
 #include <graph.h>
 
+struct collegeStadiumPair
+{
+    QString college;
+    QString stadium;
+};
+
 namespace Ui {
 class MainWindow;
 }
@@ -47,6 +53,10 @@ private slots:
 
     void on_tripCreationComboBox_currentIndexChanged(int index);
 
+    void on_finishAddingButton_clicked();
+
+    void on_startTripButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     adminWindow *admin;
@@ -54,6 +64,8 @@ private:
     //index to track row additions
     int tripTableViewRowNumber;
     QStandardItemModel *table;
+    //vector full of the pushed stadiums
+    QVector<collegeStadiumPair> stadiumTrip;
 
     Graph stadiumMap;
 };

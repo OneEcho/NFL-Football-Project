@@ -54,6 +54,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //trip creator table view
     tripTableViewRowNumber = 0;
     table = new QStandardItemModel(this);
+    //istantiate the QVector of stadiums
+    stadiumTrip.clear();
 
     stadiumMap.createGraph();
     stadiumMap.printGraph();
@@ -492,6 +494,10 @@ void MainWindow::on_adminButton_clicked()
 void MainWindow::on_tabWidget_tabBarClicked(int index)
 {   
     this->populateTripSelectionDropDownBox();
+    ui->nextCollegeButton->hide();
+    ui->currentCollegeLabel->hide();
+    ui->currentStadiumLabel->hide();
+    ui->startTripButton->hide();
 
 
     table->clear();
@@ -509,6 +515,13 @@ void MainWindow::on_addToTripButton_clicked()
     //setting the current index of the combo to this variable
     int choosenStadiumIndex = ui->tripCreationComboBox->currentIndex();
 
+    //grabbing the associative college name
+    QSqlQuery query;
+    query.prepare("SELECT teamName, stadiumName FROM Teams");
+    query.exec();
+
+    collegeStadiumPair addCollege;
+
     if(choosenStadiumIndex > 0) {
         //set the current text of the choosen box to the stadium as long as the stadium is
         //a valid selection
@@ -519,6 +532,18 @@ void MainWindow::on_addToTripButton_clicked()
         tripTableViewRowNumber++;
         //remove the stadium from the choosable combobox list
         ui->tripCreationComboBox->removeItem(choosenStadiumIndex);
+
+        //this will associate the college stadium with its college name
+        while(query.next()) {
+            if(choosenStadium == query.value(1).toString())
+            {
+                addCollege.stadium = choosenStadium;
+                addCollege.college = query.value(0).toString();
+            }
+        }
+
+        //add the stadium to the vector of stadiums to visit
+        stadiumTrip.push_back(addCollege);
 
     }
 
@@ -553,4 +578,48 @@ void MainWindow::on_tripCreationComboBox_currentIndexChanged(int index)
     {
         ui->tripCreateTeamNameLabel->hide();
     }
+}
+
+
+void MainWindow::on_finishAddingButton_clicked()
+{
+    //ui->nextCollegeButton->show();
+    //ui->currentCollegeLabel->show();
+    //ui->currentStadiumLabel->show();
+    if(stadiumTrip.size() > 0) {
+        ui->finishAddingButton->hide();
+        ui->addToTripButton->hide();
+        ui->tripCreateTeamNameLabel->hide();
+        ui->tripCreationComboBox->hide();
+        ui->label_3->hide();
+        ui->startTripButton->show();
+
+        //debugging purpuses
+        for(int index = 0; index < stadiumTrip.size(); index++)
+        {
+            qDebug() << stadiumTrip[index].stadium << " " << stadiumTrip[index].college;
+        }
+
+        //VARIABLES
+        QString currentCollege = stadiumTrip[0].college;
+        QString currentStadium = stadiumTrip[0].stadium;
+
+    }
+
+
+}
+
+void MainWindow::on_startTripButton_clicked()
+{
+    ui->nextCollegeButton->show();
+    ui->currentCollegeLabel->show();
+    ui->currentStadiumLabel->show();
+    ui->startTripButton->hide();
+
+    //VARIABLES
+    QString currentCollege = stadiumTrip[0].college;
+    QString currentStadium = stadiumTrip[0].stadium;
+
+    ui->currentCollegeLabel->setText(currentCollege);
+    ui->currentStadiumLabel->setText(currentStadium);
 }
