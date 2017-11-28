@@ -48,6 +48,12 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle("NFL Information");
 
     this->on_BothCheckBox_clicked();
+
+
+    //trip creator table view
+    tripTableViewRowNumber = 0;
+    table = new QStandardItemModel(this);
+
 }
 
 /*!
@@ -105,6 +111,23 @@ void MainWindow::populateConferenceDropDownBox(QString box)
             ui->TeamsComboBox->addItem(query.value(0).toString());
         }
 
+    }
+}
+
+void MainWindow::populateTripSelectionDropDownBox()
+{
+    QSqlQuery query;
+
+    ui->tripCreationComboBox->clear();
+    ui->tripCreationComboBox->addItem("Select a Stadium");
+
+    query.prepare("SELECT stadiumName FROM Teams");
+
+    query.exec();
+
+    while(query.next())
+    {
+        ui->tripCreationComboBox->addItem(query.value(0).toString());
     }
 }
 
@@ -462,3 +485,69 @@ void MainWindow::on_adminButton_clicked()
     this->admin->newShow();
 }
 
+
+void MainWindow::on_tabWidget_tabBarClicked(int index)
+{   
+    this->populateTripSelectionDropDownBox();
+
+
+    table->clear();
+    tripTableViewRowNumber = 0;
+    table->setHorizontalHeaderItem(0, new QStandardItem(QString("Stadium Name")) );
+
+    ui->tripTableView->setModel(table);
+    ui->tripTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tripTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    ui->tripTableView->verticalHeader()->setHidden(true);
+}
+
+void MainWindow::on_addToTripButton_clicked()
+{
+    //setting the current index of the combo to this variable
+    int choosenStadiumIndex = ui->tripCreationComboBox->currentIndex();
+
+    if(choosenStadiumIndex > 0) {
+        //set the current text of the choosen box to the stadium as long as the stadium is
+        //a valid selection
+        QString choosenStadium = ui->tripCreationComboBox->currentText();
+        //sets the item in the standarndItemModel class (adds to the table)
+        table->setItem(tripTableViewRowNumber ,new QStandardItem(choosenStadium));
+        //update the row number
+        tripTableViewRowNumber++;
+        //remove the stadium from the choosable combobox list
+        ui->tripCreationComboBox->removeItem(choosenStadiumIndex);
+
+    }
+
+
+    //qDebug() << choosenStadium;
+     qDebug() << choosenStadiumIndex;
+
+}
+
+void MainWindow::on_tripCreationComboBox_currentIndexChanged(int index)
+{
+    if(index > 0)
+    {
+        ui->tripCreateTeamNameLabel->show();
+        QString currentStadium = ui->tripCreationComboBox->currentText();
+
+        //get the team name from the query, that is associated with the index of the
+        //combo box
+        QSqlQuery query;
+        query.prepare("SELECT TeamName FROM Teams WHERE StadiumName = ?");
+        query.addBindValue(currentStadium);
+
+        query.exec();
+
+        //for some reason the query wants you to go to the next query
+        //to be able to pull the team name info, makes total sense
+        while(query.next()) {
+            ui->tripCreateTeamNameLabel->setText(query.value(0).toString());
+        }
+    }
+    else
+    {
+        ui->tripCreateTeamNameLabel->hide();
+    }
+}

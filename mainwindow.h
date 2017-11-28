@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "adminwindow.h"
 #include <QString>
+#include <QStandardItemModel>
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +18,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void populateConferenceDropDownBox(QString box);
+    void populateTripSelectionDropDownBox();
 
 private slots:
     /*! \fn AFLCheckBox_clicked */
@@ -38,9 +40,19 @@ private slots:
     * \brief on_comboBox_currentIndexChanged*/
     void on_roofComboBox_currentIndexChanged(const QString &arg1);
 
+    void on_tabWidget_tabBarClicked(int index);
+
+    void on_addToTripButton_clicked();
+
+    void on_tripCreationComboBox_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     adminWindow *admin;
+
+    //index to track row additions
+    int tripTableViewRowNumber;
+    QStandardItemModel *table;
 };
 
 #endif // MAINWINDOW_H
