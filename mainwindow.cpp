@@ -13,7 +13,8 @@
  */
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    stadiumMap()
 {
 
     this->admin = new adminWindow;
@@ -54,6 +55,8 @@ MainWindow::MainWindow(QWidget *parent) :
     tripTableViewRowNumber = 0;
     table = new QStandardItemModel(this);
 
+    stadiumMap.createGraph();
+    stadiumMap.printGraph();
 }
 
 /*!

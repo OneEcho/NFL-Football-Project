@@ -5,6 +5,7 @@ INPUT(
 ./debug\adminwindow.o
 ./debug\modifystadiuminfo.o
 ./debug\modifysouvenirs.o
+./debug\graph.o
 ./debug\qrc_nfl_logos.o
 ./debug\moc_mainwindow.o
 ./debug\moc_adminwindow.o

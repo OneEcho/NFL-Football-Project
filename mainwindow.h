@@ -5,6 +5,7 @@
 #include "adminwindow.h"
 #include <QString>
 #include <QStandardItemModel>
+#include <graph.h>
 
 namespace Ui {
 class MainWindow;
@@ -53,6 +54,8 @@ private:
     //index to track row additions
     int tripTableViewRowNumber;
     QStandardItemModel *table;
+
+    Graph stadiumMap;
 };
 
 #endif // MAINWINDOW_H

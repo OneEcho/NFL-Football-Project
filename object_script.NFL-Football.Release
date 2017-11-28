@@ -5,6 +5,7 @@ INPUT(
 ./release\adminwindow.o
 ./release\modifystadiuminfo.o
 ./release\modifysouvenirs.o
+./release\graph.o
 ./release\qrc_nfl_logos.o
 ./release\moc_mainwindow.o
 ./release\moc_adminwindow.o
