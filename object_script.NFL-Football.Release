@@ -6,6 +6,7 @@ INPUT(
 ./release\modifystadiuminfo.o
 ./release\modifysouvenirs.o
 ./release\qrc_nfl_logos.o
+./release\qrc_style.o
 ./release\moc_mainwindow.o
 ./release\moc_adminwindow.o
 ./release\moc_modifystadiuminfo.o

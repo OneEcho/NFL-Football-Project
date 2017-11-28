@@ -41,4 +41,5 @@ FORMS    += mainwindow.ui \
     modifysouvenirs.ui
 
 RESOURCES += \
-    nfl_logos.qrc
+    nfl_logos.qrc \
+    qdarkstyle/style.qrc

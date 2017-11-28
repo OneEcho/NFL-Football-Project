@@ -6,6 +6,7 @@ INPUT(
 ./debug\modifystadiuminfo.o
 ./debug\modifysouvenirs.o
 ./debug\qrc_nfl_logos.o
+./debug\qrc_style.o
 ./debug\moc_mainwindow.o
 ./debug\moc_adminwindow.o
 ./debug\moc_modifystadiuminfo.o
