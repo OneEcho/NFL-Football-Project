@@ -415,7 +415,7 @@ void MainWindow::on_roofComboBox_currentIndexChanged(const QString &arg1)
         ui->lcdNumber->display(QString::number(total));
 
         //sets the label to show the number of stadiums with the specific rooftype
-        ui->roofNumberLabel->setText(roofLabelMessage + QString::number(numberOfRoofType));
+        ui->roofNumberLabel->setText(roofLabelMessage + QString::number(numberOfRoofType-1));
         model->setQuery(query);
     }
     else if(ui->roofComboBox->currentText() == "Retractable")
@@ -631,4 +631,9 @@ void MainWindow::on_startTripButton_clicked()
 
     ui->currentCollegeLabel->setText(currentCollege);
     ui->currentStadiumLabel->setText(currentStadium);
+}
+
+void MainWindow::on_nextCollegeButton_clicked()
+{
+
 }

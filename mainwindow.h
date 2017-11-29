@@ -58,6 +58,8 @@ private slots:
 
     void on_startTripButton_clicked();
 
+    void on_nextCollegeButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     adminWindow *admin;
@@ -67,6 +69,7 @@ private:
     QStandardItemModel *table;
     //vector full of the pushed stadiums
     QVector<collegeStadiumPair> stadiumTrip;
+    //integer
 
     Graph stadiumMap;
 };
