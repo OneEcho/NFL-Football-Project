@@ -13,6 +13,8 @@ adminWindow::adminWindow(QWidget *parent) :
 
     this->setWindowTitle("Admin Window");
 
+    ui->groupBox->setStyleSheet("border:0;");
+
 }
 adminWindow::~adminWindow()
 {
