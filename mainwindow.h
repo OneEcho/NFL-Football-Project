@@ -26,6 +26,7 @@ public:
     ~MainWindow();
     void populateConferenceDropDownBox(QString box);
     void populateTripSelectionDropDownBox();
+    void showStartingTripInputs();
 
 private slots:
     /*! \fn AFLCheckBox_clicked */

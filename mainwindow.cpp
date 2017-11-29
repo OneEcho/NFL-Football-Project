@@ -136,6 +136,14 @@ void MainWindow::populateTripSelectionDropDownBox()
     }
 }
 
+void MainWindow::showStartingTripInputs()
+{
+    ui->label_3->show();
+    ui->tripCreationComboBox->show();
+    ui->addToTripButton->show();
+    ui->finishAddingButton->show();
+}
+
 /*!
  * \fn MainWindow::on_AFLCheckBox_clicked
  */
@@ -498,7 +506,8 @@ void MainWindow::on_tabWidget_tabBarClicked(int index)
     ui->currentCollegeLabel->hide();
     ui->currentStadiumLabel->hide();
     ui->startTripButton->hide();
-
+    this->showStartingTripInputs();
+    stadiumTrip.clear();
 
     table->clear();
     tripTableViewRowNumber = 0;
