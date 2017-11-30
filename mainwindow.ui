@@ -212,10 +212,17 @@
            <string>Stadium Selection</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_3">
+           <item row="6" column="0">
+            <widget class="QPushButton" name="startTripButton">
+             <property name="text">
+              <string>Start Trip</string>
+             </property>
+            </widget>
+           </item>
            <item row="5" column="0">
             <widget class="QPushButton" name="nextCollegeButton">
              <property name="text">
-              <string>Next College</string>
+              <string>Next Stadium</string>
              </property>
             </widget>
            </item>
@@ -246,13 +253,6 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="tripCreateTeamNameLabel">
-             <property name="text">
-              <string>PlaceHolder</string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="0">
             <widget class="QLabel" name="label_3">
              <property name="text">
@@ -263,10 +263,17 @@
            <item row="1" column="0">
             <widget class="QComboBox" name="tripCreationComboBox"/>
            </item>
-           <item row="6" column="0">
-            <widget class="QPushButton" name="startTripButton">
+           <item row="2" column="0">
+            <widget class="QLabel" name="tripCreateTeamNameLabel">
              <property name="text">
-              <string>Start Trip</string>
+              <string>PlaceHolder</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QPushButton" name="resetTripButton">
+             <property name="text">
+              <string>Reset Trip</string>
              </property>
             </widget>
            </item>
