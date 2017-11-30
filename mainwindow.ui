@@ -280,7 +280,11 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
            <item row="0" column="0">
-            <widget class="QTableView" name="tripTableView"/>
+            <widget class="QTableView" name="tripTableView">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
