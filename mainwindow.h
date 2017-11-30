@@ -27,6 +27,7 @@ public:
     void populateConferenceDropDownBox(QString box);
     void populateTripSelectionDropDownBox();
     void showStartingTripInputs();
+    void hideSecondaryTripInputs();
 
 private slots:
     /*! \fn AFLCheckBox_clicked */
@@ -60,6 +61,8 @@ private slots:
 
     void on_nextCollegeButton_clicked();
 
+    void on_resetTripButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     adminWindow *admin;
@@ -69,7 +72,8 @@ private:
     QStandardItemModel *table;
     //vector full of the pushed stadiums
     QVector<collegeStadiumPair> stadiumTrip;
-    //integer
+    //integer of current stadium
+    int currentStadiumIndex;
 
     Graph stadiumMap;
 };
