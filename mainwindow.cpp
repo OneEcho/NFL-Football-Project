@@ -58,7 +58,11 @@ MainWindow::MainWindow(QWidget *parent) :
     stadiumTrip.clear();
 
     stadiumMap.createGraph();
-    stadiumMap.printGraph();
+    //stadiumMap.printGraph();
+    stadiumMap.shortestPathAtVertex("Los Angeles Memorial Coliseum", "Gillette Stadium");
+    stadiumMap.printVector();
+    qDebug() << stadiumMap.getShortestPathWeight();
+
 }
 
 /*!
@@ -115,7 +119,6 @@ void MainWindow::populateConferenceDropDownBox(QString box)
         {
             ui->TeamsComboBox->addItem(query.value(0).toString());
         }
-
     }
 }
 

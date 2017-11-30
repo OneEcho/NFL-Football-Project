@@ -40,7 +40,13 @@ public:
 
     void dfsAtVertex(QString label);
     void bfsAtVertex(QString label);
-    QVector< std::pair<QString, int> > shortestPathAtVertex(QString label);
+    void shortestPathAtVertex(QString startCity, QString endCity);
+
+    void printVector();
+
+    QVector<QString> getShortestPathTraversal() const;
+
+    int getShortestPathWeight() const;
 
 private:
     int              graphSize; //Graph size
@@ -52,6 +58,9 @@ private:
     } traversalInfo;            //Holds the list of vertices that were traversed during DFS/BFS/Shortest Path and distance traveled
     QVector<QString> visited;   //Holds the visited nodes for the DFS/BFS
 
+    QVector<QString> shortestPathTraversal; //Holds the most recent shortest path traversal
+    int shortestPathWeight;                 //Holds the weight of the most recent path traversal
+
     //Returns the address of the vertex from the label passed in
     Vertex* getVertexFromString(QString searchLabel);
     //Returns the address of the vertex from the id passed in
@@ -60,7 +69,9 @@ private:
     //Performs the dfs
     void dfs(Vertex *startVertex);
     void bfs(Vertex *startVertex);
-    QVector <std::pair<QString, int>> shortestPath(Vertex *startVertex);
+    void shortestPath(Vertex *startVertex, Vertex *endVertex);
+
+    void printPath(int *parent, int startVertexId);
 
 };
 
