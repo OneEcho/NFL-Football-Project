@@ -26,7 +26,9 @@ public:
     ~MainWindow();
     void populateConferenceDropDownBox(QString box);
     void populateTripSelectionDropDownBox();
+    void populateDijkstrasDropDownBox();
     void showStartingTripInputs();
+    void visitAllStadiumsEfficiently(QString startingCity);
 
 private slots:
     /*! \fn AFLCheckBox_clicked */
@@ -59,6 +61,12 @@ private slots:
     void on_startTripButton_clicked();
 
     void on_nextCollegeButton_clicked();
+
+    void on_startingStadiumComboBoxDijkstras_currentIndexChanged(const QString &arg1);
+
+    void on_endingStadiumComboBoxDijkstras_currentIndexChanged(const QString &arg1);
+
+    void on_visitAllStadiumsButton_clicked();
 
 private:
     Ui::MainWindow *ui;

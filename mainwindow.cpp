@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     Database* DB = Database::getInstance();
 
     this->populateConferenceDropDownBox("Both");
+    this->populateDijkstrasDropDownBox();
     ui->tabWidget->setCurrentIndex(0);
 
 
@@ -63,6 +64,18 @@ MainWindow::MainWindow(QWidget *parent) :
     stadiumMap.printVector();
     qDebug() << stadiumMap.getShortestPathWeight();
 
+
+    ui->dijkstrasTableWidget->insertColumn(0);
+    ui->dijkstrasTableWidget->insertColumn(1);
+    ui->dijkstrasTableWidget->insertColumn(2);
+
+    ui->dijkstrasTableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Starting Stadium"));
+    ui->dijkstrasTableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Ending Stadium"));
+    ui->dijkstrasTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Distance"));
+    ui->dijkstrasTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    ui->totalDistanceLabel->hide();
+//    this->visitAllStadiumsEfficiently("Los Angeles Memorial Coliseum");
 }
 
 /*!
@@ -139,12 +152,78 @@ void MainWindow::populateTripSelectionDropDownBox()
     }
 }
 
+
 void MainWindow::showStartingTripInputs()
 {
     ui->label_3->show();
     ui->tripCreationComboBox->show();
     ui->addToTripButton->show();
     ui->finishAddingButton->show();
+}
+
+void MainWindow::visitAllStadiumsEfficiently(QString startingCity)
+{
+    QVector<QString> visitedStadiums;
+    QVector<Vertex> tempGraph = this->stadiumMap.getGraph();
+    int numOfStadiumsVisited = 0;
+    int totalDistance = 0;
+
+    QString currentStadium = startingCity;
+    QString nextStadium;
+
+    visitedStadiums.push_back(currentStadium);
+
+    // Automatically traverse through entire graph
+    // its size - 1 because we dont need to visit the starting city
+    while(numOfStadiumsVisited != this->stadiumMap.getGraphSize() - 1)
+    {
+        // make smallest weight a large number so the first comparison overwrites it
+        int smallestWeight = 99999;
+
+        // Traverse through the entire graph to compare the dijkstra weights between
+        // curent stadium and all the other stadiums
+        for(int i = 0; i < tempGraph.size(); i++)
+        {
+            bool visited = false;
+            int visitIndex = 0;
+            while(!visited && visitIndex < visitedStadiums.size())
+            {
+                if(tempGraph[i].label == visitedStadiums[visitIndex])
+                {
+                    visited = true;
+                }
+                else
+                {
+                    visitIndex++;
+                }
+            }
+            if(currentStadium != tempGraph[i].label && !visited)
+            {
+                this->stadiumMap.resetShortestPath();
+                this->stadiumMap.shortestPathAtVertex(currentStadium, tempGraph[i].label);
+
+                if(this->stadiumMap.getShortestPathWeight() < smallestWeight)
+                {
+                    smallestWeight = this->stadiumMap.getShortestPathWeight();
+                    nextStadium = tempGraph[i].label;
+                }
+            }
+        }
+
+        visitedStadiums.push_back(nextStadium);
+        this->stadiumMap.shortestPathAtVertex(currentStadium, nextStadium);
+        qDebug() << currentStadium << " to " << nextStadium << " is " << this->stadiumMap.getShortestPathWeight();
+        totalDistance += this->stadiumMap.getShortestPathWeight();
+
+        currentStadium = nextStadium;
+        numOfStadiumsVisited++;
+    }
+
+    for(int i = 0 ; i < visitedStadiums.size(); i++)
+    {
+        this->stadiumMap.visitStadium(visitedStadiums[i]);
+    }
+    qDebug() << totalDistance;
 }
 
 /*!
@@ -520,10 +599,14 @@ void MainWindow::on_tabWidget_tabBarClicked(int index)
     ui->tripTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tripTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     ui->tripTableView->verticalHeader()->setHidden(true);
+
+    ui->visitAllStadiumsButton->show();
 }
 
 void MainWindow::on_addToTripButton_clicked()
 {
+
+    ui->visitAllStadiumsButton->hide();
     //setting the current index of the combo to this variable
     int choosenStadiumIndex = ui->tripCreationComboBox->currentIndex();
 
@@ -561,7 +644,7 @@ void MainWindow::on_addToTripButton_clicked()
 
 
     //qDebug() << choosenStadium;
-     qDebug() << choosenStadiumIndex;
+    qDebug() << choosenStadiumIndex;
 
 }
 
@@ -639,4 +722,128 @@ void MainWindow::on_startTripButton_clicked()
 void MainWindow::on_nextCollegeButton_clicked()
 {
 
+}
+
+void MainWindow::populateDijkstrasDropDownBox()
+{
+    ui->endingStadiumComboBoxDijkstras->hide();
+    ui->startingStadiumComboBoxDijkstras->clear();
+    ui->startingStadiumComboBoxDijkstras->addItem("Select A Stadium");
+
+    QSqlQuery query;
+
+    query.prepare("SELECT distinct StadiumName From Teams Order By StadiumName ASC");
+
+    query.exec();
+
+    while(query.next())
+    {
+        ui->startingStadiumComboBoxDijkstras->addItem(query.value(0).toString());
+    }
+
+}
+
+void MainWindow::on_startingStadiumComboBoxDijkstras_currentIndexChanged(const QString &arg1)
+{
+    ui->dijkstrasTableWidget->setRowCount(0);
+    ui->totalDistanceLabel->hide();
+
+    if(arg1 != "Select A Stadium")
+    {
+        QSqlQuery query;
+
+        query.prepare("SELECT distinct StadiumName From Teams Order By StadiumName ASC");
+
+        query.exec();
+
+        ui->endingStadiumComboBoxDijkstras->clear();
+        ui->endingStadiumComboBoxDijkstras->addItem("Select A Stadium");
+
+        while(query.next())
+        {
+            if(arg1 != query.value(0).toString())
+                ui->endingStadiumComboBoxDijkstras->addItem(query.value(0).toString());
+        }
+
+        ui->endingStadiumComboBoxDijkstras->show();
+    }
+    else
+    {
+        ui->endingStadiumComboBoxDijkstras->hide();
+    }
+}
+
+void MainWindow::on_endingStadiumComboBoxDijkstras_currentIndexChanged(const QString &arg1)
+{
+    ui->dijkstrasTableWidget->setRowCount(0);
+    this->stadiumMap.resetShortestPath();
+    ui->totalDistanceLabel->hide();
+
+    if(ui->endingStadiumComboBoxDijkstras->currentText() != "Select A Stadium")
+    {
+        this->stadiumMap.shortestPathAtVertex(ui->startingStadiumComboBoxDijkstras->currentText(),
+                                              ui->endingStadiumComboBoxDijkstras->currentText());
+
+        QVector<QString> tempTrip = this->stadiumMap.getShortestPathTraversal();
+        QVector<std::pair<QString,QString>> shortestPaths;
+        QVector<int> shortestPathsDistances;
+
+        int total = 0;
+
+        QSqlQuery query;
+
+
+        for(int i = 0; i < tempTrip.size() - 1; i++)
+        {
+            shortestPaths.push_back(std::pair<QString,QString>(tempTrip[i], tempTrip[i + 1]));
+
+            query.prepare("Select Distance From Distances Where BeginningStadium = :begin AND EndingStadium = :end");
+            query.bindValue(":begin", tempTrip[i]);
+            query.bindValue(":end",   tempTrip[i+1]);
+
+            query.exec();
+
+            query.next();
+
+            shortestPathsDistances.push_back(query.value(0).toInt());
+        }
+
+        for(int i = 0; i < shortestPaths.size(); i++)
+        {
+            int insertRow = ui->dijkstrasTableWidget->rowCount();
+
+            //insert the row at the bottom of the table widget - using.
+            ui->dijkstrasTableWidget->insertRow(insertRow);
+
+            //After a new row is inserted we can add the table widget items as required.
+            ui->dijkstrasTableWidget->setItem(insertRow,0,new QTableWidgetItem(shortestPaths[i].first));
+            ui->dijkstrasTableWidget->setItem(insertRow,1,new QTableWidgetItem(shortestPaths[i].second));
+            ui->dijkstrasTableWidget->setItem(insertRow,2,new QTableWidgetItem(QString::number(shortestPathsDistances[i])));
+
+
+            total += shortestPathsDistances[i];
+
+        }
+        ui->totalDistanceLabel->setText("Total Distance: " + QString::number(total) + " miles");
+        ui->totalDistanceLabel->show();
+    }
+}
+
+void MainWindow::on_visitAllStadiumsButton_clicked()
+{
+    if(ui->tripCreationComboBox->currentText() != "Select a Stadium")
+    {
+        this->visitAllStadiumsEfficiently(ui->tripCreationComboBox->currentText());
+        QVector<QString> visits = this->stadiumMap.getVisited();
+        for(int i = 0; i < visits.size(); i++)
+        {
+            QString choosenStadium = visits[i];
+            //sets the item in the standarndItemModel class (adds to the table)
+            table->setItem(tripTableViewRowNumber ,new QStandardItem(choosenStadium));
+            //update the row number
+            tripTableViewRowNumber++;
+
+        }
+        this->stadiumMap.resetVisitedVector();
+    }
 }

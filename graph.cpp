@@ -115,12 +115,28 @@ void Graph::shortestPathAtVertex(QString startCity, QString endCity)
     shortestPath(start, end);
 }
 
+void Graph::resetShortestPath()
+{
+    this->shortestPathTraversal.clear();
+    this->shortestPathWeight = 0;
+}
+
 void Graph::printVector()
 {
     for(int i = 0; i < shortestPathTraversal.size(); i++)
     {
         qDebug() << shortestPathTraversal[i];
     }
+}
+
+void Graph::visitStadium(QString stadiumName)
+{
+    this->visited.push_back(stadiumName);
+}
+
+void Graph::resetVisitedVector()
+{
+    this->visited.clear();
 }
 
 QVector<QString> Graph::getShortestPathTraversal() const
@@ -131,6 +147,21 @@ QVector<QString> Graph::getShortestPathTraversal() const
 int Graph::getShortestPathWeight() const
 {
     return shortestPathWeight;
+}
+
+int Graph::getGraphSize() const
+{
+    return graphSize;
+}
+
+QVector<QString> Graph::getVisited() const
+{
+    return visited;
+}
+
+QVector<Vertex> Graph::getGraph() const
+{
+    return graph;
 }
 
 void Graph::dfs(Vertex *startVertex)

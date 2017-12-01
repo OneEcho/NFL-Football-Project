@@ -41,12 +41,20 @@ public:
     void dfsAtVertex(QString label);
     void bfsAtVertex(QString label);
     void shortestPathAtVertex(QString startCity, QString endCity);
-
+    void resetShortestPath();
     void printVector();
+    void visitStadium(QString stadiumName);
+    void resetVisitedVector();
 
     QVector<QString> getShortestPathTraversal() const;
 
     int getShortestPathWeight() const;
+
+    int getGraphSize() const;
+
+    QVector<QString> getVisited() const;
+
+    QVector<Vertex> getGraph() const;
 
 private:
     int              graphSize; //Graph size
@@ -60,6 +68,7 @@ private:
 
     QVector<QString> shortestPathTraversal; //Holds the most recent shortest path traversal
     int shortestPathWeight;                 //Holds the weight of the most recent path traversal
+
 
     //Returns the address of the vertex from the label passed in
     Vertex* getVertexFromString(QString searchLabel);
