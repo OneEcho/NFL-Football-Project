@@ -6,6 +6,7 @@
 #include <QString>
 #include <QStandardItemModel>
 #include <graph.h>
+#include "cart.h"
 
 struct collegeStadiumPair
 {
@@ -74,6 +75,7 @@ private:
     QVector<collegeStadiumPair> stadiumTrip;
     //integer of current stadium
     int currentStadiumIndex;
+    Cart items;
 
     Graph stadiumMap;
 };
