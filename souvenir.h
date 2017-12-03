@@ -7,17 +7,17 @@ private:
     QString itemName;
     double price;
     int quantity;
-    QString teamName;
+    QString stadium;
 public:
     Souvenir();
     void setItemName(QString);
     void setPrice(double price);
     void setQuantity(int quantity);
-    void setTeamName(QString name);
+    void setStadiumName(QString name);
     int getQuantity() const;
     QString getItemName() const;
     double getPrice() const;
-    QString getTeamName() const;
+    QString getStadiumName() const;
 
 };
 

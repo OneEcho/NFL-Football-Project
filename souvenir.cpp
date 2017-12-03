@@ -3,7 +3,7 @@
 Souvenir::Souvenir()
 {
     this->quantity = 0;
-    this->teamName= "";
+    this->stadium= "";
     this->price = 0;
     this->itemName = "";
 
@@ -17,11 +17,11 @@ void Souvenir::setPrice(double price) {
 void Souvenir::setQuantity(int quantity) {
     this->quantity = quantity;
 }
-void Souvenir::setTeamName(QString name) {
-    this->teamName = name;
+void Souvenir::setStadiumName(QString name) {
+    this->stadium = name;
 }
-QString Souvenir::getTeamName() const {
-    return this->teamName;
+QString Souvenir::getStadiumName() const {
+    return this->stadium;
 }
 int Souvenir::getQuantity() const {
     return this->quantity;
