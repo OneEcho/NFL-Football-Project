@@ -57,6 +57,13 @@ MainWindow::MainWindow(QWidget *parent) :
     table = new QStandardItemModel(this);
     //istantiate the QVector of stadiums
     stadiumTrip.clear();
+    //reset the stadiumStartingIndex
+    currentStadiumIndex = 0;
+    //populate the dropdown box initially
+    this->populateTripSelectionDropDownBox();\
+    //hide secondary inputs
+    this->hideSecondaryTripInputs();
+    ui->nextCollegeButton->setText("Next Stadium");
 
     stadiumMap.createGraph();
     //stadiumMap.printGraph();
@@ -75,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->dijkstrasTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     ui->totalDistanceLabel->hide();
-//    this->visitAllStadiumsEfficiently("Los Angeles Memorial Coliseum");
+    this->visitAllStadiumsEfficiently("Los Angeles Memorial Coliseum");
 }
 
 /*!
@@ -224,6 +231,13 @@ void MainWindow::visitAllStadiumsEfficiently(QString startingCity)
         this->stadiumMap.visitStadium(visitedStadiums[i]);
     }
     qDebug() << totalDistance;
+}
+void MainWindow::hideSecondaryTripInputs()
+{
+    ui->nextCollegeButton->hide();
+    ui->currentCollegeLabel->hide();
+    ui->currentStadiumLabel->hide();
+    ui->startTripButton->hide();
 }
 
 /*!
@@ -583,15 +597,12 @@ void MainWindow::on_adminButton_clicked()
 
 void MainWindow::on_tabWidget_tabBarClicked(int index)
 {   
-    this->populateTripSelectionDropDownBox();
-    ui->nextCollegeButton->hide();
-    ui->currentCollegeLabel->hide();
-    ui->currentStadiumLabel->hide();
-    ui->startTripButton->hide();
-    this->showStartingTripInputs();
-    stadiumTrip.clear();
+    //ui->nextCollegeButton->hide();
+    //ui->currentCollegeLabel->hide();
+    //ui->currentStadiumLabel->hide();
+    //ui->startTripButton->hide();
 
-    table->clear();
+
     tripTableViewRowNumber = 0;
     table->setHorizontalHeaderItem(0, new QStandardItem(QString("Stadium Name")) );
 
@@ -600,13 +611,13 @@ void MainWindow::on_tabWidget_tabBarClicked(int index)
     ui->tripTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     ui->tripTableView->verticalHeader()->setHidden(true);
 
-    ui->visitAllStadiumsButton->show();
+    //ui->visitAllStadiumsButton->show();
 }
 
 void MainWindow::on_addToTripButton_clicked()
 {
 
-    ui->visitAllStadiumsButton->hide();
+    //ui->visitAllStadiumsButton->hide();
     //setting the current index of the combo to this variable
     int choosenStadiumIndex = ui->tripCreationComboBox->currentIndex();
 
@@ -700,8 +711,6 @@ void MainWindow::on_finishAddingButton_clicked()
         QString currentStadium = stadiumTrip[0].stadium;
 
     }
-
-
 }
 
 void MainWindow::on_startTripButton_clicked()
@@ -712,8 +721,8 @@ void MainWindow::on_startTripButton_clicked()
     ui->startTripButton->hide();
 
     //VARIABLES
-    QString currentCollege = stadiumTrip[0].college;
-    QString currentStadium = stadiumTrip[0].stadium;
+    QString currentCollege = stadiumTrip[currentStadiumIndex].college;
+    QString currentStadium = stadiumTrip[currentStadiumIndex].stadium;
 
     ui->currentCollegeLabel->setText(currentCollege);
     ui->currentStadiumLabel->setText(currentStadium);
@@ -721,7 +730,47 @@ void MainWindow::on_startTripButton_clicked()
 
 void MainWindow::on_nextCollegeButton_clicked()
 {
+    qDebug() << "index:: " << currentStadiumIndex;
+    qDebug() << "stadiumTripSize:: " << stadiumTrip.size();
 
+    if(currentStadiumIndex < stadiumTrip.size()-1)
+    {
+        currentStadiumIndex++;
+        ui->currentCollegeLabel->setText(stadiumTrip[currentStadiumIndex].college);
+        ui->currentStadiumLabel->setText(stadiumTrip[currentStadiumIndex].stadium);
+
+        if(currentStadiumIndex == stadiumTrip.size()-1)
+        {
+            ui->nextCollegeButton->setText("Finish Trip");
+        }
+    }
+    else
+    {
+        ui->nextCollegeButton->hide();
+        ui->currentCollegeLabel->setText("You Have Completed Your Trip");
+        ui->currentStadiumLabel->setText("Review Your Cart");
+    }
+
+}
+
+void MainWindow::on_resetTripButton_clicked()
+{
+    this->showStartingTripInputs();
+    this->hideSecondaryTripInputs();
+
+    table->clear();
+    currentStadiumIndex = 0;
+    stadiumTrip.clear();
+    this->populateTripSelectionDropDownBox();
+    tripTableViewRowNumber = 0;
+    ui->nextCollegeButton->setText("Next Stadium");
+
+    table->setHorizontalHeaderItem(0, new QStandardItem(QString("Stadium Name")) );
+
+    ui->tripTableView->setModel(table);
+    ui->tripTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tripTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    ui->tripTableView->verticalHeader()->setHidden(true);
 }
 
 void MainWindow::populateDijkstrasDropDownBox()

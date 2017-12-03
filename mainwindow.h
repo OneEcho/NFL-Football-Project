@@ -29,6 +29,7 @@ public:
     void populateDijkstrasDropDownBox();
     void showStartingTripInputs();
     void visitAllStadiumsEfficiently(QString startingCity);
+    void hideSecondaryTripInputs();
 
 private slots:
     /*! \fn AFLCheckBox_clicked */
@@ -67,6 +68,7 @@ private slots:
     void on_endingStadiumComboBoxDijkstras_currentIndexChanged(const QString &arg1);
 
     void on_visitAllStadiumsButton_clicked();
+    void on_resetTripButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -77,7 +79,8 @@ private:
     QStandardItemModel *table;
     //vector full of the pushed stadiums
     QVector<collegeStadiumPair> stadiumTrip;
-    //integer
+    //integer of current stadium
+    int currentStadiumIndex;
 
     Graph stadiumMap;
 };
