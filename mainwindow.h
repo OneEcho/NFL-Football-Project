@@ -6,6 +6,7 @@
 #include <QString>
 #include <QStandardItemModel>
 #include <graph.h>
+#include "cart.h"
 
 struct collegeStadiumPair
 {
@@ -26,7 +27,9 @@ public:
     ~MainWindow();
     void populateConferenceDropDownBox(QString box);
     void populateTripSelectionDropDownBox();
+    void populateDijkstrasDropDownBox();
     void showStartingTripInputs();
+    void visitAllStadiumsEfficiently(QString startingCity);
     void hideSecondaryTripInputs();
 
 private slots:
@@ -61,6 +64,11 @@ private slots:
 
     void on_nextCollegeButton_clicked();
 
+    void on_startingStadiumComboBoxDijkstras_currentIndexChanged(const QString &arg1);
+
+    void on_endingStadiumComboBoxDijkstras_currentIndexChanged(const QString &arg1);
+
+    void on_visitAllStadiumsButton_clicked();
     void on_resetTripButton_clicked();
 
 private:
@@ -74,6 +82,7 @@ private:
     QVector<collegeStadiumPair> stadiumTrip;
     //integer of current stadium
     int currentStadiumIndex;
+    Cart items;
 
     Graph stadiumMap;
 };

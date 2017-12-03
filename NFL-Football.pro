@@ -28,14 +28,18 @@ SOURCES += main.cpp\
     adminwindow.cpp \
     modifystadiuminfo.cpp \
     modifysouvenirs.cpp \
-    graph.cpp
+    graph.cpp \
+    cart.cpp \
+    souvenir.cpp
 
 HEADERS  += mainwindow.h \
     database.h \
     adminwindow.h \
     modifystadiuminfo.h \
     modifysouvenirs.h \
-    graph.h
+    graph.h \
+    cart.h \
+    souvenir.h
 
 FORMS    += mainwindow.ui \
     adminwindow.ui \

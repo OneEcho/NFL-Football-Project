@@ -105,13 +105,63 @@ void Graph::bfsAtVertex(QString label)
     qDebug() << traversalInfo.distanceTraveled;
 }
 
-QVector< std::pair<QString, int> > Graph::shortestPathAtVertex(QString label)
+void Graph::shortestPathAtVertex(QString startCity, QString endCity)
 {
-    Vertex *start = getVertexFromString(label);
+    Vertex *start = getVertexFromString(startCity);
+    Vertex *end = getVertexFromString(endCity);
 
-    QVector< std::pair<QString, int> > shortestPathInfo = shortestPath(start);
+    this->shortestPathTraversal.push_back(startCity);
 
-    return shortestPathInfo;
+    shortestPath(start, end);
+}
+
+void Graph::resetShortestPath()
+{
+    this->shortestPathTraversal.clear();
+    this->shortestPathWeight = 0;
+}
+
+void Graph::printVector()
+{
+    for(int i = 0; i < shortestPathTraversal.size(); i++)
+    {
+        qDebug() << shortestPathTraversal[i];
+    }
+}
+
+void Graph::visitStadium(QString stadiumName)
+{
+    this->visited.push_back(stadiumName);
+}
+
+void Graph::resetVisitedVector()
+{
+    this->visited.clear();
+}
+
+QVector<QString> Graph::getShortestPathTraversal() const
+{
+    return shortestPathTraversal;
+}
+
+int Graph::getShortestPathWeight() const
+{
+    return shortestPathWeight;
+}
+
+int Graph::getGraphSize() const
+{
+    return graphSize;
+}
+
+QVector<QString> Graph::getVisited() const
+{
+    return visited;
+}
+
+QVector<Vertex> Graph::getGraph() const
+{
+    return graph;
 }
 
 void Graph::dfs(Vertex *startVertex)
@@ -163,9 +213,13 @@ void Graph::bfs(Vertex *startVertex)
     }
 }
 
-QVector< std::pair<QString, int> > Graph::shortestPath(Vertex *startVertex)
+void Graph::shortestPath(Vertex *startVertex, Vertex *endVertex)
 {
     Vertex *vertex = NULL;
+
+    //Parent array to store shortest path tree
+    int parent[graphSize];
+
     //Used to represent weight and vertex id in that order
     typedef std::pair<int, int> iPair;
 
@@ -178,6 +232,7 @@ QVector< std::pair<QString, int> > Graph::shortestPath(Vertex *startVertex)
     //Insert source itself in pq and initialize its distance as 0
     pq.push(std::make_pair(0, startVertex->id));
     dist[startVertex->id] = 0;
+    parent[startVertex->id] = -1;
 
     //Loops until pq becomes empty
     while(!pq.empty())
@@ -201,22 +256,22 @@ QVector< std::pair<QString, int> > Graph::shortestPath(Vertex *startVertex)
             {
                 //Updating distance of connected vertex
                 dist[connVertexId] = dist[vertexId] + weight;
+                parent[connVertexId] = vertexId;
                 pq.push(std::make_pair(dist[connVertexId], connVertexId));
             }
         }
     }
-    QVector< std::pair<QString, int> > vertexDistance;
 
-    for(int i = 0; i < graphSize; i++)
-    {
-        Vertex* temp = getVertexFromId(i);
-        vertexDistance.push_back(std::make_pair(temp->label, dist[i]));
-        temp = NULL;
-    }
+//    for(int i = 0; i < graphSize; i++)
+//    {
+//        Vertex *current = getVertexFromId(i);
+//        qDebug() << "A path from " << startVertex->label << " to " << current->label << ": ";
 
-    vertex = NULL;
-
-    return vertexDistance;
+//        qDebug() << startVertex->label << " ";
+    printPath(parent, endVertex->id);
+    shortestPathWeight = dist[endVertex->id];
+//        qDebug() << "cost: (" << dist[i] << ")\n";
+//    }
 }
 
 Vertex *Graph::getVertexFromString(QString searchLabel)
@@ -239,4 +294,16 @@ Vertex *Graph::getVertexFromId(int searchId)
             return graphIt;
         }
     }
+}
+
+void Graph::printPath(int *parent, int startVertexId)
+{
+    //Base case : if ending vertex is the source
+    if(parent[startVertexId] == -1)
+        return;
+
+    printPath(parent, parent[startVertexId]);
+
+    Vertex* temp = getVertexFromId(startVertexId);
+    shortestPathTraversal.push_back(temp->label);
 }
