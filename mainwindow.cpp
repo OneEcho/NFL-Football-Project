@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Database* DB = Database::getInstance();
 
+
     this->populateConferenceDropDownBox("Both");
     this->populateDijkstrasDropDownBox();
     ui->tabWidget->setCurrentIndex(0);
@@ -586,6 +587,9 @@ void MainWindow::on_roofComboBox_currentIndexChanged(const QString &arg1)
 void MainWindow::on_adminButton_clicked()
 {
     // Open Admin window/tab/whatever we are using for the admin page
+
+    Graph *graphPoint = &ZstadiumMap;
+    this->admin->setPointerToGraph(graphPoint);
     this->admin->newShow();
 }
 

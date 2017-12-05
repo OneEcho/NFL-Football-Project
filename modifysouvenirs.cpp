@@ -128,9 +128,13 @@ void modifysouvenirs::on_doneButton_clicked()
 {
     this->close();
 }
-
+void modifysouvenirs::setGraphPointer(Graph *p) {
+    graph = p;
+}
 void modifysouvenirs::on_addSandiegoSailorsButton_clicked()
 {
+    qDebug() << "ENTERED MODIFY SOUVENIRS\n";
+    graph->printGraph();
     //Variables for holding data
     QString teamName, stadiumName, location, conference, surfaceType, stadiumRoofType, starPlayer, seatingCapacity;
     QStringList beginningStadium, endingStadium, distance;

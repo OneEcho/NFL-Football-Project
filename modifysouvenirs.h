@@ -6,6 +6,7 @@
 #include <QSqlTableModel>
 #include <QSqlQuery>
 #include <QDebug>
+#include "graph.h"
 
 namespace Ui {
 class modifysouvenirs;
@@ -18,6 +19,7 @@ class modifysouvenirs : public QDialog
 public:
     explicit modifysouvenirs(QWidget *parent = 0);
     ~modifysouvenirs();
+    void setGraphPointer(Graph *p);
 
 private slots:
 
@@ -33,8 +35,11 @@ private slots:
 
     void on_teamComboBox_currentIndexChanged(const QString &arg1);
 
+
 private:
     Ui::modifysouvenirs *ui;
+    Graph *graph;
+
 };
 
 #endif // MODIFYSOUVENIRS_H
