@@ -67,10 +67,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     stadiumMap.createGraph();
     //stadiumMap.printGraph();
-    stadiumMap.shortestPathAtVertex("Los Angeles Memorial Coliseum", "Gillette Stadium");
-    stadiumMap.printVector();
-    qDebug() << stadiumMap.getShortestPathWeight();
-
 
     ui->dijkstrasTableWidget->insertColumn(0);
     ui->dijkstrasTableWidget->insertColumn(1);
@@ -82,7 +78,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->dijkstrasTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     ui->totalDistanceLabel->hide();
-    this->visitAllStadiumsEfficiently("Los Angeles Memorial Coliseum");
 }
 
 /*!
@@ -794,6 +789,7 @@ void MainWindow::populateDijkstrasDropDownBox()
 
 void MainWindow::on_startingStadiumComboBoxDijkstras_currentIndexChanged(const QString &arg1)
 {
+    ui->endingStadiumComboBoxDijkstras->setCurrentIndex(0);
     ui->dijkstrasTableWidget->setRowCount(0);
     ui->totalDistanceLabel->hide();
 
@@ -880,6 +876,15 @@ void MainWindow::on_endingStadiumComboBoxDijkstras_currentIndexChanged(const QSt
 
 void MainWindow::on_visitAllStadiumsButton_clicked()
 {
+    this->table->clear();
+    this->table->setHorizontalHeaderItem(0, new QStandardItem(QString("Stadium Name")) );
+    this->table->setRowCount(0);
+    this->stadiumMap.resetShortestPath();
+
+    QSqlQuery query;
+
+//    query.prepare("SELECT StadiumName, TeamName From Teams where ")
+
     if(ui->tripCreationComboBox->currentText() != "Select a Stadium")
     {
         this->visitAllStadiumsEfficiently(ui->tripCreationComboBox->currentText());
