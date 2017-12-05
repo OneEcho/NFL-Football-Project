@@ -689,6 +689,8 @@ void MainWindow::on_finishAddingButton_clicked()
     //ui->currentStadiumLabel->show();
     if(stadiumTrip.size() > 0) {
         ui->finishAddingButton->hide();
+        ui->dreamVacationButton->hide();
+        ui->visitAllStadiumsButton->hide();
         ui->addToTripButton->hide();
         ui->tripCreateTeamNameLabel->hide();
         ui->tripCreationComboBox->hide();
@@ -754,6 +756,8 @@ void MainWindow::on_resetTripButton_clicked()
     this->hideSecondaryTripInputs();
 
     table->clear();
+    ui->dreamVacationButton->show();
+    ui->visitAllStadiumsButton->show();
     currentStadiumIndex = 0;
     stadiumTrip.clear();
     this->populateTripSelectionDropDownBox();
@@ -883,7 +887,7 @@ void MainWindow::on_visitAllStadiumsButton_clicked()
 
     QSqlQuery query;
 
-//    query.prepare("SELECT StadiumName, TeamName From Teams where ")
+    query.prepare("SELECT TeamName From Teams where :stadium = StadiumName");
 
     if(ui->tripCreationComboBox->currentText() != "Select a Stadium")
     {
@@ -891,13 +895,22 @@ void MainWindow::on_visitAllStadiumsButton_clicked()
         QVector<QString> visits = this->stadiumMap.getVisited();
         for(int i = 0; i < visits.size(); i++)
         {
-            QString choosenStadium = visits[i];
+            QString chosenStadium = visits[i];
+            collegeStadiumPair temp;
+            query.bindValue(":stadium", chosenStadium);
+            query.exec();
+            query.next();
+
             //sets the item in the standarndItemModel class (adds to the table)
-            table->setItem(tripTableViewRowNumber ,new QStandardItem(choosenStadium));
+            table->setItem(tripTableViewRowNumber ,new QStandardItem(chosenStadium));
             //update the row number
             tripTableViewRowNumber++;
-
+            temp.stadium = chosenStadium;
+            temp.college = query.value(0).toString();
+            this->stadiumTrip.push_back(temp);
         }
         this->stadiumMap.resetVisitedVector();
     }
+
+    this->on_finishAddingButton_clicked();
 }
