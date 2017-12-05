@@ -194,6 +194,9 @@ void adminWindow::on_stadiumTableView_doubleClicked(const QModelIndex &index)
     }
 
 }
+void adminWindow::setPointerToGraph(Graph *p) {
+    graphPointer = p;
+}
 void adminWindow::openStadiumModifyPage() {
 
     ui->Pages->setCurrentIndex(1);
@@ -245,4 +248,6 @@ void adminWindow::on_modifySouvenirsButton_clicked()
 {
     modifySouvenirsWindow = new modifysouvenirs;
     modifySouvenirsWindow->show();
+    modifySouvenirsWindow->setGraphPointer(graphPointer);
+
 }

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "modifysouvenirs.h"
+#include "graph.h"
 
 namespace Ui {
 class adminWindow;
@@ -16,6 +17,8 @@ public:
     explicit adminWindow(QWidget *parent = 0);
     ~adminWindow();
     void newShow();
+    void setPointerToGraph(Graph *p);
+
 
 private slots:
     void on_passwordLineEdit_returnPressed();
@@ -37,6 +40,7 @@ private slots:
 private:
     Ui::adminWindow *ui;
     modifysouvenirs *modifySouvenirsWindow;
+    Graph *graphPointer;
 };
 
 #endif // ADMINWINDOW_H
