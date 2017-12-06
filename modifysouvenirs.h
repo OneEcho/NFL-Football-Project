@@ -35,6 +35,8 @@ private slots:
 
     void on_teamComboBox_currentIndexChanged(const QString &arg1);
 
+    void updateSouvenirView();
+
 
 private:
     Ui::modifysouvenirs *ui;

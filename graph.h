@@ -25,6 +25,7 @@ struct Vertex
 struct Edge
 {
     Edge() {}
+    ~Edge() {connectedVertex = nullptr;}
 
     Vertex *connectedVertex; //The connected vertex
     int     weight;          //Weight of edge
@@ -45,6 +46,8 @@ public:
     void printVector();
     void visitStadium(QString stadiumName);
     void resetVisitedVector();
+
+    void updateGraph();
 
     QVector<QString> getShortestPathTraversal() const;
 
