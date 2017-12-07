@@ -688,6 +688,7 @@ void MainWindow::on_tripCreationComboBox_currentIndexChanged(int index)
 
 void MainWindow::on_finishAddingButton_clicked()
 {
+    int totalDistanceTraveled = 0;
     //ui->nextCollegeButton->show();
     //ui->currentCollegeLabel->show();
     //ui->currentStadiumLabel->show();
@@ -701,15 +702,26 @@ void MainWindow::on_finishAddingButton_clicked()
         ui->label_3->hide();
         ui->startTripButton->show();
 
+        //VARIABLES
+        QString currentCollege = stadiumTrip[0].college;
+        QString currentStadium = stadiumTrip[0].stadium;
+
         //debugging purpuses
         for(int index = 0; index < stadiumTrip.size(); index++)
         {
             qDebug() << stadiumTrip[index].stadium << " " << stadiumTrip[index].college;
+            if(index+1 < stadiumTrip.size()) {
+                this->stadiumMap.shortestPathAtVertex(stadiumTrip[index].stadium, stadiumTrip[index+1].stadium);
+                totalDistanceTraveled += this->stadiumMap.getShortestPathWeight();
+            }
         }
 
-        //VARIABLES
-        QString currentCollege = stadiumTrip[0].college;
-        QString currentStadium = stadiumTrip[0].stadium;
+        this->stadiumMap.printVector();
+        qDebug() << totalDistanceTraveled;
+
+        table->setItem(tripTableViewRowNumber, new QStandardItem("Total Distance Traveled: " + QString::number(totalDistanceTraveled)));
+
+
 
     }
 }
@@ -767,6 +779,7 @@ void MainWindow::on_resetTripButton_clicked()
     this->populateTripSelectionDropDownBox();
     tripTableViewRowNumber = 0;
     ui->nextCollegeButton->setText("Next Stadium");
+    this->stadiumMap.resetShortestPath();
 
     table->setHorizontalHeaderItem(0, new QStandardItem(QString("Stadium Name")) );
 

@@ -125,6 +125,9 @@ void modifyStadiumInfo::updateData(QString newData) {
         query.bindValue(":teamName", teamName);
         query.bindValue(":stadiumName", stadiumName);
         query.exec();
+
+        graphPointer->updateGraph();
+
         (parentWindow.*functor)();
         this->close();
     }
@@ -138,4 +141,8 @@ void modifyStadiumInfo::on_cancel_conference_clicked()
 void modifyStadiumInfo::on_PB_Conference_pressed()
 {
     on_PB_Conference_clicked();
+}
+void modifyStadiumInfo::setGraphPointerModify(Graph* g) {
+
+    graphPointer = g;
 }
