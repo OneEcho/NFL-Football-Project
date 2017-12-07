@@ -8,7 +8,10 @@
 #include <graph.h>
 #include "cart.h"
 #include "map.h"
+#include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QModelIndex>
+
 
 struct collegeStadiumPair
 {
@@ -78,6 +81,12 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
 
+    void on_spinBox_valueChanged(int arg1);
+
+    void on_souvenirTable_clicked(const QModelIndex &index);
+
+    void on_purchaseButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     adminWindow *admin;
@@ -91,9 +100,11 @@ private:
     QVector<collegeStadiumPair> stadiumTrip;
     //integer of current stadium
     int currentStadiumIndex;
-    Cart items;
+    Cart purchases;
     Map Souvenirs;
     Graph stadiumMap;
+    QModelIndex souvenirIndex;
+    int souvenirQuantity;
 };
 
 #endif // MAINWINDOW_H

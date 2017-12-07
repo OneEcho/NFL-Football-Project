@@ -1,4 +1,6 @@
 #include "cart.h"
+#include <QTableWidgetItem>
+#include "QSqlQuery"
 
 double Cart::getTotalSpent() {
     double spent = 0;
@@ -25,5 +27,22 @@ void Cart::addPurchase(double price, int quantity, QString itemName, QString tea
     addPurchase.setQuantity(quantity);
     souvenirs.push_back(addPurchase);
 
+}
+int Cart::size() {
+    return souvenirs.size();
+}
+double Cart::getTotalPrice(int i) {
+    return souvenirs[i].getTotalPrice();
+}
+int Cart::getQuantity(int i) {
+    return souvenirs[i].getQuantity();
+}
+QString Cart::getTeamName(int i) {
+
+    return souvenirs[i].getTeamName();
+
+}
+QString Cart::getSouvenirName(int i) {
+    return souvenirs[i].getSouvenir();
 }
 

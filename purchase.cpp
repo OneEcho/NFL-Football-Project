@@ -20,3 +20,7 @@ double Purchase::getTotalPrice() const {
 QString Purchase::getTeamName() const {
     return this->souvenir.getTeamName();
 }
+QString Purchase::getSouvenir() {
+    return this->souvenir.getItemName();
+}
+

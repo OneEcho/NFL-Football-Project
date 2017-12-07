@@ -14,6 +14,7 @@ public:
     void setSouvenir(Souvenir s);
     double getTotalPrice() const;
     QString getTeamName() const;
+    QString getSouvenir();
 };
 
 #endif // PURCHASE_H
