@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //trip creator table view
     tripTableViewRowNumber = 0;
+    BFStableWidgitRowNumber = 0;
     table = new QStandardItemModel(this);
     //istantiate the QVector of stadiums
     stadiumTrip.clear();
@@ -62,9 +63,11 @@ MainWindow::MainWindow(QWidget *parent) :
     currentStadiumIndex = 0;
     //populate the dropdown box initially
     this->populateTripSelectionDropDownBox();\
+    this->populateDFSandBFSdropDownBox();
     //hide secondary inputs
     this->hideSecondaryTripInputs();
     ui->nextCollegeButton->setText("Next Stadium");
+
 
     stadiumMap.createGraph();
     //stadiumMap.printGraph();
@@ -145,7 +148,7 @@ void MainWindow::populateTripSelectionDropDownBox()
     ui->tripCreationComboBox->clear();
     ui->tripCreationComboBox->addItem("Select a Stadium");
 
-    query.prepare("SELECT stadiumName FROM Teams");
+    query.prepare("SELECT distinct stadiumName FROM Teams");
 
     query.exec();
 
@@ -675,6 +678,9 @@ void MainWindow::on_tripCreationComboBox_currentIndexChanged(int index)
         //to be able to pull the team name info, makes total sense
         while(query.next()) {
             ui->tripCreateTeamNameLabel->setText(query.value(0).toString());
+            if(query.value(0).toString() == "New York Jets") {
+                ui->tripCreateTeamNameLabel->setText(ui->tripCreateTeamNameLabel->text()+" and Giants");
+            }
         }
     }
     else
@@ -803,6 +809,26 @@ void MainWindow::populateDijkstrasDropDownBox()
 
 }
 
+void MainWindow::populateDFSandBFSdropDownBox()
+{
+    QSqlQuery query;
+
+    ui->BFScomboBox->clear();
+    ui->DFScomboBox->clear();
+    ui->BFScomboBox->addItem("Select a Stadium");
+    ui->DFScomboBox->addItem("Select a Stadium");
+
+    query.prepare("SELECT distinct stadiumName FROM Teams");
+    query.exec();
+
+    while(query.next())
+    {
+        ui->DFScomboBox->addItem(query.value(0).toString());
+        ui->BFScomboBox->addItem(query.value(0).toString());
+    }
+
+}
+
 void MainWindow::on_startingStadiumComboBoxDijkstras_currentIndexChanged(const QString &arg1)
 {
     ui->endingStadiumComboBoxDijkstras->setCurrentIndex(0);
@@ -925,4 +951,28 @@ void MainWindow::on_visitAllStadiumsButton_clicked()
     }
 
     this->on_finishAddingButton_clicked();
+}
+
+void MainWindow::on_BFSstartButton_clicked()
+{
+    QString retarded = "BFS traversal";
+    if(ui->BFScomboBox->currentIndex() > 0) {
+        QString stadiumEntry = ui->BFScomboBox->currentText();
+        this->stadiumMap.bfsAtVertex(stadiumEntry);
+
+        ui->BFStable->insertColumn(0);
+        ui->BFStable->setHorizontalHeaderItem(0, new QTableWidgetItem(retarded));
+        ui->BFStable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        for(int index = 0; index < this->stadiumMap.getTraversalInfoTraversal().size(); index++)
+        {
+            //ui->BFStable->set
+        }
+
+
+   }
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+
 }

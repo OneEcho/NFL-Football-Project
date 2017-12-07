@@ -59,6 +59,8 @@ public:
 
     QVector<Vertex> getGraph() const;
 
+    QStringList getTraversalInfoTraversal();
+
 private:
     int              graphSize; //Graph size
     QVector<Vertex>  graph;     //Vector to create adjacency list

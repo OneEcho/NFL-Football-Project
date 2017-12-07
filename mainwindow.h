@@ -30,6 +30,7 @@ public:
     void populateConferenceDropDownBox(QString box);
     void populateTripSelectionDropDownBox();
     void populateDijkstrasDropDownBox();
+    void populateDFSandBFSdropDownBox();
     void showStartingTripInputs();
     void visitAllStadiumsEfficiently(QString startingCity);
     void hideSecondaryTripInputs();
@@ -73,13 +74,19 @@ private slots:
     void on_visitAllStadiumsButton_clicked();
     void on_resetTripButton_clicked();
 
+    void on_BFSstartButton_clicked();
+
+    void on_tabWidget_currentChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     adminWindow *admin;
 
     //index to track row additions
     int tripTableViewRowNumber;
+    int BFStableWidgitRowNumber;
     QStandardItemModel *table;
+    QStandardItemModel *BFSwidgit;
     //vector full of the pushed stadiums
     QVector<collegeStadiumPair> stadiumTrip;
     //integer of current stadium
