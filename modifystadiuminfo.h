@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include "adminwindow.h"
-
+#include "graph.h"
 namespace Ui {
 class modifyStadiumInfo;
 }
@@ -23,7 +23,7 @@ public:
     explicit modifyStadiumInfo(adminWindow& pw, functionName funcF);
     void setData(QString oldData, QString team, QString stadium, QString column, QString header);
     void updateData(QString);
-
+    void setGraphPointerModify(Graph* g);
 private slots:
     void on_PB_Update_clicked();
 
@@ -44,6 +44,7 @@ private:
     QString teamName;
     QString stadiumName;
     QString headerName;
+    Graph *graphPointer;
 };
 
 #endif // MODIFYSTADIUMINFO_H
