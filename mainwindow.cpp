@@ -236,6 +236,67 @@ void MainWindow::hideSecondaryTripInputs()
     ui->startTripButton->hide();
 }
 
+void MainWindow::dreamVacation(QString startStadium, QStringList tripList, QStringList & visitedStadiums)
+{
+    if(tripList.size() == visitedStadiums.size())
+    {
+        return;
+    }
+
+    QVector<Vertex> tempGraph = this->stadiumMap.getGraph();
+    bool found = false;
+    int index = 0;
+    QString nextStadium;
+    int smallestWeight = 99999;
+
+    while(!found && index < tempGraph.size())
+    {
+        if(startStadium == tempGraph[index].label)
+        {
+            found = true;
+        }
+        else
+        {
+            index++;
+        }
+    }
+
+    for(int i = 0; i < tripList.size(); i++)
+    {
+        bool visited = false;
+        int visitIndex = 0;
+
+        while(!visited && visitIndex < visitedStadiums.size())
+        {
+            if(tripList[i] == visitedStadiums[visitIndex])
+            {
+                visited = true;
+            }
+            else
+            {
+                visitIndex++;
+            }
+        }
+        if(startStadium != tripList[i] && !visited)
+        {
+            this->stadiumMap.resetShortestPath();
+            this->stadiumMap.shortestPathAtVertex(startStadium, tripList[i]);
+
+            if(this->stadiumMap.getShortestPathWeight() < smallestWeight)
+            {
+                smallestWeight = this->stadiumMap.getShortestPathWeight();
+                nextStadium = tripList[i];
+            }
+        }
+    }
+    visitedStadiums.push_back(nextStadium);
+    this->stadiumMap.shortestPathAtVertex(startStadium, nextStadium);
+    qDebug() << startStadium << " to " << nextStadium << " is " << this->stadiumMap.getShortestPathWeight();
+    this->totalDistance += this->stadiumMap.getShortestPathWeight();
+
+    dreamVacation(nextStadium, tripList, visitedStadiums);
+}
+
 /*!
  * \fn MainWindow::on_AFLCheckBox_clicked
  */
@@ -627,6 +688,8 @@ void MainWindow::on_addToTripButton_clicked()
 
     collegeStadiumPair addCollege;
 
+    this->listTrip.push_back(ui->tripCreationComboBox->currentText());
+
     if(choosenStadiumIndex > 0) {
         //set the current text of the choosen box to the stadium as long as the stadium is
         //a valid selection
@@ -787,7 +850,9 @@ void MainWindow::on_resetTripButton_clicked()
     ui->tripTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tripTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     ui->tripTableView->verticalHeader()->setHidden(true);
+    this->listTrip.clear();
 }
+
 
 void MainWindow::populateDijkstrasDropDownBox()
 {
@@ -930,4 +995,45 @@ void MainWindow::on_visitAllStadiumsButton_clicked()
     }
 
     this->on_finishAddingButton_clicked();
+}
+
+void MainWindow::on_dreamVacationButton_clicked()
+{
+    QStringList temp;
+    if(ui->tripCreationComboBox->currentText() != "Select a Stadium")
+    {
+        QSqlQuery query;
+
+        query.prepare("SELECT TeamName From Teams where :stadium = StadiumName");
+
+        temp.push_back(this->listTrip[0]);
+        dreamVacation(this->listTrip[0], this->listTrip, temp);
+
+        this->stadiumTrip.clear();
+
+
+        this->table->clear();
+        this->table->setHorizontalHeaderItem(0, new QStandardItem(QString("Stadium Name")) );
+        this->table->setRowCount(0);
+        qDebug() << temp.size();
+        this->tripTableViewRowNumber = this->table->rowCount();
+        for(int i = 0; i < temp.size(); i++)
+        {
+            collegeStadiumPair pair;
+
+            query.bindValue(":stadium", temp[i]);
+            query.exec();
+            query.next();
+
+            qDebug() << temp[i];
+            table->setItem(tripTableViewRowNumber ,new QStandardItem(temp[i]));
+            tripTableViewRowNumber++;
+            pair.stadium = temp[i];
+            pair.college = query.value(0).toString();
+            this->stadiumTrip.push_back(pair);
+
+        }
+        this->on_finishAddingButton_clicked();
+
+    }
 }
