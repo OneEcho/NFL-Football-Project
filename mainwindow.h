@@ -7,6 +7,8 @@
 #include <QStandardItemModel>
 #include <graph.h>
 #include "cart.h"
+#include "map.h"
+#include <QSqlQueryModel>
 
 struct collegeStadiumPair
 {
@@ -83,7 +85,7 @@ private:
     //integer of current stadium
     int currentStadiumIndex;
     Cart items;
-
+    Map Souvenirs;
     Graph stadiumMap;
 };
 

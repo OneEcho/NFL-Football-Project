@@ -11,7 +11,7 @@ private:
     QVector<Purchase> souvenirs;
 
 public:
-    void addPurchase(double price, int quantity, QString itemName, QString stadiumName);
+    void addPurchase(double price, int quantity, QString itemName, QString teamNmae);
     double getTotalSpent();
     double getTotalSpentAt(QString stadium);
 };

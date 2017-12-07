@@ -154,8 +154,6 @@ void MainWindow::populateTripSelectionDropDownBox()
         ui->tripCreationComboBox->addItem(query.value(0).toString());
     }
 }
-
-
 void MainWindow::showStartingTripInputs()
 {
     ui->label_3->show();
@@ -720,9 +718,6 @@ void MainWindow::on_finishAddingButton_clicked()
         qDebug() << totalDistanceTraveled;
 
         table->setItem(tripTableViewRowNumber, new QStandardItem("Total Distance Traveled: " + QString::number(totalDistanceTraveled)));
-
-
-
     }
 }
 

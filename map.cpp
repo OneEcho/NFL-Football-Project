@@ -84,7 +84,6 @@ void Map::remove(QString key, QString souvenir) {
             return;
         }
     }
-
 }
 // searches through the list using double hashing to find the
 // index storing the key being searched for
