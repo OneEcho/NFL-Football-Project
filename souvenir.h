@@ -6,18 +6,15 @@ class Souvenir
 private:
     QString itemName;
     double price;
-    int quantity;
-    QString stadium;
+    QString teamName;
 public:
     Souvenir();
     void setItemName(QString);
     void setPrice(double price);
-    void setQuantity(int quantity);
-    void setStadiumName(QString name);
-    int getQuantity() const;
+    void setTeamName(QString name);
     QString getItemName() const;
     double getPrice() const;
-    QString getStadiumName() const;
+    QString getTeamName() const;
 
 };
 

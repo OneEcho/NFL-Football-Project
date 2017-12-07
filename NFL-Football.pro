@@ -30,7 +30,10 @@ SOURCES += main.cpp\
     modifysouvenirs.cpp \
     graph.cpp \
     cart.cpp \
-    souvenir.cpp
+    souvenir.cpp \
+    purchase.cpp \
+    mapnode.cpp \
+    map.cpp
 
 HEADERS  += mainwindow.h \
     database.h \
@@ -39,7 +42,10 @@ HEADERS  += mainwindow.h \
     modifysouvenirs.h \
     graph.h \
     cart.h \
-    souvenir.h
+    souvenir.h \
+    purchase.h \
+    mapnode.h \
+    map.h
 
 FORMS    += mainwindow.ui \
     adminwindow.ui \

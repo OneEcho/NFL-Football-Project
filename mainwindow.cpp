@@ -588,7 +588,7 @@ void MainWindow::on_adminButton_clicked()
 {
     // Open Admin window/tab/whatever we are using for the admin page
 
-    Graph *graphPoint = &ZstadiumMap;
+    Graph *graphPoint = &stadiumMap;
     this->admin->setPointerToGraph(graphPoint);
     this->admin->newShow();
 }

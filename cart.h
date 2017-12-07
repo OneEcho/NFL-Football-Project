@@ -1,6 +1,6 @@
 #ifndef CART_H
 #define CART_H
-#include "souvenir.h"
+#include "purchase.h"
 #include <QVector>
 #include <QMainWindow>
 
@@ -8,7 +8,7 @@ class Cart
 {
 private:
 
-    QVector<Souvenir> souvenirs;
+    QVector<Purchase> souvenirs;
 
 public:
     void addPurchase(double price, int quantity, QString itemName, QString stadiumName);
