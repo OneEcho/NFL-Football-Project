@@ -172,6 +172,11 @@ QVector<Vertex> Graph::getGraph() const
     return graph;
 }
 
+QStringList Graph::getTraversalInfoTraversal()
+{
+    return traversalInfo.traversal;
+}
+
 void Graph::dfs(Vertex *startVertex)
 {
     visited.push_back(startVertex->label);
