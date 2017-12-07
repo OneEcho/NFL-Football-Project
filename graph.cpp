@@ -19,7 +19,6 @@ void Graph::createGraph()
     int       newId;                 //Used to set the id of a vertex
 
     //Initialization
-    graphSize = 31;
     newId     = 0;
 
     //Queries the database for distinct beginning stadiums
@@ -35,6 +34,9 @@ void Graph::createGraph()
         graph.push_back(newVertex);
         newId++;
     }
+
+    //Sets the size of the graph depending on how many id's were created
+    graphSize = newId;
 
     //Loops over the vertices of the graph created earlier
     for(QVector<Vertex>::iterator graphIt = graph.begin(); graphIt != graph.end(); graphIt++)
@@ -137,6 +139,12 @@ void Graph::visitStadium(QString stadiumName)
 void Graph::resetVisitedVector()
 {
     this->visited.clear();
+}
+
+void Graph::updateGraph()
+{
+    this->graph.clear();
+    this->createGraph();
 }
 
 QVector<QString> Graph::getShortestPathTraversal() const

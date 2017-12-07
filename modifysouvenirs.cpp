@@ -72,6 +72,7 @@ void modifysouvenirs::on_addSouvenir_clicked()
     insertSouvenir.bindValue(":souvenirName", ui->newSouvenirLineEdit->text());
     insertSouvenir.bindValue(":price", ui->priceLineEdit->text());
     insertSouvenir.exec();
+    updateSouvenirView();
 
     msgBox.setText("Souvenir " + ui->newSouvenirLineEdit->text() + " added successfully!");
     msgBox.exec();
@@ -92,6 +93,8 @@ void modifysouvenirs::on_deleteSouvenir_clicked()
     deleteQuery.bindValue(":teamName", ui->teamComboBox->currentText());
     deleteQuery.bindValue(":souvenirName", ui->souvenirComboBox->currentText());
     deleteQuery.exec();
+    updateSouvenirView();
+
     msgBox.setText("Souvenir " + ui->souvenirComboBox->currentText() + " deleted successfully!");
     msgBox.exec();
 }
@@ -119,6 +122,8 @@ void modifysouvenirs::on_modifySouvenir_clicked()
     updateSouvenirQuery.bindValue(":souvenirName", ui->souvenirComboBox->currentText());
     updateSouvenirQuery.bindValue(":teamName", ui->teamComboBox->currentText());
     updateSouvenirQuery.exec();
+
+    updateSouvenirView();
 
     msgBox.setText("Updated " + ui->souvenirComboBox->currentText() + " sucessfully!");
     msgBox.exec();
@@ -194,8 +199,11 @@ void modifysouvenirs::on_addSandiegoSailorsButton_clicked()
         insertSanDiegoDistances.exec();
     }
 
-   msgBox.setText("San Diego Sailors added Successfully!");
-   msgBox.exec();
+    graph->updateGraph();
+    graph->printGraph();
+
+    msgBox.setText("San Diego Sailors added Successfully!");
+    msgBox.exec();
 }
 
 void modifysouvenirs::on_teamComboBox_currentIndexChanged(const QString &arg1)
@@ -210,4 +218,16 @@ void modifysouvenirs::on_teamComboBox_currentIndexChanged(const QString &arg1)
     {
         ui->souvenirComboBox->addItem(souvenirQuery.value(0).toString());
     }
+}
+
+void modifysouvenirs::updateSouvenirView()
+{
+    QSqlTableModel *model = new QSqlTableModel;
+    model->setTable("Souvenirs");
+    model->select();
+
+    ui->souvenirView->setModel(model);
+    ui->souvenirView->sortByColumn(0, Qt::SortOrder::AscendingOrder);
+    ui->souvenirView->resizeColumnsToContents();
+    ui->souvenirView->horizontalHeader()->setStretchLastSection(true);
 }
