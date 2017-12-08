@@ -1059,11 +1059,14 @@ void MainWindow::on_purchaseButton_clicked()
    // ui->cartTable->show();
     ui->totalSpentWidget->show();
     ui->totalSpentWidget->setColumnCount(2);
-    QSqlQuery query;
-    query.prepare("Select StadiumName FROM Teams WHERE TeamName = :teamName");
-    query.bindValue(":teamName", stadiumTrip[currentStadiumIndex].college);
-    query.exec();
-    ui->totalSpentWidget->setItem(0,0, new QTableWidgetItem(query.value(0).toString()));
+    ui->totalSpentWidget->setRowCount(1);
+
+
+   // QSqlQuery query;
+   // query.prepare("Select StadiumName FROM Teams WHERE TeamName = :teamName");
+    //query.bindValue(":teamName", stadiumTrip[currentStadiumIndex].college);
+   // query.exec();
+   // ui->totalSpentWidget->setItem(0,0, new QTableWidgetItem(query.value(0).toString()));
     QModelIndex souvenirNameIndex = souvenirIndex.sibling(souvenirIndex.row(), 0);
     QModelIndex priceIndex = souvenirIndex.sibling(souvenirIndex.row(),1);
     int quantity = ui->spinBox->value();
@@ -1075,6 +1078,27 @@ void MainWindow::on_purchaseButton_clicked()
     qDebug() << "quantity: " << quantity;
     qDebug() << "souvenir: " << souvenirName;
     qDebug() << "team: " << stadiumTrip[currentStadiumIndex].college;
+
+    QSqlQuery query;
+
+
+    for(int i = 0; i < purchases.size(); ++i) {
+        query.prepare("SELECT StadiumName FROM Teams WHERE TeamName = :teams");
+       // qDebug() << "TEST FOR PURCHASE" << purchases.getTeamName(i);
+
+        query.bindValue(":teams", purchases.getTeamName(i));
+        query.exec();
+
+        while(query.next())
+        {
+
+            QString stadiumName = query.value(0).toString();
+            qDebug() << "TEST FOR PURCHASE" << stadiumName;
+            ui->totalSpentWidget->setItem(i, 0, new QTableWidgetItem(stadiumName));
+            ui->totalSpentWidget->setItem(i, 1, new QTableWidgetItem(purchases.getTotalSpentAt(purchases.getTeamName(i))));
+        }
+
+    }
 //    ui->cartTable->setColumnCount(2);
 //    ui->cartTable->setRowCount(1);
 //    qDebug() << "TEST TOTAL SPENT " << purchases.getTotalSpentAt(stadiumTrip[currentStadiumIndex].college);
