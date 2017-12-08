@@ -7,6 +7,7 @@ double Cart::getTotalSpent() {
     for(int i = 0; i < souvenirs.size(); ++i) {
         spent += this->souvenirs[i].getTotalPrice();
     }
+    return spent;
 }
 double Cart::getTotalSpentAt(QString teamName) {
     double spent = 0;
@@ -15,6 +16,7 @@ double Cart::getTotalSpentAt(QString teamName) {
             spent += this->souvenirs[i].getTotalPrice();
         }
     }
+    return spent;
 }
 void Cart::addPurchase(double price, int quantity, QString itemName, QString teamName) {
 

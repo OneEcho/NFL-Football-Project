@@ -371,81 +371,76 @@
            <string/>
           </property>
           <layout class="QGridLayout" name="gridLayout_9">
-           <item row="0" column="1">
-            <widget class="QTableView" name="souvenirTable"/>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="quantityLabel">
-             <property name="text">
-              <string>Select Quantity</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <spacer name="horizontalSpacer_9">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="4">
-            <widget class="QTableWidget" name="cartTable"/>
-           </item>
-           <item row="2" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item row="1" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
-              <widget class="QSpinBox" name="spinBox"/>
-             </item>
-             <item>
-              <widget class="QPushButton" name="purchaseButton">
-               <property name="text">
-                <string>Purchase</string>
+              <spacer name="horizontalSpacer_9">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
                </property>
-              </widget>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </item>
-           <item row="0" column="5">
-            <spacer name="horizontalSpacer_10">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
+           <item row="6" column="0">
+            <widget class="QTableWidget" name="cartTable"/>
            </item>
-           <item row="0" column="3">
-            <widget class="QLabel" name="totalPriceLabel">
+           <item row="3" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <spacer name="horizontalSpacer_10">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout">
+               <item>
+                <widget class="QLabel" name="quantityLabel">
+                 <property name="text">
+                  <string>Select Quantity</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBox"/>
+               </item>
+               <item>
+                <widget class="QPushButton" name="purchaseButton">
+                 <property name="text">
+                  <string>Purchase</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_6">
              <property name="text">
               <string/>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
-            <spacer name="horizontalSpacer_11">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
+            <widget class="QTableView" name="souvenirTable"/>
+           </item>
+           <item row="5" column="0">
+            <widget class="QTableWidget" name="totalSpentWidget"/>
            </item>
           </layout>
          </widget>
@@ -640,7 +635,7 @@
      <x>0</x>
      <y>0</y>
      <width>1120</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
