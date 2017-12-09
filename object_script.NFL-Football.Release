@@ -8,6 +8,9 @@ INPUT(
 ./release\graph.o
 ./release\cart.o
 ./release\souvenir.o
+./release\purchase.o
+./release\mapnode.o
+./release\map.o
 ./release\qrc_nfl_logos.o
 ./release\moc_mainwindow.o
 ./release\moc_adminwindow.o

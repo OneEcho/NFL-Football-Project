@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "database.h"
-#include <QSqlQuery>
-#include <QSqlQueryModel>
 #include <QSortFilterProxyModel>
 #include <QPalette>
 #include <QMessageBox>
@@ -23,16 +21,24 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Database* DB = Database::getInstance();
 
-
     this->populateConferenceDropDownBox("Both");
     this->populateDijkstrasDropDownBox();
     ui->tabWidget->setCurrentIndex(0);
+    ui->souvenirTable->hide();
+    ui->labelClickSouvenir->hide();
 
+    ui->totalSpentWidget->hide();
+    ui->quantityLabel->hide();
+    ui->spinBox->hide();
+    ui->cartTable->hide();
+    ui->purchaseButton->hide();
+
+    purchases = NULL;
 
     // get the palette
     QPalette palette = ui->lcdNumber->palette();
     ui->lcdNumber->setAutoFillBackground(true);
-
+    totalAmountRowIndex = 0;
 
     palette.setColor(QPalette::Normal, QPalette::Window, Qt::white);
     palette.setColor(palette.Light, Qt::darkGreen /*QColor(255, 0, 0));*/);
@@ -55,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //trip creator table view
     tripTableViewRowNumber = 0;
+    BFStableWidgitRowNumber = 0;
     table = new QStandardItemModel(this);
     //istantiate the QVector of stadiums
     stadiumTrip.clear();
@@ -62,9 +69,11 @@ MainWindow::MainWindow(QWidget *parent) :
     currentStadiumIndex = 0;
     //populate the dropdown box initially
     this->populateTripSelectionDropDownBox();\
+    this->populateDFSandBFSdropDownBox();
     //hide secondary inputs
     this->hideSecondaryTripInputs();
     ui->nextCollegeButton->setText("Next Stadium");
+
 
     stadiumMap.createGraph();
     //stadiumMap.printGraph();
@@ -77,8 +86,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->dijkstrasTableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Ending Stadium"));
     ui->dijkstrasTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Distance"));
     ui->dijkstrasTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->cartTable->setColumnCount(4);
+    ui->cartTable->setHorizontalHeaderItem(0, new QTableWidgetItem("Item"));
+    ui->cartTable->setHorizontalHeaderItem(1, new QTableWidgetItem("Quantity"));
+    ui->cartTable->setHorizontalHeaderItem(2, new QTableWidgetItem("Team Name"));
+    ui->cartTable->setHorizontalHeaderItem(3, new QTableWidgetItem("Total Price"));
 
     ui->totalDistanceLabel->hide();
+    ui->totalSpentWidget->setColumnCount(2);
+    ui->totalSpentWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Stadium"));
+    ui->totalSpentWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Total Spent"));
+    //ui->totalSpentWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Total Stadiums Visited"));
+
+    ui->totalSpentWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+   // ui->cartTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->totalSpentWidget->verticalHeader()->setHidden(true);
 }
 
 /*!
@@ -145,7 +167,7 @@ void MainWindow::populateTripSelectionDropDownBox()
     ui->tripCreationComboBox->clear();
     ui->tripCreationComboBox->addItem("Select a Stadium");
 
-    query.prepare("SELECT stadiumName FROM Teams");
+    query.prepare("SELECT distinct stadiumName FROM Teams");
 
     query.exec();
 
@@ -154,8 +176,6 @@ void MainWindow::populateTripSelectionDropDownBox()
         ui->tripCreationComboBox->addItem(query.value(0).toString());
     }
 }
-
-
 void MainWindow::showStartingTripInputs()
 {
     ui->label_3->show();
@@ -677,6 +697,9 @@ void MainWindow::on_tripCreationComboBox_currentIndexChanged(int index)
         //to be able to pull the team name info, makes total sense
         while(query.next()) {
             ui->tripCreateTeamNameLabel->setText(query.value(0).toString());
+            if(query.value(0).toString() == "New York Jets") {
+                ui->tripCreateTeamNameLabel->setText(ui->tripCreateTeamNameLabel->text()+" and Giants");
+            }
         }
     }
     else
@@ -720,18 +743,53 @@ void MainWindow::on_finishAddingButton_clicked()
         qDebug() << totalDistanceTraveled;
 
         table->setItem(tripTableViewRowNumber, new QStandardItem("Total Distance Traveled: " + QString::number(totalDistanceTraveled)));
-
-
-
     }
 }
 
 void MainWindow::on_startTripButton_clicked()
 {
+    ui->totalSpentWidget->setRowCount(0);
+    ui->cartTable->setColumnCount(4);
+    ui->cartTable->setHorizontalHeaderItem(0, new QTableWidgetItem("Item"));
+    ui->cartTable->setHorizontalHeaderItem(1, new QTableWidgetItem("Quantity"));
+    ui->cartTable->setHorizontalHeaderItem(2, new QTableWidgetItem("Team Name"));
+    ui->cartTable->setHorizontalHeaderItem(3, new QTableWidgetItem("Total Price"));
+
+    ui->totalDistanceLabel->hide();
+    ui->totalSpentWidget->setColumnCount(2);
+    ui->totalSpentWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Stadium"));
+    ui->totalSpentWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Total Spent"));
+    if(purchases != NULL) {
+        delete purchases;
+
+    }
+    purchases = new Cart();
+    souvenirSelected = false;
+    totalAmountRowIndex = 1;
     ui->nextCollegeButton->show();
     ui->currentCollegeLabel->show();
     ui->currentStadiumLabel->show();
     ui->startTripButton->hide();
+    ui->souvenirTable->show();
+    ui->totalSpentWidget->show();
+    ui->labelClickSouvenir->show();
+
+    QSqlQueryModel *model = new QSqlQueryModel();
+    QSqlQuery query;
+    query.prepare("SELECT Souvenir, Price FROM Souvenirs WHERE NFLTeam = :NFLTeam");
+    query.bindValue(":NFLTeam", stadiumTrip[currentStadiumIndex].college);
+    query.exec();
+    model->setQuery(query);
+    ui->souvenirTable->setModel(model);
+    ui->souvenirTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    //ui->souvenirTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->souvenirTable->verticalHeader()->setHidden(true);
+
+//    ui->cartTable->show();
+//    ui->cartTable->setRowCount(1);
+//    ui->cartTable->setColumnCount(1);
+//    ui->cartTable->setItem(0, 0, new QTableWidgetItem("Hello"));
+
 
     //VARIABLES
     QString currentCollege = stadiumTrip[currentStadiumIndex].college;
@@ -748,7 +806,25 @@ void MainWindow::on_nextCollegeButton_clicked()
 
     if(currentStadiumIndex < stadiumTrip.size()-1)
     {
+        ui->purchaseButton->hide();
+        ui->quantityLabel->hide();
+        ui->spinBox->hide();
         currentStadiumIndex++;
+        QSqlQueryModel *model = new QSqlQueryModel();
+        QSqlQuery query;
+        query.prepare("SELECT Souvenir, Price FROM Souvenirs WHERE NFLTeam = :NFLTeam");
+        query.bindValue(":NFLTeam", stadiumTrip[currentStadiumIndex].college);
+        query.exec();
+        if(souvenirSelected) {
+            totalAmountRowIndex++;
+            souvenirSelected = false;
+        }
+        model->setQuery(query);
+        ui->souvenirTable->setModel(model);
+
+        ui->souvenirTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+      //  ui->souvenirTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        ui->souvenirTable->verticalHeader()->setHidden(true);
         ui->currentCollegeLabel->setText(stadiumTrip[currentStadiumIndex].college);
         ui->currentStadiumLabel->setText(stadiumTrip[currentStadiumIndex].stadium);
 
@@ -759,18 +835,57 @@ void MainWindow::on_nextCollegeButton_clicked()
     }
     else
     {
+        qDebug() << "ENTERED: ERROR CHECK";
+        qDebug() << purchases->size();
+
+        ui->totalSpentWidget->hide();
+        ui->purchaseButton->hide();
+        ui->quantityLabel->hide();
+        ui->souvenirTable->hide();
+        ui->labelClickSouvenir->hide();
+
+        ui->spinBox->hide();
         ui->nextCollegeButton->hide();
         ui->currentCollegeLabel->setText("You Have Completed Your Trip");
         ui->currentStadiumLabel->setText("Review Your Cart");
+        ui->cartTable->show();
+        ui->cartTable->setRowCount(purchases->size()+1);
+        ui->cartTable->setColumnCount(4);
+        for(int i = 0; i < purchases->size(); ++i) {
+
+            ui->cartTable->setItem(i,0, new QTableWidgetItem(purchases->getSouvenirName(i)));
+            ui->cartTable->setItem(i,1, new QTableWidgetItem(QString::number(purchases->getQuantity(i))));
+            ui->cartTable->setItem(i,2, new QTableWidgetItem((purchases->getTeamName(i))));
+            ui->cartTable->setItem(i,3, new QTableWidgetItem(QString::number(purchases->getTotalPrice(i))));
+            ui->cartTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+           // ui->cartTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+            ui->cartTable->verticalHeader()->setHidden(true);
+
+
+        }
+        ui->cartTable->setItem(ui->cartTable->rowCount()-1, 3, new QTableWidgetItem(QString::number(purchases->getTotalSpent())));
     }
 
 }
 
 void MainWindow::on_resetTripButton_clicked()
 {
+    totalAmountRowIndex = 0;
     this->showStartingTripInputs();
     this->hideSecondaryTripInputs();
 
+    ui->cartTable->clear();
+    ui->totalSpentWidget->clear();
+    //ui->souvenirTable->
+    ui->cartTable->hide();
+    ui->totalSpentWidget->hide();
+    ui->souvenirTable->hide();
+    ui->labelClickSouvenir->hide();
+
+
+    ui->purchaseButton->hide();
+    ui->quantityLabel->hide();
+    ui->spinBox->hide();
     table->clear();
     ui->dreamVacationButton->show();
     ui->visitAllStadiumsButton->show();
@@ -804,6 +919,26 @@ void MainWindow::populateDijkstrasDropDownBox()
     while(query.next())
     {
         ui->startingStadiumComboBoxDijkstras->addItem(query.value(0).toString());
+    }
+
+}
+
+void MainWindow::populateDFSandBFSdropDownBox()
+{
+    QSqlQuery query;
+
+    ui->BFScomboBox->clear();
+    ui->DFScomboBox->clear();
+    ui->BFScomboBox->addItem("Select a Stadium");
+    ui->DFScomboBox->addItem("Select a Stadium");
+
+    query.prepare("SELECT distinct stadiumName FROM Teams");
+    query.exec();
+
+    while(query.next())
+    {
+        ui->DFScomboBox->addItem(query.value(0).toString());
+        ui->BFScomboBox->addItem(query.value(0).toString());
     }
 
 }
@@ -930,4 +1065,99 @@ void MainWindow::on_visitAllStadiumsButton_clicked()
     }
 
     this->on_finishAddingButton_clicked();
+}
+
+void MainWindow::on_BFSstartButton_clicked()
+{
+    QString retarded = "BFS traversal";
+    if(ui->BFScomboBox->currentIndex() > 0) {
+        QString stadiumEntry = ui->BFScomboBox->currentText();
+        this->stadiumMap.bfsAtVertex(stadiumEntry);
+
+        ui->BFStable->insertColumn(0);
+        ui->BFStable->setHorizontalHeaderItem(0, new QTableWidgetItem(retarded));
+        ui->BFStable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        for(int index = 0; index < this->stadiumMap.getTraversalInfoTraversal().size(); index++)
+        {
+            //ui->BFStable->set
+        }
+
+
+   }
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+//    if(index != 1) {
+//        ui->hide-
+//    }
+}
+
+void MainWindow::on_spinBox_valueChanged(int arg1)
+{
+    if(arg1 > 0) {
+        ui->purchaseButton->show();
+    }
+    else {
+        ui->purchaseButton->hide();
+    }
+}
+
+void MainWindow::on_souvenirTable_clicked(const QModelIndex &index)
+{
+    ui->quantityLabel->show();
+    ui->spinBox->show();
+    ui->spinBox->setMinimum(1);
+    ui->purchaseButton->show();
+    souvenirIndex = index;
+}
+
+void MainWindow::on_purchaseButton_clicked()
+{
+ //   ui->cartTable->show();
+   // ui->cartTable->show();
+    ui->totalSpentWidget->show();
+    ui->totalSpentWidget->setRowCount(totalAmountRowIndex);
+
+    souvenirSelected = true;
+    // get data from ui
+    QModelIndex souvenirNameIndex = souvenirIndex.sibling(souvenirIndex.row(), 0);
+    QModelIndex priceIndex = souvenirIndex.sibling(souvenirIndex.row(),1);
+    int quantity = ui->spinBox->value();
+    QString souvenirName = ui->souvenirTable->model()->data(souvenirNameIndex).toString();
+    QString price = ui->souvenirTable->model()->data(priceIndex).toString();
+
+    // add purchase
+    purchases->addPurchase(price.toDouble(), quantity, souvenirName, stadiumTrip[currentStadiumIndex].college);
+    qDebug() << "price: " << price;
+    qDebug() << "quantity: " << quantity;
+    qDebug() << "souvenir: " << souvenirName;
+    qDebug() << "team: " << stadiumTrip[currentStadiumIndex].college;
+
+    QSqlQuery query;
+
+    // display stadium and total spent on widget
+        query.prepare("SELECT StadiumName FROM Teams WHERE TeamName = :teams");
+       // qDebug() << "TEST FOR PURCHASE" << purchases.getTeamName(i);
+
+        query.bindValue(":teams", stadiumTrip[currentStadiumIndex].college);
+        query.exec();
+
+        while(query.next())
+        {
+
+            QString stadiumName = query.value(0).toString();
+            qDebug() << "TEST FOR PURCHASE" << stadiumName;
+            ui->totalSpentWidget->setItem(totalAmountRowIndex-1, 0, new QTableWidgetItem(stadiumName));
+            ui->totalSpentWidget->setItem(totalAmountRowIndex-1, 1, new QTableWidgetItem(QString::number(purchases->getTotalSpentAt(stadiumTrip[currentStadiumIndex].college))));
+            //ui->totalSpentWidget->setItem(i, 2, new QTableWidgetItem(QString::number(stadiumTrip.size())));
+        }
+        ui->spinBox->setValue(1);
+
+//    ui->cartTable->setColumnCount(2);
+//    ui->cartTable->setRowCount(1);
+//    qDebug() << "TEST TOTAL SPENT " << purchases.getTotalSpentAt(stadiumTrip[currentStadiumIndex].college);
+//  //  ui->cartTable->setRowCount(currentStadiumIndex+1);
+//    ui->cartTable->setItem(0, 0, new QTableWidgetItem("Total Spent"));
+//    ui->cartTable->setItem(0, 1, new QTableWidgetItem(QString::number(purchases.getTotalSpentAt(stadiumTrip[currentStadiumIndex].college))));
 }

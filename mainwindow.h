@@ -7,6 +7,11 @@
 #include <QStandardItemModel>
 #include <graph.h>
 #include "cart.h"
+#include "map.h"
+#include <QSqlQuery>
+#include <QSqlQueryModel>
+#include <QModelIndex>
+
 
 struct collegeStadiumPair
 {
@@ -28,6 +33,7 @@ public:
     void populateConferenceDropDownBox(QString box);
     void populateTripSelectionDropDownBox();
     void populateDijkstrasDropDownBox();
+    void populateDFSandBFSdropDownBox();
     void showStartingTripInputs();
     void visitAllStadiumsEfficiently(QString startingCity);
     void hideSecondaryTripInputs();
@@ -71,20 +77,36 @@ private slots:
     void on_visitAllStadiumsButton_clicked();
     void on_resetTripButton_clicked();
 
+    void on_BFSstartButton_clicked();
+
+    void on_tabWidget_currentChanged(int index);
+
+    void on_spinBox_valueChanged(int arg1);
+
+    void on_souvenirTable_clicked(const QModelIndex &index);
+
+    void on_purchaseButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     adminWindow *admin;
 
     //index to track row additions
     int tripTableViewRowNumber;
+    int BFStableWidgitRowNumber;
     QStandardItemModel *table;
+    QStandardItemModel *BFSwidgit;
     //vector full of the pushed stadiums
     QVector<collegeStadiumPair> stadiumTrip;
     //integer of current stadium
     int currentStadiumIndex;
-    Cart items;
-
+    Cart *purchases;
+    Map Souvenirs;
     Graph stadiumMap;
+    QModelIndex souvenirIndex;
+    int souvenirQuantity;
+    int totalAmountRowIndex;
+    bool souvenirSelected;
 };
 
 #endif // MAINWINDOW_H

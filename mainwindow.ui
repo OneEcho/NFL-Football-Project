@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1120</width>
-    <height>626</height>
+    <height>639</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -345,7 +345,7 @@
            </font>
           </property>
           <property name="text">
-           <string>current college</string>
+           <string>current Team Name</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -370,6 +370,88 @@
           <property name="title">
            <string/>
           </property>
+          <layout class="QGridLayout" name="gridLayout_9">
+           <item row="1" column="0">
+            <widget class="QTableView" name="souvenirTable"/>
+           </item>
+           <item row="4" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <spacer name="horizontalSpacer_10">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="quantityLabel">
+               <property name="text">
+                <string>Select Quantity</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout">
+               <item>
+                <widget class="QSpinBox" name="spinBox"/>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QPushButton" name="purchaseButton">
+               <property name="text">
+                <string>Purchase</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_9">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item row="1" column="1">
+            <widget class="QTableWidget" name="totalSpentWidget"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QTableWidget" name="cartTable"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="labelClickSouvenir">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="text">
+              <string>Click on an item to enable purchase</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item row="1" column="3">
@@ -395,7 +477,7 @@
       </widget>
       <widget class="QWidget" name="Dijkstras">
        <attribute name="title">
-        <string>Page</string>
+        <string>Dijkstras</string>
        </attribute>
        <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
@@ -448,6 +530,86 @@
         </layout>
        </widget>
       </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>BFS and DFS</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_6">
+        <item row="3" column="0">
+         <widget class="QPushButton" name="BFSstartButton">
+          <property name="text">
+           <string>Start</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QComboBox" name="BFScomboBox"/>
+        </item>
+        <item row="3" column="2">
+         <widget class="QPushButton" name="DFSstartButton">
+          <property name="text">
+           <string>Start</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QComboBox" name="DFScomboBox"/>
+        </item>
+        <item row="2" column="1">
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="font">
+           <font>
+            <family>Tw Cen MT Condensed Extra Bold</family>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>BFS</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_5">
+          <property name="font">
+           <font>
+            <family>Tw Cen MT Condensed Extra Bold</family>
+            <pointsize>11</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>DFS</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QTableWidget" name="BFStable"/>
+        </item>
+        <item row="2" column="2">
+         <widget class="QTableWidget" name="DFStable"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
     <item row="2" column="0">
@@ -482,7 +644,7 @@
      <x>0</x>
      <y>0</y>
      <width>1120</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
