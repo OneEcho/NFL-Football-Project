@@ -22,6 +22,12 @@ void Cart::addPurchase(double price, int quantity, QString itemName, QString tea
 
     Souvenir souvenir;
     Purchase addPurchase;
+    for(int i = 0; i < souvenirs.size(); ++i) {
+        if((souvenirs[i].getTeamName() == teamName) && (itemName == souvenirs[i].getSouvenir())) {
+            souvenirs[i].setQuantity(souvenirs[i].getQuantity()+quantity);
+            return;
+        }
+    }
     souvenir.setPrice(price);
     souvenir.setItemName(itemName);
     souvenir.setTeamName(teamName);

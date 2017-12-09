@@ -100,11 +100,13 @@ private:
     QVector<collegeStadiumPair> stadiumTrip;
     //integer of current stadium
     int currentStadiumIndex;
-    Cart purchases;
+    Cart *purchases;
     Map Souvenirs;
     Graph stadiumMap;
     QModelIndex souvenirIndex;
     int souvenirQuantity;
+    int totalAmountRowIndex;
+    bool souvenirSelected;
 };
 
 #endif // MAINWINDOW_H
