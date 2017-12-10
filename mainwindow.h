@@ -38,6 +38,8 @@ public:
     void visitAllStadiumsEfficiently(QString startingCity);
     void hideSecondaryTripInputs();
 
+    void dreamVacation(QString startStadium, QStringList tripList, QStringList &visitedStadiums);
+
 private slots:
     /*! \fn AFLCheckBox_clicked */
     void on_AFLCheckBox_clicked();
@@ -86,6 +88,7 @@ private slots:
     void on_souvenirTable_clicked(const QModelIndex &index);
 
     void on_purchaseButton_clicked();
+    void on_dreamVacationButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -102,6 +105,8 @@ private:
     int currentStadiumIndex;
     Cart *purchases;
     Map Souvenirs;
+    int totalDistance;
+    QStringList listTrip;
     Graph stadiumMap;
     QModelIndex souvenirIndex;
     int souvenirQuantity;
