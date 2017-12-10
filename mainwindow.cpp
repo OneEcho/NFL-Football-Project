@@ -1231,6 +1231,9 @@ void MainWindow::on_dreamVacationButton_clicked()
     QStringList temp;
     if(ui->tripCreationComboBox->currentText() != "Select a Stadium")
     {
+        if(tripTableViewRowNumber == 0)
+            return;
+
         QSqlQuery query;
 
         query.prepare("SELECT TeamName From Teams where :stadium = StadiumName");
