@@ -35,7 +35,7 @@ public:
     void populateDijkstrasDropDownBox();
     void populateDFSandBFSdropDownBox();
     void showStartingTripInputs();
-    void visitAllStadiumsEfficiently(QString startingCity);
+    void visitAllStadiumsEfficiently(QString startingStadium, QStringList stadiumsToVisit, QVector<QString> &visitedStadiums);
     void hideSecondaryTripInputs();
 
     void dreamVacation(QString startStadium, QStringList tripList, QStringList &visitedStadiums);
@@ -89,6 +89,8 @@ private slots:
 
     void on_purchaseButton_clicked();
     void on_dreamVacationButton_clicked();
+
+    void on_MSTButton_clicked();
 
 private:
     Ui::MainWindow *ui;

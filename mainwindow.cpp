@@ -99,7 +99,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->totalSpentWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Total Stadiums Visited"));
 
     ui->totalSpentWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-   // ui->cartTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    // ui->cartTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->totalSpentWidget->verticalHeader()->setHidden(true);
 }
 
@@ -184,69 +184,66 @@ void MainWindow::showStartingTripInputs()
     ui->finishAddingButton->show();
 }
 
-void MainWindow::visitAllStadiumsEfficiently(QString startingCity)
+void MainWindow::visitAllStadiumsEfficiently(QString startingStadium, QStringList stadiumsToVisit, QVector<QString> &visitedStadiums)
 {
-    QVector<QString> visitedStadiums;
-    QVector<Vertex> tempGraph = this->stadiumMap.getGraph();
-    int numOfStadiumsVisited = 0;
-    int totalDistance = 0;
-
-    QString currentStadium = startingCity;
-    QString nextStadium;
-
-    visitedStadiums.push_back(currentStadium);
-
-    // Automatically traverse through entire graph
-    // its size - 1 because we dont need to visit the starting city
-    while(numOfStadiumsVisited != this->stadiumMap.getGraphSize() - 1)
+    if(stadiumsToVisit.size() == visitedStadiums.size())
     {
-        // make smallest weight a large number so the first comparison overwrites it
-        int smallestWeight = 99999;
+        return;
+    }
 
-        // Traverse through the entire graph to compare the dijkstra weights between
-        // curent stadium and all the other stadiums
-        for(int i = 0; i < tempGraph.size(); i++)
+    QVector<Vertex> tempGraph = this->stadiumMap.getGraph();
+    bool found = false;
+    int index = 0;
+    QString nextStadium;
+    int smallestWeight = 99999;
+
+    while(!found && index < tempGraph.size())
+    {
+        if(startingStadium == tempGraph[index].label)
         {
-            bool visited = false;
-            int visitIndex = 0;
-            while(!visited && visitIndex < visitedStadiums.size())
-            {
-                if(tempGraph[i].label == visitedStadiums[visitIndex])
-                {
-                    visited = true;
-                }
-                else
-                {
-                    visitIndex++;
-                }
-            }
-            if(currentStadium != tempGraph[i].label && !visited)
-            {
-                this->stadiumMap.resetShortestPath();
-                this->stadiumMap.shortestPathAtVertex(currentStadium, tempGraph[i].label);
+            found = true;
+        }
+        else
+        {
+            index++;
+        }
+    }
 
-                if(this->stadiumMap.getShortestPathWeight() < smallestWeight)
-                {
-                    smallestWeight = this->stadiumMap.getShortestPathWeight();
-                    nextStadium = tempGraph[i].label;
-                }
+    for(int i = 0; i < stadiumsToVisit.size(); i++)
+    {
+        bool visited = false;
+        int visitIndex = 0;
+
+        while(!visited && visitIndex < visitedStadiums.size())
+        {
+            if(stadiumsToVisit[i] == visitedStadiums[visitIndex])
+            {
+                visited = true;
+            }
+            else
+            {
+                visitIndex++;
             }
         }
+        if(startingStadium != stadiumsToVisit[i] && !visited)
+        {
+            this->stadiumMap.resetShortestPath();
+            this->stadiumMap.shortestPathAtVertex(startingStadium, stadiumsToVisit[i]);
 
-        visitedStadiums.push_back(nextStadium);
-        this->stadiumMap.shortestPathAtVertex(currentStadium, nextStadium);
-        qDebug() << currentStadium << " to " << nextStadium << " is " << this->stadiumMap.getShortestPathWeight();
-        totalDistance += this->stadiumMap.getShortestPathWeight();
-
-        currentStadium = nextStadium;
-        numOfStadiumsVisited++;
+            if(this->stadiumMap.getShortestPathWeight() < smallestWeight)
+            {
+                smallestWeight = this->stadiumMap.getShortestPathWeight();
+                nextStadium = stadiumsToVisit[i];
+            }
+        }
     }
+    visitedStadiums.push_back(nextStadium);
+    this->stadiumMap.shortestPathAtVertex(startingStadium, nextStadium);
+    qDebug() << startingStadium << " to " << nextStadium << " is " << this->stadiumMap.getShortestPathWeight();
+    this->totalDistance += this->stadiumMap.getShortestPathWeight();
 
-    for(int i = 0 ; i < visitedStadiums.size(); i++)
-    {
-        this->stadiumMap.visitStadium(visitedStadiums[i]);
-    }
-    qDebug() << totalDistance;
+    visitAllStadiumsEfficiently(nextStadium, stadiumsToVisit, visitedStadiums);
+
 }
 void MainWindow::hideSecondaryTripInputs()
 {
@@ -316,6 +313,7 @@ void MainWindow::dreamVacation(QString startStadium, QStringList tripList, QStri
 
     dreamVacation(nextStadium, tripList, visitedStadiums);
 }
+
 
 /*!
  * \fn MainWindow::on_AFLCheckBox_clicked
@@ -848,10 +846,10 @@ void MainWindow::on_startTripButton_clicked()
     //ui->souvenirTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->souvenirTable->verticalHeader()->setHidden(true);
 
-//    ui->cartTable->show();
-//    ui->cartTable->setRowCount(1);
-//    ui->cartTable->setColumnCount(1);
-//    ui->cartTable->setItem(0, 0, new QTableWidgetItem("Hello"));
+    //    ui->cartTable->show();
+    //    ui->cartTable->setRowCount(1);
+    //    ui->cartTable->setColumnCount(1);
+    //    ui->cartTable->setItem(0, 0, new QTableWidgetItem("Hello"));
 
 
     //VARIABLES
@@ -886,7 +884,7 @@ void MainWindow::on_nextCollegeButton_clicked()
         ui->souvenirTable->setModel(model);
 
         ui->souvenirTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-      //  ui->souvenirTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        //  ui->souvenirTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
         ui->souvenirTable->verticalHeader()->setHidden(true);
         ui->currentCollegeLabel->setText(stadiumTrip[currentStadiumIndex].college);
         ui->currentStadiumLabel->setText(stadiumTrip[currentStadiumIndex].stadium);
@@ -921,7 +919,7 @@ void MainWindow::on_nextCollegeButton_clicked()
             ui->cartTable->setItem(i,2, new QTableWidgetItem((purchases->getTeamName(i))));
             ui->cartTable->setItem(i,3, new QTableWidgetItem(QString::number(purchases->getTotalPrice(i))));
             ui->cartTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-           // ui->cartTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+            // ui->cartTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
             ui->cartTable->verticalHeader()->setHidden(true);
 
 
@@ -1097,39 +1095,54 @@ void MainWindow::on_endingStadiumComboBoxDijkstras_currentIndexChanged(const QSt
 
 void MainWindow::on_visitAllStadiumsButton_clicked()
 {
-    this->table->clear();
-    this->table->setHorizontalHeaderItem(0, new QStandardItem(QString("Stadium Name")) );
-    this->table->setRowCount(0);
-    this->stadiumMap.resetShortestPath();
-
-    QSqlQuery query;
-
-    query.prepare("SELECT TeamName From Teams where :stadium = StadiumName");
-
-    if(ui->tripCreationComboBox->currentText() != "Select a Stadium")
+    qDebug() << this->stadiumTrip.size();
+    if(stadiumTrip.size() == 0)
     {
-        this->visitAllStadiumsEfficiently(ui->tripCreationComboBox->currentText());
-        QVector<QString> visits = this->stadiumMap.getVisited();
-        for(int i = 0; i < visits.size(); i++)
+        this->table->clear();
+        this->table->setHorizontalHeaderItem(0, new QStandardItem(QString("Stadium Name")) );
+        this->table->setRowCount(0);
+        this->stadiumMap.resetShortestPath();
+
+        QSqlQuery query;
+
+        query.prepare("SELECT TeamName From Teams where :stadium = StadiumName");
+
+        if(ui->tripCreationComboBox->currentText() != "Select a Stadium")
         {
-            QString chosenStadium = visits[i];
-            collegeStadiumPair temp;
-            query.bindValue(":stadium", chosenStadium);
-            query.exec();
-            query.next();
+            this->listTrip.clear();
 
-            //sets the item in the standarndItemModel class (adds to the table)
-            table->setItem(tripTableViewRowNumber ,new QStandardItem(chosenStadium));
-            //update the row number
-            tripTableViewRowNumber++;
-            temp.stadium = chosenStadium;
-            temp.college = query.value(0).toString();
-            this->stadiumTrip.push_back(temp);
+            for(int i = 0; i < this->stadiumMap.getGraphSize(); i++)
+            {
+                if(ui->tripCreationComboBox->currentText() !=
+                        this->stadiumMap.getGraph()[i].label)
+                    this->listTrip.push_back(this->stadiumMap.getGraph()[i].label);
+            }
+
+
+            QVector<QString> visits;
+            visits.push_back(ui->tripCreationComboBox->currentText());
+            this->visitAllStadiumsEfficiently(ui->tripCreationComboBox->currentText(), this->listTrip, visits);
+            for(int i = 0; i < visits.size(); i++)
+            {
+                QString chosenStadium = visits[i];
+                collegeStadiumPair temp;
+                query.bindValue(":stadium", chosenStadium);
+                query.exec();
+                query.next();
+
+                //sets the item in the standarndItemModel class (adds to the table)
+                table->setItem(tripTableViewRowNumber ,new QStandardItem(chosenStadium));
+                //update the row number
+                tripTableViewRowNumber++;
+                temp.stadium = chosenStadium;
+                temp.college = query.value(0).toString();
+                this->stadiumTrip.push_back(temp);
+            }
+            this->stadiumMap.resetVisitedVector();
         }
-        this->stadiumMap.resetVisitedVector();
-    }
 
-    this->on_finishAddingButton_clicked();
+        this->on_finishAddingButton_clicked();
+    }
 }
 
 void MainWindow::on_BFSstartButton_clicked()
@@ -1148,14 +1161,14 @@ void MainWindow::on_BFSstartButton_clicked()
         }
 
 
-   }
+    }
 }
 
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
-//    if(index != 1) {
-//        ui->hide-
-//    }
+    //    if(index != 1) {
+    //        ui->hide-
+    //    }
 }
 
 void MainWindow::on_spinBox_valueChanged(int arg1)
@@ -1179,8 +1192,8 @@ void MainWindow::on_souvenirTable_clicked(const QModelIndex &index)
 
 void MainWindow::on_purchaseButton_clicked()
 {
- //   ui->cartTable->show();
-   // ui->cartTable->show();
+    //   ui->cartTable->show();
+    // ui->cartTable->show();
     ui->totalSpentWidget->show();
     ui->totalSpentWidget->setRowCount(totalAmountRowIndex);
 
@@ -1202,29 +1215,29 @@ void MainWindow::on_purchaseButton_clicked()
     QSqlQuery query;
 
     // display stadium and total spent on widget
-        query.prepare("SELECT StadiumName FROM Teams WHERE TeamName = :teams");
-       // qDebug() << "TEST FOR PURCHASE" << purchases.getTeamName(i);
+    query.prepare("SELECT StadiumName FROM Teams WHERE TeamName = :teams");
+    // qDebug() << "TEST FOR PURCHASE" << purchases.getTeamName(i);
 
-        query.bindValue(":teams", stadiumTrip[currentStadiumIndex].college);
-        query.exec();
+    query.bindValue(":teams", stadiumTrip[currentStadiumIndex].college);
+    query.exec();
 
-        while(query.next())
-        {
+    while(query.next())
+    {
 
-            QString stadiumName = query.value(0).toString();
-            qDebug() << "TEST FOR PURCHASE" << stadiumName;
-            ui->totalSpentWidget->setItem(totalAmountRowIndex-1, 0, new QTableWidgetItem(stadiumName));
-            ui->totalSpentWidget->setItem(totalAmountRowIndex-1, 1, new QTableWidgetItem(QString::number(purchases->getTotalSpentAt(stadiumTrip[currentStadiumIndex].college))));
-            //ui->totalSpentWidget->setItem(i, 2, new QTableWidgetItem(QString::number(stadiumTrip.size())));
-        }
-        ui->spinBox->setValue(1);
+        QString stadiumName = query.value(0).toString();
+        qDebug() << "TEST FOR PURCHASE" << stadiumName;
+        ui->totalSpentWidget->setItem(totalAmountRowIndex-1, 0, new QTableWidgetItem(stadiumName));
+        ui->totalSpentWidget->setItem(totalAmountRowIndex-1, 1, new QTableWidgetItem(QString::number(purchases->getTotalSpentAt(stadiumTrip[currentStadiumIndex].college))));
+        //ui->totalSpentWidget->setItem(i, 2, new QTableWidgetItem(QString::number(stadiumTrip.size())));
+    }
+    ui->spinBox->setValue(1);
 
-//    ui->cartTable->setColumnCount(2);
-//    ui->cartTable->setRowCount(1);
-//    qDebug() << "TEST TOTAL SPENT " << purchases.getTotalSpentAt(stadiumTrip[currentStadiumIndex].college);
-//  //  ui->cartTable->setRowCount(currentStadiumIndex+1);
-//    ui->cartTable->setItem(0, 0, new QTableWidgetItem("Total Spent"));
-//    ui->cartTable->setItem(0, 1, new QTableWidgetItem(QString::number(purchases.getTotalSpentAt(stadiumTrip[currentStadiumIndex].college))));
+    //    ui->cartTable->setColumnCount(2);
+    //    ui->cartTable->setRowCount(1);
+    //    qDebug() << "TEST TOTAL SPENT " << purchases.getTotalSpentAt(stadiumTrip[currentStadiumIndex].college);
+    //  //  ui->cartTable->setRowCount(currentStadiumIndex+1);
+    //    ui->cartTable->setItem(0, 0, new QTableWidgetItem("Total Spent"));
+    //    ui->cartTable->setItem(0, 1, new QTableWidgetItem(QString::number(purchases.getTotalSpentAt(stadiumTrip[currentStadiumIndex].college))));
 }
 void MainWindow::on_dreamVacationButton_clicked()
 {
@@ -1268,4 +1281,129 @@ void MainWindow::on_dreamVacationButton_clicked()
         this->on_finishAddingButton_clicked();
 
     }
+}
+
+void MainWindow::on_MSTButton_clicked()
+{
+    ui->startingStadiumComboBoxDijkstras->setCurrentIndex(0);
+    QVector<Vertex> tempList = this->stadiumMap.getGraph();
+
+    QVector<QString> visitedCities;
+    QVector<std::pair<QString,QString>> visitedEdges;
+    QVector<int> visitedCitiesWeight;
+    int totalMileage = 0;
+    int numberOfCitiesFound = 0;
+    QString closestCity;
+
+    QString firstCity = tempList[0].label;
+
+    bool found = false;
+    int currentCityIndex = 0;
+    while(!found && currentCityIndex < tempList.size())
+    {
+        if(tempList[currentCityIndex].label == firstCity)
+        {
+            found = true;
+        }
+        else
+        {
+            currentCityIndex++;
+        }
+    }
+
+
+    closestCity = tempList[currentCityIndex].label;
+
+    // pushing back the city found
+    visitedCities.push_back(closestCity);
+    numberOfCitiesFound++;
+
+
+    QString startingCity;
+    QString endingCity;
+    QVector<Edge> closestEdges;
+
+
+    // This while loop keeps the program running until all cities have been visited
+    while(numberOfCitiesFound != tempList.size())
+    {
+        int smallestWeight = 9999;
+
+
+        //this for-loop iterates through all visited cities gathering their
+        // edges and finding the smallest one of all the possible edges
+        for(int i = 0; i < visitedCities.size(); i++)
+        {
+            bool searching = false;
+            int cityIndex= 0;
+
+
+            //this while loop finds the existing city to pull its adjacency list
+            while(!searching && cityIndex < tempList.size())
+            {
+                if(visitedCities[i] == tempList[cityIndex].label)
+                {
+                    searching = true;
+                    closestEdges = tempList[cityIndex].incidentEdges;
+                    currentCityIndex = cityIndex;
+                }
+                else
+                {
+                    cityIndex++;
+                }
+            }
+
+            // this for-loop finds the smallest edge in that adjacency list and
+            // compares it to the smallestWeight, and stores the appropriate data
+            for(int k = 0; k < closestEdges.size(); k++)
+            {
+                if(closestEdges[k].weight < smallestWeight)
+                {
+                    bool exists = false;
+                    for(int j = 0; j < visitedCities.size(); j++)
+                    {
+
+                        if(closestEdges.size() > 0 &&
+                                closestEdges[0].connectedVertex->label == visitedCities[j])
+                        {
+                            closestEdges.erase(closestEdges.begin());
+                            exists = true;
+                        }
+                    }
+                    if(!exists)
+                    {
+                        startingCity = tempList[cityIndex].label;
+                        endingCity = closestEdges[0].connectedVertex->label;
+                        smallestWeight = closestEdges[0].weight;
+                    }
+
+                }
+            }
+        }
+        if(smallestWeight != 9999)
+        {
+            visitedEdges.push_back(std::pair<QString,QString>(startingCity, endingCity));
+            visitedCities.push_back(endingCity);
+            visitedCitiesWeight.push_back(smallestWeight);
+            numberOfCitiesFound++;
+        }
+    }
+
+    ui->dijkstrasTableWidget->setRowCount(0);
+    int rowNumber = ui->dijkstrasTableWidget->rowCount();
+
+    for(int i = 0; i < visitedEdges.size(); i++)
+    {
+        ui->dijkstrasTableWidget->insertRow(rowNumber);
+        ui->dijkstrasTableWidget->setItem(rowNumber, 0, new QTableWidgetItem(visitedEdges[i].first));
+        ui->dijkstrasTableWidget->setItem(rowNumber, 1, new QTableWidgetItem(visitedEdges[i].second));
+        ui->dijkstrasTableWidget->setItem(rowNumber, 2, new QTableWidgetItem(QString::number(visitedCitiesWeight[i])));
+        rowNumber++;
+        totalMileage += visitedCitiesWeight[i];
+    }
+
+    ui->dijkstrasTableWidget->insertRow(rowNumber);
+    ui->dijkstrasTableWidget->setItem(rowNumber, 0, new QTableWidgetItem("TotalDistance: "));
+    ui->dijkstrasTableWidget->setItem(rowNumber, 1, new QTableWidgetItem(QString::number(totalMileage)));
+
 }
