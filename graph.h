@@ -60,6 +60,7 @@ public:
     QVector<Vertex> getGraph() const;
 
     QStringList getTraversalInfoTraversal();
+    int getTraversalInfoDistance();
 
 private:
     int              graphSize; //Graph size

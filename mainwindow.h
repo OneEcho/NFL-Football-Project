@@ -76,6 +76,12 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
 
+    void on_bfsClearButton_clicked();
+
+    void on_DFSstartButton_clicked();
+
+    void on_DFSclearButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     adminWindow *admin;

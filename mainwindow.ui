@@ -460,19 +460,6 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QComboBox" name="BFScomboBox"/>
-        </item>
-        <item row="3" column="2">
-         <widget class="QPushButton" name="DFSstartButton">
-          <property name="text">
-           <string>Start</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QComboBox" name="DFScomboBox"/>
-        </item>
         <item row="2" column="1">
          <spacer name="horizontalSpacer_4">
           <property name="orientation">
@@ -502,6 +489,13 @@
           </property>
          </widget>
         </item>
+        <item row="3" column="2">
+         <widget class="QPushButton" name="DFSstartButton">
+          <property name="text">
+           <string>Start</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="2">
          <widget class="QLabel" name="label_5">
           <property name="font">
@@ -520,11 +514,31 @@
           </property>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QComboBox" name="BFScomboBox"/>
+        </item>
+        <item row="1" column="2">
+         <widget class="QComboBox" name="DFScomboBox"/>
+        </item>
         <item row="2" column="0">
          <widget class="QTableWidget" name="BFStable"/>
         </item>
         <item row="2" column="2">
          <widget class="QTableWidget" name="DFStable"/>
+        </item>
+        <item row="4" column="0">
+         <widget class="QPushButton" name="bfsClearButton">
+          <property name="text">
+           <string>Clear</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QPushButton" name="DFSclearButton">
+          <property name="text">
+           <string>Clear</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -562,7 +576,7 @@
      <x>0</x>
      <y>0</y>
      <width>1120</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
