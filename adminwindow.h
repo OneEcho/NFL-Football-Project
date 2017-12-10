@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "modifysouvenirs.h"
 #include "graph.h"
-
+class MainWindow;
 namespace Ui {
 class adminWindow;
 }
@@ -12,9 +12,16 @@ class adminWindow;
 class adminWindow : public QMainWindow
 {
     Q_OBJECT
+private:
+    Ui::adminWindow *ui;
+    modifysouvenirs *modifySouvenirsWindow;
+    Graph *graphPointer;
+    typedef void (MainWindow::*functionName)();
+    functionName func;
+    MainWindow &parentWindow;
 
 public:
-    explicit adminWindow(QWidget *parent = 0);
+    explicit adminWindow(MainWindow& parent, functionName funcT);
     ~adminWindow();
     void newShow();
     void setPointerToGraph(Graph *p);
@@ -37,11 +44,7 @@ private slots:
 
     void on_modifySouvenirsButton_clicked();
     void updateTable();
-
-private:
-    Ui::adminWindow *ui;
-    modifysouvenirs *modifySouvenirsWindow;
-    Graph *graphPointer;
 };
+
 
 #endif // ADMINWINDOW_H

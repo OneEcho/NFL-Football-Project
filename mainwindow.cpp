@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     stadiumMap()
 {
 
-    this->admin = new adminWindow;
+
 
     ui->setupUi(this);
 
@@ -666,7 +666,7 @@ void MainWindow::on_roofComboBox_currentIndexChanged(const QString &arg1)
 void MainWindow::on_adminButton_clicked()
 {
     // Open Admin window/tab/whatever we are using for the admin page
-
+    this->admin = new adminWindow(*this, &MainWindow::on_BothCheckBox_clicked);
     Graph *graphPoint = &stadiumMap;
     this->admin->setPointerToGraph(graphPoint);
     this->admin->newShow();

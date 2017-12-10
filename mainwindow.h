@@ -114,6 +114,8 @@ private:
     int souvenirQuantity;
     int totalAmountRowIndex;
     bool souvenirSelected;
+    enum function { displayAll, displayAFL, displayNFL };
+    function functionToUse;
 };
 
 #endif // MAINWINDOW_H

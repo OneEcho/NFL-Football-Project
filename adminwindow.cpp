@@ -4,12 +4,12 @@
 #include "modifystadiuminfo.h"
 #include <QMessageBox>
 
-adminWindow::adminWindow(QWidget *parent) :
-    QMainWindow(parent),
+adminWindow::adminWindow(MainWindow &parent, functionName funcT) :
+    parentWindow(parent),
+    func(funcT),
     ui(new Ui::adminWindow)
 {
     ui->setupUi(this);
-
 
     this->setWindowTitle("Admin Window");
 
@@ -32,8 +32,6 @@ void adminWindow::on_passwordLineEdit_returnPressed()
        ui->passwordLineEdit->text() == "password")
     {
         openStadiumModifyPage();
-
-
     }
     else
     {
