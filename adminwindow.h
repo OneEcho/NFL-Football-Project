@@ -36,6 +36,7 @@ private slots:
     void openStadiumModifyPage();
 
     void on_modifySouvenirsButton_clicked();
+    void updateTable();
 
 private:
     Ui::adminWindow *ui;

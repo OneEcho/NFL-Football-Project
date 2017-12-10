@@ -1,8 +1,9 @@
 #include "modifysouvenirs.h"
 #include "ui_modifysouvenirs.h"
 
-modifysouvenirs::modifysouvenirs(QWidget *parent) :
-    QDialog(parent),
+modifysouvenirs::modifysouvenirs(adminWindow& parent, function func) :
+    parentWindow(parent),
+    updateStadiumTableFunc(func),
     ui(new Ui::modifysouvenirs)
 {
     ui->setupUi(this);
@@ -11,6 +12,11 @@ modifysouvenirs::modifysouvenirs(QWidget *parent) :
     QSqlTableModel *model = new QSqlTableModel;
     model->setTable("Souvenirs");
     model->select();
+    QSqlQuery query;
+    query.exec("Select TeamName FROM Teams WHERE TeamName = \"San Diego Sailors\"");
+    if(query.next()) {
+         ui->groupBox_2->hide();
+    }
 
     ui->souvenirView->setModel(model);
     ui->souvenirView->sortByColumn(0, Qt::SortOrder::AscendingOrder);
@@ -30,7 +36,6 @@ modifysouvenirs::~modifysouvenirs()
 {
     delete ui;
 }
-
 void modifysouvenirs::on_addSouvenir_clicked()
 {
     QMessageBox msgBox;
@@ -138,6 +143,7 @@ void modifysouvenirs::setGraphPointer(Graph *p) {
 }
 void modifysouvenirs::on_addSandiegoSailorsButton_clicked()
 {
+
     qDebug() << "ENTERED MODIFY SOUVENIRS\n";
     graph->printGraph();
     //Variables for holding data
@@ -204,6 +210,16 @@ void modifysouvenirs::on_addSandiegoSailorsButton_clicked()
 
     msgBox.setText("San Diego Sailors added Successfully!");
     msgBox.exec();
+    (parentWindow.*updateStadiumTableFunc)();
+    //updateSouvenirView();
+    QSqlQuery query;
+    query.exec("Select TeamName FROM Teams WHERE TeamName = \"San Diego Sailors\"");
+    if(query.next()) {
+         ui->groupBox_2->hide();
+         return;
+    }
+
+
 }
 
 void modifysouvenirs::on_teamComboBox_currentIndexChanged(const QString &arg1)

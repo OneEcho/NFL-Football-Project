@@ -248,8 +248,11 @@ void adminWindow::openStadiumModifyPage() {
 
 void adminWindow::on_modifySouvenirsButton_clicked()
 {
-    modifySouvenirsWindow = new modifysouvenirs;
+    modifySouvenirsWindow = new modifysouvenirs(*this, &adminWindow::updateTable);
     modifySouvenirsWindow->show();
     modifySouvenirsWindow->setGraphPointer(graphPointer);
-
+}
+void adminWindow::updateTable() {
+    QSqlQueryModel *model = Database::getInstance()->getStadiumInfo();
+    ui->stadiumTableView->setModel(model);
 }
