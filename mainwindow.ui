@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1120</width>
-    <height>626</height>
+    <height>639</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <item row="1" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="Conference">
        <attribute name="title">
@@ -370,6 +370,88 @@
           <property name="title">
            <string/>
           </property>
+          <layout class="QGridLayout" name="gridLayout_9">
+           <item row="1" column="0">
+            <widget class="QTableView" name="souvenirTable"/>
+           </item>
+           <item row="4" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <spacer name="horizontalSpacer_10">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="quantityLabel">
+               <property name="text">
+                <string>Select Quantity</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout">
+               <item>
+                <widget class="QSpinBox" name="spinBox"/>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QPushButton" name="purchaseButton">
+               <property name="text">
+                <string>Purchase</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_9">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item row="1" column="1">
+            <widget class="QTableWidget" name="totalSpentWidget"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QTableWidget" name="cartTable"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="labelClickSouvenir">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="text">
+              <string>Click on an item to enable purchase</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item row="1" column="3">
@@ -429,6 +511,9 @@
               </property>
              </spacer>
             </item>
+            <item row="2" column="0">
+             <widget class="QComboBox" name="endingStadiumComboBoxDijkstras"/>
+            </item>
             <item row="3" column="0">
              <widget class="QLabel" name="totalDistanceLabel">
               <property name="text">
@@ -436,8 +521,12 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QComboBox" name="endingStadiumComboBoxDijkstras"/>
+            <item row="5" column="0">
+             <widget class="QPushButton" name="MSTButton">
+              <property name="text">
+               <string>MST</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>

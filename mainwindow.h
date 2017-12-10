@@ -7,6 +7,11 @@
 #include <QStandardItemModel>
 #include <graph.h>
 #include "cart.h"
+#include "map.h"
+#include <QSqlQuery>
+#include <QSqlQueryModel>
+#include <QModelIndex>
+
 
 struct collegeStadiumPair
 {
@@ -30,8 +35,10 @@ public:
     void populateDijkstrasDropDownBox();
     void populateDFSandBFSdropDownBox();
     void showStartingTripInputs();
-    void visitAllStadiumsEfficiently(QString startingCity);
+    void visitAllStadiumsEfficiently(QString startingStadium, QStringList stadiumsToVisit, QVector<QString> &visitedStadiums);
     void hideSecondaryTripInputs();
+
+    void dreamVacation(QString startStadium, QStringList tripList, QStringList &visitedStadiums);
 
 private slots:
     /*! \fn AFLCheckBox_clicked */
@@ -81,6 +88,14 @@ private slots:
     void on_DFSstartButton_clicked();
 
     void on_DFSclearButton_clicked();
+    void on_spinBox_valueChanged(int arg1);
+
+    void on_souvenirTable_clicked(const QModelIndex &index);
+
+    void on_purchaseButton_clicked();
+    void on_dreamVacationButton_clicked();
+
+    void on_MSTButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -95,9 +110,15 @@ private:
     QVector<collegeStadiumPair> stadiumTrip;
     //integer of current stadium
     int currentStadiumIndex;
-    Cart items;
-
+    Cart *purchases;
+    Map Souvenirs;
+    int totalDistance;
+    QStringList listTrip;
     Graph stadiumMap;
+    QModelIndex souvenirIndex;
+    int souvenirQuantity;
+    int totalAmountRowIndex;
+    bool souvenirSelected;
 };
 
 #endif // MAINWINDOW_H

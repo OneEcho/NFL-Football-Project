@@ -133,6 +133,7 @@ void adminWindow::on_pushButtonAddStadium_clicked()
             query.bindValue(":roofType", inputData[6]);
             query.bindValue(":starPlayer", inputData[7]);
             query.exec();
+            graphPointer->updateGraph();
 
     }
     this->openStadiumModifyPage();
@@ -186,6 +187,7 @@ void adminWindow::on_stadiumTableView_doubleClicked(const QModelIndex &index)
 
         modifyStadiumInfo *newInput = new modifyStadiumInfo(*this, &adminWindow::openStadiumModifyPage);
         // store index from tableview selection
+        newInput->setGraphPointerModify(graphPointer);
         newInput->setData(dataToOverwrite, teamName, stadiumName, columnName, header);
 
         newInput->exec();
