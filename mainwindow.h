@@ -38,6 +38,8 @@ public:
     void visitAllStadiumsEfficiently(QString startingStadium, QStringList stadiumsToVisit, QVector<QString> &visitedStadiums);
     void hideSecondaryTripInputs();
 
+    void updateDataWithSailors();
+
     void dreamVacation(QString startStadium, QStringList tripList, QStringList &visitedStadiums);
 
 private slots:

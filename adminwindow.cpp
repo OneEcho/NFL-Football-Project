@@ -253,4 +253,5 @@ void adminWindow::on_modifySouvenirsButton_clicked()
 void adminWindow::updateTable() {
     QSqlQueryModel *model = Database::getInstance()->getStadiumInfo();
     ui->stadiumTableView->setModel(model);
+    (parentWindow.*func)();
 }

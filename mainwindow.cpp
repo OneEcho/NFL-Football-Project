@@ -666,7 +666,7 @@ void MainWindow::on_roofComboBox_currentIndexChanged(const QString &arg1)
 void MainWindow::on_adminButton_clicked()
 {
     // Open Admin window/tab/whatever we are using for the admin page
-    this->admin = new adminWindow(*this, &MainWindow::on_BothCheckBox_clicked);
+    this->admin = new adminWindow(*this, &MainWindow::updateDataWithSailors);
     Graph *graphPoint = &stadiumMap;
     this->admin->setPointerToGraph(graphPoint);
     this->admin->newShow();
@@ -1406,4 +1406,18 @@ void MainWindow::on_MSTButton_clicked()
     ui->dijkstrasTableWidget->setItem(rowNumber, 0, new QTableWidgetItem("TotalDistance: "));
     ui->dijkstrasTableWidget->setItem(rowNumber, 1, new QTableWidgetItem(QString::number(totalMileage)));
 
+}
+void MainWindow::updateDataWithSailors() {
+    if(ui->AFLCheckBox->isChecked()) {
+        on_AFLCheckBox_clicked();
+    }
+    else if(ui->NFLCheckBox->isChecked()) {
+        on_NFLCheckBox_clicked();
+    }
+    else {
+        on_BothCheckBox_clicked();
+    }
+    populateDFSandBFSdropDownBox();
+    populateDijkstrasDropDownBox();
+    populateTripSelectionDropDownBox();
 }
