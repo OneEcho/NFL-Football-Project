@@ -177,6 +177,11 @@ QStringList Graph::getTraversalInfoTraversal()
     return traversalInfo.traversal;
 }
 
+int Graph::getTraversalInfoDistance()
+{
+    return traversalInfo.distanceTraveled;
+}
+
 void Graph::dfs(Vertex *startVertex)
 {
     visited.push_back(startVertex->label);

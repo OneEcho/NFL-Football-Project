@@ -73,6 +73,16 @@ MainWindow::MainWindow(QWidget *parent) :
     //hide secondary inputs
     this->hideSecondaryTripInputs();
     ui->nextCollegeButton->setText("Next Stadium");
+    //DFS and BFS table settings
+    ui->bfsClearButton->hide();
+    ui->DFSclearButton->hide();
+    ui->BFStable->insertColumn(0);
+    ui->BFStable->setHorizontalHeaderItem(0, new QTableWidgetItem("BFS traversal"));
+    ui->BFStable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->DFStable->insertColumn(0);
+    ui->DFStable->setHorizontalHeaderItem(0, new QTableWidgetItem("DFS traversal"));
+    ui->DFStable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 
 
     stadiumMap.createGraph();
@@ -1147,21 +1157,34 @@ void MainWindow::on_visitAllStadiumsButton_clicked()
 
 void MainWindow::on_BFSstartButton_clicked()
 {
-    QString retarded = "BFS traversal";
+    QString totalMessage = "Total Distance Traveled: ";
+    int traversalDistance;
+    int rowCount = 0;
+    QStringList traversal;
+
+
     if(ui->BFScomboBox->currentIndex() > 0) {
         QString stadiumEntry = ui->BFScomboBox->currentText();
         this->stadiumMap.bfsAtVertex(stadiumEntry);
 
-        ui->BFStable->insertColumn(0);
-        ui->BFStable->setHorizontalHeaderItem(0, new QTableWidgetItem(retarded));
-        ui->BFStable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-        for(int index = 0; index < this->stadiumMap.getTraversalInfoTraversal().size(); index++)
+        traversal = this->stadiumMap.getTraversalInfoTraversal();
+        traversalDistance = this->stadiumMap.getTraversalInfoDistance();
+
+        ui->bfsClearButton->show();
+
+
+        for(rowCount; rowCount < traversal.size(); rowCount++)
         {
-            //ui->BFStable->set
+            ui->BFStable->insertRow(rowCount);
+            ui->BFStable->setItem(rowCount, 0, new QTableWidgetItem(traversal[rowCount]));
         }
 
+        ui->BFStable->insertRow(rowCount);
+        ui->BFStable->setItem(rowCount, 0, new QTableWidgetItem(totalMessage + QString::number(traversalDistance)));
 
-    }
+    ui->BFSstartButton->setEnabled(false);
+   }
+
 }
 
 void MainWindow::on_tabWidget_currentChanged(int index)
@@ -1420,4 +1443,50 @@ void MainWindow::updateDataWithSailors() {
     populateDFSandBFSdropDownBox();
     populateDijkstrasDropDownBox();
     populateTripSelectionDropDownBox();
+}
+void MainWindow::on_bfsClearButton_clicked()
+{
+    ui->BFSstartButton->setEnabled(true);
+    ui->BFStable->setRowCount(0);
+    ui->bfsClearButton->hide();
+}
+
+void MainWindow::on_DFSstartButton_clicked()
+{
+    QStringList traversalInfo;          //PROC - dfs trip
+    int traversalDistance;              //PROC - dfs distance traveled
+    int rowCount = 0;                   //for dfsTable inserts
+
+    if(ui->DFScomboBox->currentIndex() > 0)
+    {
+        //set the current stadium choice
+        QString currentStadiumChoice = ui->DFScomboBox->currentText();
+        //call the dfs graph class function
+        this->stadiumMap.dfsAtVertex(currentStadiumChoice);
+        //set the traversal vector and distance traveled for the DFS
+        traversalInfo = this->stadiumMap.getTraversalInfoTraversal();
+        traversalDistance = this->stadiumMap.getTraversalInfoDistance();
+
+        //ITER over the traveral info and set the vector into the table
+        for(rowCount; rowCount < traversalInfo.size(); rowCount++)
+        {
+            ui->DFStable->insertRow(rowCount);
+            ui->DFStable->setItem(rowCount, 0, new QTableWidgetItem(traversalInfo[rowCount]));
+        }
+        //now insert the total distance traveled into the table
+        ui->DFStable->insertRow(rowCount);
+        ui->DFStable->setItem(rowCount, 0, new QTableWidgetItem("Total Distance Traveled: " + QString::number(traversalDistance)) );
+
+        ui->DFSstartButton->setEnabled(false);
+        ui->DFSclearButton->show();
+
+    }
+
+}
+
+void MainWindow::on_DFSclearButton_clicked()
+{
+    ui->DFSstartButton->setEnabled(true);
+    ui->DFStable->setRowCount(0);
+    ui->DFSclearButton->hide();
 }
