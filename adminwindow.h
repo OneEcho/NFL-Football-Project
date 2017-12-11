@@ -44,6 +44,7 @@ private slots:
 
     void on_modifySouvenirsButton_clicked();
     void updateTable();
+    void updateModifyTable();
 };
 
 

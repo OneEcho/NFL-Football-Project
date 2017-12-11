@@ -125,11 +125,31 @@ void modifyStadiumInfo::updateData(QString newData) {
         query.bindValue(":teamName", teamName);
         query.bindValue(":stadiumName", stadiumName);
         query.exec();
+        if(columnName == "StadiumName") {
+            query.prepare("UPDATE Distances SET BeginningStadium = :newValue WHERE BeginningStadium = :stadiumName");
+            query.bindValue(":newValue", newData);
+            query.bindValue(":stadiumName", stadiumName);
+            query.exec();
+
+            query.prepare("UPDATE Distances SET EndingStadium = :newValue WHERE EndingStadium = :stadiumName");
+            query.bindValue(":newValue", newData);
+            query.bindValue(":stadiumName", stadiumName);
+            query.exec();
+        }
+        else if(columnName == "TeamName") {
+            query.prepare("UPDATE Souvenirs SET NFLTeam = :newValue WHERE NFLTeam = :teamName");
+            query.bindValue(":newValue", newData);
+            query.bindValue(":teamName", teamName);
+            query.exec();
+        }
+
 
         graphPointer->updateGraph();
 
         (parentWindow.*functor)();
         this->close();
+
+
     }
 }
 

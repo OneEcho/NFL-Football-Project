@@ -183,7 +183,7 @@ void adminWindow::on_stadiumTableView_doubleClicked(const QModelIndex &index)
     }
     if(columnName != "") {
 
-        modifyStadiumInfo *newInput = new modifyStadiumInfo(*this, &adminWindow::openStadiumModifyPage);
+        modifyStadiumInfo *newInput = new modifyStadiumInfo(*this, &adminWindow::updateModifyTable);
         // store index from tableview selection
         newInput->setGraphPointerModify(graphPointer);
         newInput->setData(dataToOverwrite, teamName, stadiumName, columnName, header);
@@ -198,7 +198,6 @@ void adminWindow::setPointerToGraph(Graph *p) {
     graphPointer = p;
 }
 void adminWindow::openStadiumModifyPage() {
-
     ui->Pages->setCurrentIndex(1);
 
     QRegExp limit("[A-Za-z(-) ,]{1,100}");
@@ -242,8 +241,8 @@ void adminWindow::openStadiumModifyPage() {
     ui->stadiumTableView->resizeColumnsToContents();
     ui->stadiumTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-}
 
+}
 void adminWindow::on_modifySouvenirsButton_clicked()
 {
     modifySouvenirsWindow = new modifysouvenirs(*this, &adminWindow::updateTable);
@@ -254,4 +253,22 @@ void adminWindow::updateTable() {
     QSqlQueryModel *model = Database::getInstance()->getStadiumInfo();
     ui->stadiumTableView->setModel(model);
     (parentWindow.*func)();
+}
+void adminWindow::updateModifyTable() {
+    (parentWindow.*func)();
+
+    QSqlQueryModel *model = new QSqlQueryModel();
+    model = Database::getInstance()->getStadiumInfo();
+    model->setHeaderData( 0, Qt::Horizontal, QObject::tr("Team Name") );
+    model->setHeaderData( 1, Qt::Horizontal, QObject::tr("Stadium Name") );
+    model->setHeaderData( 2, Qt::Horizontal, QObject::tr("Seating Capacity") );
+    model->setHeaderData( 3, Qt::Horizontal, QObject::tr("Location") );
+    model->setHeaderData( 4, Qt::Horizontal, QObject::tr("Conference") );
+    model->setHeaderData( 5, Qt::Horizontal, QObject::tr("Surface Type") );
+    model->setHeaderData( 6, Qt::Horizontal, QObject::tr("Stadium Roof Type") );
+    model->setHeaderData( 7, Qt::Horizontal, QObject::tr("Star Player") );
+    ui->stadiumTableView->verticalHeader()->setHidden(true);
+    ui->stadiumTableView->setModel(model);
+    ui->stadiumTableView->resizeColumnsToContents();
+    ui->stadiumTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }

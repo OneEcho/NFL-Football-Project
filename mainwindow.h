@@ -41,6 +41,7 @@ public:
     void updateDataWithSailors();
 
     void dreamVacation(QString startStadium, QStringList tripList, QStringList &visitedStadiums);
+    void updateDijkstrasComboBoxes();
 
 private slots:
     /*! \fn AFLCheckBox_clicked */
