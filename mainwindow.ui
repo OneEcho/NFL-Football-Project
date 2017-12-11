@@ -18,7 +18,7 @@
     <item row="1" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="Conference">
        <attribute name="title">
@@ -37,8 +37,8 @@
           <property name="title">
            <string>Choose your team or conference!</string>
           </property>
-          <layout class="QFormLayout" name="formLayout">
-           <item row="0" column="0" colspan="2">
+          <layout class="QGridLayout" name="gridLayout_10">
+           <item row="0" column="0">
             <widget class="QComboBox" name="TeamsComboBox"/>
            </item>
            <item row="1" column="0">
@@ -62,14 +62,14 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="0" colspan="2">
+           <item row="3" column="0" colspan="2">
             <widget class="QLabel" name="roofLabel">
              <property name="text">
               <string>Choose a Roof Type: </string>
              </property>
             </widget>
            </item>
-           <item row="5" column="0" colspan="2">
+           <item row="4" column="0" colspan="2">
             <widget class="QComboBox" name="roofComboBox">
              <item>
               <property name="text">
@@ -93,17 +93,37 @@
              </item>
             </widget>
            </item>
-           <item row="7" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0" colspan="2">
+           <item row="5" column="0" colspan="2">
             <widget class="QLabel" name="roofNumberLabel">
              <property name="text">
               <string>Total number of roof type:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <spacer name="verticalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="7" column="0">
+            <widget class="QPushButton" name="updateButton">
+             <property name="text">
+              <string>Update</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>
@@ -259,7 +279,7 @@
            <item row="4" column="0">
             <widget class="QPushButton" name="finishAddingButton">
              <property name="text">
-              <string>Done</string>
+              <string>Standard Trip</string>
              </property>
             </widget>
            </item>

@@ -106,6 +106,8 @@ private slots:
 
     void on_MSTButton_clicked();
 
+    void on_updateButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     adminWindow *admin;

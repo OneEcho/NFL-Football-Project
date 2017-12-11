@@ -969,8 +969,13 @@ void MainWindow::on_resetTripButton_clicked()
 
 void MainWindow::populateDijkstrasDropDownBox()
 {
+    int index = 0;
+
     ui->endingStadiumComboBoxDijkstras->hide();
-    ui->startingStadiumComboBoxDijkstras->clear();
+   //if(ui->startingStadiumComboBoxDijkstras->count() > 1) {
+        ui->startingStadiumComboBoxDijkstras->setMaxCount(++index);
+
+   // }
     ui->startingStadiumComboBoxDijkstras->addItem("Select A Stadium");
 
     QSqlQuery query;
@@ -978,9 +983,10 @@ void MainWindow::populateDijkstrasDropDownBox()
     query.prepare("SELECT distinct StadiumName From Teams Order By StadiumName ASC");
 
     query.exec();
-
     while(query.next())
     {
+        ui->startingStadiumComboBoxDijkstras->setMaxCount(++index);
+
         ui->startingStadiumComboBoxDijkstras->addItem(query.value(0).toString());
     }
 
@@ -1406,4 +1412,14 @@ void MainWindow::on_MSTButton_clicked()
     ui->dijkstrasTableWidget->setItem(rowNumber, 0, new QTableWidgetItem("TotalDistance: "));
     ui->dijkstrasTableWidget->setItem(rowNumber, 1, new QTableWidgetItem(QString::number(totalMileage)));
 
+}
+
+
+void MainWindow::on_updateButton_clicked()
+{
+   // populateConferenceDropDownBox("Both");
+   // populateDFSandBFSdropDownBox();
+    populateDijkstrasDropDownBox();
+    populateTripSelectionDropDownBox();
+    on_BothCheckBox_clicked();
 }
