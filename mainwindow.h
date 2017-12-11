@@ -12,6 +12,20 @@
 #include <QSqlQueryModel>
 #include <QModelIndex>
 
+/**************************************************************************************************************************************************************
+ * PROGRAM DESCRIPTION
+ * --------------------------------------------------------------
+ * Let's Play NFL Football Project 2
+ * --------------------------------------------------------------
+ * This Program is set for the Football Fan actor, who’s main goal is planning a vacation by visiting a starting
+ * stadium and ending stadium, along with the option to visit stadiums in between. The fan also gets options to
+ * view all team data and information including but not limited to: stadium name, stadium roof type, and stadium turf type.
+ * The football fan is also able to determine the BFS and DFS along with the MST of the graph of all the football stadiums in the US.
+ * Lastly the football fan is able to buy souvenirs at each stadium they visit and add to their football vacation.
+ * The program will give them a final total after visiting all the stadiums so the football fan can see exactly how much they spent while on their vacation.
+ * The Admin actor is allowed to access the admin window via a login screen. Upon entering the correct credentials, the admin is faced
+ * with a window and given the credentials to change team names, stadium names, souvenirs, souvenirs prices, and all data associated with each team.
+ ***************************************************************************************************************************************************************/
 
 struct collegeStadiumPair
 {

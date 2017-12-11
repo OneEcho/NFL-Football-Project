@@ -1,0 +1,256 @@
+\hypertarget{class_graph}{}\section{Graph Class Reference}
+\label{class_graph}\index{Graph@{Graph}}
+
+
+Used to represent a graph data structure.  
+
+
+
+
+{\ttfamily \#include $<$graph.\+h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_graph_1_1traversal_info}{traversal\+Info}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_graph_ae4c72b8ac4d693c49800a4c7e273654f}\label{class_graph_ae4c72b8ac4d693c49800a4c7e273654f}} 
+\hyperlink{class_graph_ae4c72b8ac4d693c49800a4c7e273654f}{Graph} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_graph_a33a161c48acd375508bbf95e697bf453}\label{class_graph_a33a161c48acd375508bbf95e697bf453}} 
+void \hyperlink{class_graph_a33a161c48acd375508bbf95e697bf453}{create\+Graph} ()
+\begin{DoxyCompactList}\small\item\em Creates the graph using information from the database. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_graph_a5ac05db53839e72af76cdb2bafe88b77}\label{class_graph_a5ac05db53839e72af76cdb2bafe88b77}} 
+void \hyperlink{class_graph_a5ac05db53839e72af76cdb2bafe88b77}{print\+Graph} ()
+\begin{DoxyCompactList}\small\item\em Prints the graph. \end{DoxyCompactList}\item 
+void \hyperlink{class_graph_a2a65cf186c6fb2b2cc729c5912f64c72}{dfs\+At\+Vertex} (Q\+String label)
+\begin{DoxyCompactList}\small\item\em Performs a D\+FS traversal. \end{DoxyCompactList}\item 
+void \hyperlink{class_graph_a11be2135c68163907d6bb1a268316876}{bfs\+At\+Vertex} (Q\+String label)
+\begin{DoxyCompactList}\small\item\em Performs a B\+FS traversal. \end{DoxyCompactList}\item 
+void \hyperlink{class_graph_a82253781b5b51b8a91db5adbc7e96367}{shortest\+Path\+At\+Vertex} (Q\+String start\+Stadium, Q\+String end\+Stadium)
+\begin{DoxyCompactList}\small\item\em Calculates the shortest path from start\+City to end\+City. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_graph_a11d2030a49b2e48799c8b4b4144b32cb}\label{class_graph_a11d2030a49b2e48799c8b4b4144b32cb}} 
+void \hyperlink{class_graph_a11d2030a49b2e48799c8b4b4144b32cb}{reset\+Shortest\+Path} ()
+\begin{DoxyCompactList}\small\item\em Resets the variable holding the shortest path. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_graph_a2e65fe91a3533825a241601f483f4ecb}\label{class_graph_a2e65fe91a3533825a241601f483f4ecb}} 
+void \hyperlink{class_graph_a2e65fe91a3533825a241601f483f4ecb}{print\+Vector} ()
+\begin{DoxyCompactList}\small\item\em Prints the shortest path vector (used for debugging purposes) \end{DoxyCompactList}\item 
+void \hyperlink{class_graph_aaeaed59906eb9fbacb946b053ab5a9e0}{visit\+Stadium} (Q\+String stadium\+Name)
+\begin{DoxyCompactList}\small\item\em Adds a stadium to the vector that holds the visited stadiums. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_graph_a0d917e220a8a7fb9efc987e02e42aae2}\label{class_graph_a0d917e220a8a7fb9efc987e02e42aae2}} 
+void \hyperlink{class_graph_a0d917e220a8a7fb9efc987e02e42aae2}{reset\+Visited\+Vector} ()
+\begin{DoxyCompactList}\small\item\em Resets the visited vector. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_graph_a187472c9e3721253d55ea716e6ebd2af}\label{class_graph_a187472c9e3721253d55ea716e6ebd2af}} 
+void \hyperlink{class_graph_a187472c9e3721253d55ea716e6ebd2af}{update\+Graph} ()
+\begin{DoxyCompactList}\small\item\em Updates the graph by pulling new information from the database. \end{DoxyCompactList}\item 
+Q\+Vector$<$ Q\+String $>$ \hyperlink{class_graph_ace289afb1c130cf4db09e4d1f2180d67}{get\+Shortest\+Path\+Traversal} () const
+\begin{DoxyCompactList}\small\item\em Getter function for the shortest path vector. \end{DoxyCompactList}\item 
+int \hyperlink{class_graph_a63c083974789c0b7259339c574901228}{get\+Shortest\+Path\+Weight} () const
+\begin{DoxyCompactList}\small\item\em Getter function for the shortest path weight. \end{DoxyCompactList}\item 
+int \hyperlink{class_graph_af3da8365315d5435f490d48081cd5e42}{get\+Graph\+Size} () const
+\begin{DoxyCompactList}\small\item\em Getter function for the graph size. \end{DoxyCompactList}\item 
+Q\+Vector$<$ Q\+String $>$ \hyperlink{class_graph_a92dd89f52ca03428afe90a3ee99ece1e}{get\+Visited} () const
+\begin{DoxyCompactList}\small\item\em Getter function for the visited vector. \end{DoxyCompactList}\item 
+Q\+Vector$<$ \hyperlink{struct_vertex}{Vertex} $>$ \hyperlink{class_graph_a803afabcf8fd3f7ede5f547f1b61cccf}{get\+Graph} () const
+\begin{DoxyCompactList}\small\item\em Getter function for the vertices vector. \end{DoxyCompactList}\item 
+Q\+String\+List \hyperlink{class_graph_a27674fdc8baef9afe7406f067d56137c}{get\+Traversal\+Info\+Traversal} ()
+\begin{DoxyCompactList}\small\item\em Getter function for the B\+F\+S/\+D\+FS traversal. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_graph_ab6bd9ab95bbe072fda0ddb83795fb162}\label{class_graph_ab6bd9ab95bbe072fda0ddb83795fb162}} 
+\hyperlink{struct_vertex}{Vertex} $\ast$ {\bfseries get\+Vertex\+From\+String} (Q\+String search\+Label)
+\item 
+\mbox{\Hypertarget{class_graph_a2a44aa7aa4505fe778d29645699eb444}\label{class_graph_a2a44aa7aa4505fe778d29645699eb444}} 
+\hyperlink{struct_vertex}{Vertex} $\ast$ {\bfseries get\+Vertex\+From\+Id} (int search\+Id)
+\item 
+\mbox{\Hypertarget{class_graph_a7bad85e7d9146b225063067b1939ddd1}\label{class_graph_a7bad85e7d9146b225063067b1939ddd1}} 
+void {\bfseries dfs} (\hyperlink{struct_vertex}{Vertex} $\ast$start\+Vertex)
+\item 
+\mbox{\Hypertarget{class_graph_a05b4bca02d8d0426e49cea0b7e02edc4}\label{class_graph_a05b4bca02d8d0426e49cea0b7e02edc4}} 
+void {\bfseries bfs} (\hyperlink{struct_vertex}{Vertex} $\ast$start\+Vertex)
+\item 
+\mbox{\Hypertarget{class_graph_aff3fe78620db11278f02b3aa94ef932c}\label{class_graph_aff3fe78620db11278f02b3aa94ef932c}} 
+void {\bfseries shortest\+Path} (\hyperlink{struct_vertex}{Vertex} $\ast$start\+Vertex, \hyperlink{struct_vertex}{Vertex} $\ast$end\+Vertex)
+\item 
+\mbox{\Hypertarget{class_graph_a5be4093f330007fc182078bd9aabe4ac}\label{class_graph_a5be4093f330007fc182078bd9aabe4ac}} 
+void {\bfseries print\+Path} (int $\ast$parent, int start\+Vertex\+Id)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_graph_afe71579cdcdc5c7b9645c76a6e45f06a}\label{class_graph_afe71579cdcdc5c7b9645c76a6e45f06a}} 
+int {\bfseries graph\+Size}
+\item 
+\mbox{\Hypertarget{class_graph_aecb9b42f86fac7b1ee568e116d3dd7d5}\label{class_graph_aecb9b42f86fac7b1ee568e116d3dd7d5}} 
+Q\+Vector$<$ \hyperlink{struct_vertex}{Vertex} $>$ {\bfseries graph}
+\item 
+\mbox{\Hypertarget{class_graph_aa5e915f5ba679440537d34af1bd065ca}\label{class_graph_aa5e915f5ba679440537d34af1bd065ca}} 
+struct \hyperlink{struct_graph_1_1traversal_info}{Graph\+::traversal\+Info} {\bfseries traversal\+Info}
+\item 
+\mbox{\Hypertarget{class_graph_a01fe0226a8bdafa6eee4198aa6837c74}\label{class_graph_a01fe0226a8bdafa6eee4198aa6837c74}} 
+Q\+Vector$<$ Q\+String $>$ {\bfseries visited}
+\item 
+\mbox{\Hypertarget{class_graph_a7cb3226a43c4008c3420d9c07f7654f0}\label{class_graph_a7cb3226a43c4008c3420d9c07f7654f0}} 
+Q\+Vector$<$ Q\+String $>$ {\bfseries shortest\+Path\+Traversal}
+\item 
+\mbox{\Hypertarget{class_graph_afe57755d6ba7f57ea4aae950f5b90eef}\label{class_graph_afe57755d6ba7f57ea4aae950f5b90eef}} 
+int {\bfseries shortest\+Path\+Weight}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Used to represent a graph data structure. 
+
+This class represents a graph data structure in memory. Using two structs to represent a vertex and edges. It can perform the B\+FS, D\+FS, and shortest path algorithm. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_graph_a11be2135c68163907d6bb1a268316876}\label{class_graph_a11be2135c68163907d6bb1a268316876}} 
+\index{Graph@{Graph}!bfs\+At\+Vertex@{bfs\+At\+Vertex}}
+\index{bfs\+At\+Vertex@{bfs\+At\+Vertex}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{bfs\+At\+Vertex()}{bfsAtVertex()}}
+{\footnotesize\ttfamily void Graph\+::bfs\+At\+Vertex (\begin{DoxyParamCaption}\item[{Q\+String}]{label }\end{DoxyParamCaption})}
+
+
+
+Performs a B\+FS traversal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em label} & Label of the start vertex \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_graph_a2a65cf186c6fb2b2cc729c5912f64c72}\label{class_graph_a2a65cf186c6fb2b2cc729c5912f64c72}} 
+\index{Graph@{Graph}!dfs\+At\+Vertex@{dfs\+At\+Vertex}}
+\index{dfs\+At\+Vertex@{dfs\+At\+Vertex}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{dfs\+At\+Vertex()}{dfsAtVertex()}}
+{\footnotesize\ttfamily void Graph\+::dfs\+At\+Vertex (\begin{DoxyParamCaption}\item[{Q\+String}]{label }\end{DoxyParamCaption})}
+
+
+
+Performs a D\+FS traversal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em label} & Label of the start vertex \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_graph_a803afabcf8fd3f7ede5f547f1b61cccf}\label{class_graph_a803afabcf8fd3f7ede5f547f1b61cccf}} 
+\index{Graph@{Graph}!get\+Graph@{get\+Graph}}
+\index{get\+Graph@{get\+Graph}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{get\+Graph()}{getGraph()}}
+{\footnotesize\ttfamily Q\+Vector$<$ \hyperlink{struct_vertex}{Vertex} $>$ Graph\+::get\+Graph (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter function for the vertices vector. 
+
+\begin{DoxyReturn}{Returns}
+The graph vector 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_af3da8365315d5435f490d48081cd5e42}\label{class_graph_af3da8365315d5435f490d48081cd5e42}} 
+\index{Graph@{Graph}!get\+Graph\+Size@{get\+Graph\+Size}}
+\index{get\+Graph\+Size@{get\+Graph\+Size}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{get\+Graph\+Size()}{getGraphSize()}}
+{\footnotesize\ttfamily int Graph\+::get\+Graph\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter function for the graph size. 
+
+\begin{DoxyReturn}{Returns}
+The graph size 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_ace289afb1c130cf4db09e4d1f2180d67}\label{class_graph_ace289afb1c130cf4db09e4d1f2180d67}} 
+\index{Graph@{Graph}!get\+Shortest\+Path\+Traversal@{get\+Shortest\+Path\+Traversal}}
+\index{get\+Shortest\+Path\+Traversal@{get\+Shortest\+Path\+Traversal}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{get\+Shortest\+Path\+Traversal()}{getShortestPathTraversal()}}
+{\footnotesize\ttfamily Q\+Vector$<$ Q\+String $>$ Graph\+::get\+Shortest\+Path\+Traversal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter function for the shortest path vector. 
+
+\begin{DoxyReturn}{Returns}
+The shortest path vector 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a63c083974789c0b7259339c574901228}\label{class_graph_a63c083974789c0b7259339c574901228}} 
+\index{Graph@{Graph}!get\+Shortest\+Path\+Weight@{get\+Shortest\+Path\+Weight}}
+\index{get\+Shortest\+Path\+Weight@{get\+Shortest\+Path\+Weight}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{get\+Shortest\+Path\+Weight()}{getShortestPathWeight()}}
+{\footnotesize\ttfamily int Graph\+::get\+Shortest\+Path\+Weight (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter function for the shortest path weight. 
+
+\begin{DoxyReturn}{Returns}
+The total weight of the shortest path 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a27674fdc8baef9afe7406f067d56137c}\label{class_graph_a27674fdc8baef9afe7406f067d56137c}} 
+\index{Graph@{Graph}!get\+Traversal\+Info\+Traversal@{get\+Traversal\+Info\+Traversal}}
+\index{get\+Traversal\+Info\+Traversal@{get\+Traversal\+Info\+Traversal}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{get\+Traversal\+Info\+Traversal()}{getTraversalInfoTraversal()}}
+{\footnotesize\ttfamily Q\+String\+List Graph\+::get\+Traversal\+Info\+Traversal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Getter function for the B\+F\+S/\+D\+FS traversal. 
+
+\begin{DoxyReturn}{Returns}
+The most recent B\+F\+S/\+D\+FS traversal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a92dd89f52ca03428afe90a3ee99ece1e}\label{class_graph_a92dd89f52ca03428afe90a3ee99ece1e}} 
+\index{Graph@{Graph}!get\+Visited@{get\+Visited}}
+\index{get\+Visited@{get\+Visited}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{get\+Visited()}{getVisited()}}
+{\footnotesize\ttfamily Q\+Vector$<$ Q\+String $>$ Graph\+::get\+Visited (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter function for the visited vector. 
+
+\begin{DoxyReturn}{Returns}
+The visited vector 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a82253781b5b51b8a91db5adbc7e96367}\label{class_graph_a82253781b5b51b8a91db5adbc7e96367}} 
+\index{Graph@{Graph}!shortest\+Path\+At\+Vertex@{shortest\+Path\+At\+Vertex}}
+\index{shortest\+Path\+At\+Vertex@{shortest\+Path\+At\+Vertex}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{shortest\+Path\+At\+Vertex()}{shortestPathAtVertex()}}
+{\footnotesize\ttfamily void Graph\+::shortest\+Path\+At\+Vertex (\begin{DoxyParamCaption}\item[{Q\+String}]{start\+Stadium,  }\item[{Q\+String}]{end\+Stadium }\end{DoxyParamCaption})}
+
+
+
+Calculates the shortest path from start\+City to end\+City. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em start\+Stadium} & The beginning stadium for the shortest path \\
+\hline
+{\em end\+City} & The end stadium for the shortest path \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_graph_aaeaed59906eb9fbacb946b053ab5a9e0}\label{class_graph_aaeaed59906eb9fbacb946b053ab5a9e0}} 
+\index{Graph@{Graph}!visit\+Stadium@{visit\+Stadium}}
+\index{visit\+Stadium@{visit\+Stadium}!Graph@{Graph}}
+\subsubsection{\texorpdfstring{visit\+Stadium()}{visitStadium()}}
+{\footnotesize\ttfamily void Graph\+::visit\+Stadium (\begin{DoxyParamCaption}\item[{Q\+String}]{stadium\+Name }\end{DoxyParamCaption})}
+
+
+
+Adds a stadium to the vector that holds the visited stadiums. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stadium\+Name} & The name to add to visited vector \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+graph.\+h\item 
+graph.\+cpp\end{DoxyCompactItemize}
