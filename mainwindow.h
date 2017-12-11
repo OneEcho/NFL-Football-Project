@@ -97,6 +97,11 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
 
+    void on_bfsClearButton_clicked();
+
+    void on_DFSstartButton_clicked();
+
+    void on_DFSclearButton_clicked();
     void on_spinBox_valueChanged(int arg1);
 
     void on_souvenirTable_clicked(const QModelIndex &index);

@@ -145,6 +145,7 @@ public:
      * @return The most recent BFS/DFS traversal
      */
     QStringList getTraversalInfoTraversal();
+    int getTraversalInfoDistance();
 
 private:
     int              graphSize; //Graph size
