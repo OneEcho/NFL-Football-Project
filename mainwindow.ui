@@ -15,10 +15,34 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
+    <item row="2" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <spacer name="horizontalSpacer_8">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="adminButton">
+        <property name="text">
+         <string>Admin</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
     <item row="1" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="Conference">
        <attribute name="title">
@@ -213,20 +237,128 @@
         <string>Trip Creation</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
-        <item row="0" column="2">
-         <spacer name="horizontalSpacer_7">
+        <item row="1" column="3">
+         <spacer name="verticalSpacer_2">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Vertical</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>40</width>
-            <height>20</height>
+            <width>20</width>
+            <height>40</height>
            </size>
           </property>
          </spacer>
         </item>
-        <item row="0" column="0" rowspan="5">
+        <item row="1" column="2" rowspan="3" colspan="4">
+         <widget class="QGroupBox" name="souvGroupBox">
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_9">
+           <item row="1" column="1">
+            <widget class="QTableWidget" name="totalSpentWidget"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="labelClickSouvenir">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="text">
+              <string>Click on an item to enable purchase</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QTableWidget" name="cartTable"/>
+           </item>
+           <item row="4" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <spacer name="horizontalSpacer_10">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="quantityLabel">
+               <property name="text">
+                <string>Select Quantity</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout">
+               <item>
+                <widget class="QSpinBox" name="spinBox"/>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QPushButton" name="purchaseButton">
+               <property name="text">
+                <string>Purchase</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_9">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item row="1" column="0">
+            <widget class="QTableView" name="souvenirTable"/>
+           </item>
+           <item row="0" column="0">
+            <widget class="QComboBox" name="metLifeComboBox"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="1" rowspan="4">
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="title">
+           <string>Trip List</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="0" column="0">
+            <widget class="QTableView" name="tripTableView">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="0" rowspan="4">
          <widget class="QGroupBox" name="groupBox_2">
           <property name="title">
            <string>Stadium Selection</string>
@@ -327,144 +459,67 @@
           </layout>
          </widget>
         </item>
-        <item row="0" column="1" rowspan="5">
-         <widget class="QGroupBox" name="groupBox_3">
-          <property name="title">
-           <string>Trip List</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_4">
-           <item row="0" column="0">
-            <widget class="QTableView" name="tripTableView">
-             <property name="editTriggers">
-              <set>QAbstractItemView::NoEditTriggers</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="0" column="4">
-         <spacer name="horizontalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item row="0" column="3">
-         <widget class="QLabel" name="currentCollegeLabel">
-          <property name="font">
-           <font>
-            <family>Copperplate Gothic Bold</family>
-            <pointsize>16</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>current Team Name</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="2" column="2" rowspan="3" colspan="3">
-         <widget class="QGroupBox" name="souvGroupBox">
+         <widget class="QGroupBox" name="groupBox_5">
           <property name="title">
            <string/>
           </property>
-          <layout class="QGridLayout" name="gridLayout_9">
+          <layout class="QGridLayout" name="gridLayout_11">
            <item row="1" column="0">
-            <widget class="QTableView" name="souvenirTable"/>
+            <spacer name="horizontalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
-           <item row="4" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <spacer name="horizontalSpacer_10">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="quantityLabel">
-               <property name="text">
-                <string>Select Quantity</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout">
-               <item>
-                <widget class="QSpinBox" name="spinBox"/>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="QPushButton" name="purchaseButton">
-               <property name="text">
-                <string>Purchase</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_9">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+           <item row="1" column="3">
+            <spacer name="teamNameLabelSpacer1">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
            <item row="1" column="1">
-            <widget class="QTableWidget" name="totalSpentWidget"/>
-           </item>
-           <item row="2" column="0">
-            <widget class="QTableWidget" name="cartTable"/>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="labelClickSouvenir">
+            <widget class="QLabel" name="currentCollegeLabel">
              <property name="font">
               <font>
-               <weight>75</weight>
-               <bold>true</bold>
-               <underline>true</underline>
+               <family>Copperplate Gothic Bold</family>
+               <pointsize>16</pointsize>
               </font>
              </property>
-             <property name="frameShadow">
-              <enum>QFrame::Plain</enum>
+             <property name="text">
+              <string>current Team Name</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="currentStadiumLabel">
+             <property name="font">
+              <font>
+               <family>Copperplate Gothic Bold</family>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <UInt>0</UInt>
              </property>
              <property name="text">
-              <string>Click on an item to enable purchase</string>
+              <string>current stadium</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -472,25 +527,11 @@
             </widget>
            </item>
           </layout>
-         </widget>
-        </item>
-        <item row="1" column="3">
-         <widget class="QLabel" name="currentStadiumLabel">
-          <property name="font">
-           <font>
-            <family>Copperplate Gothic Bold</family>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="toolTip">
-           <UInt>0</UInt>
-          </property>
-          <property name="text">
-           <string>current stadium</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
+          <zorder>currentCollegeLabel</zorder>
+          <zorder>currentStadiumLabel</zorder>
+          <zorder>currentStadiumLabel</zorder>
+          <zorder>teamNameLabelSpacer1</zorder>
+          <zorder>horizontalSpacer_7</zorder>
          </widget>
         </item>
        </layout>
@@ -653,30 +694,6 @@
       </widget>
      </widget>
     </item>
-    <item row="2" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <spacer name="horizontalSpacer_8">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="adminButton">
-        <property name="text">
-         <string>Admin</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -685,7 +702,7 @@
      <x>0</x>
      <y>0</y>
      <width>1120</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
