@@ -196,7 +196,7 @@ void MainWindow::showStartingTripInputs()
 
 void MainWindow::visitAllStadiumsEfficiently(QString startingStadium, QStringList stadiumsToVisit, QVector<QString> &visitedStadiums)
 {
-    if(stadiumsToVisit.size() == visitedStadiums.size())
+    if(stadiumsToVisit.size() + 1 == visitedStadiums.size())
     {
         return;
     }
@@ -249,7 +249,6 @@ void MainWindow::visitAllStadiumsEfficiently(QString startingStadium, QStringLis
     }
     visitedStadiums.push_back(nextStadium);
     this->stadiumMap.shortestPathAtVertex(startingStadium, nextStadium);
-    qDebug() << startingStadium << " to " << nextStadium << " is " << this->stadiumMap.getShortestPathWeight();
     this->totalDistance += this->stadiumMap.getShortestPathWeight();
 
     visitAllStadiumsEfficiently(nextStadium, stadiumsToVisit, visitedStadiums);
@@ -318,7 +317,6 @@ void MainWindow::dreamVacation(QString startStadium, QStringList tripList, QStri
     }
     visitedStadiums.push_back(nextStadium);
     this->stadiumMap.shortestPathAtVertex(startStadium, nextStadium);
-    qDebug() << startStadium << " to " << nextStadium << " is " << this->stadiumMap.getShortestPathWeight();
     this->totalDistance += this->stadiumMap.getShortestPathWeight();
 
     dreamVacation(nextStadium, tripList, visitedStadiums);
@@ -744,8 +742,6 @@ void MainWindow::on_addToTripButton_clicked()
     }
 
 
-    //qDebug() << choosenStadium;
-    qDebug() << choosenStadiumIndex;
 
 }
 
@@ -803,7 +799,6 @@ void MainWindow::on_finishAddingButton_clicked()
         //debugging purpuses
         for(int index = 0; index < stadiumTrip.size(); index++)
         {
-            qDebug() << stadiumTrip[index].stadium << " " << stadiumTrip[index].college;
             if(index+1 < stadiumTrip.size()) {
                 this->stadiumMap.shortestPathAtVertex(stadiumTrip[index].stadium, stadiumTrip[index+1].stadium);
                 totalDistanceTraveled += this->stadiumMap.getShortestPathWeight();
@@ -811,7 +806,6 @@ void MainWindow::on_finishAddingButton_clicked()
         }
 
         this->stadiumMap.printVector();
-        qDebug() << totalDistanceTraveled;
 
         table->setItem(tripTableViewRowNumber, new QStandardItem("Total Distance Traveled: " + QString::number(totalDistanceTraveled)));
     }
@@ -1105,7 +1099,7 @@ void MainWindow::on_endingStadiumComboBoxDijkstras_currentIndexChanged(const QSt
 
 void MainWindow::on_visitAllStadiumsButton_clicked()
 {
-    qDebug() << this->stadiumTrip.size();
+    int tempIndex = 0;
     if(stadiumTrip.size() == 0)
     {
         this->table->clear();
@@ -1114,6 +1108,8 @@ void MainWindow::on_visitAllStadiumsButton_clicked()
         this->stadiumMap.resetShortestPath();
 
         QSqlQuery query;
+        QVector<QString> visits;
+
 
         query.prepare("SELECT TeamName From Teams where :stadium = StadiumName");
 
@@ -1121,17 +1117,41 @@ void MainWindow::on_visitAllStadiumsButton_clicked()
         {
             this->listTrip.clear();
 
+            qDebug() << this->stadiumMap.getGraphSize();
+
             for(int i = 0; i < this->stadiumMap.getGraphSize(); i++)
             {
                 if(ui->tripCreationComboBox->currentText() !=
                         this->stadiumMap.getGraph()[i].label)
+                {
                     this->listTrip.push_back(this->stadiumMap.getGraph()[i].label);
+                    tempIndex = i;
+                }
             }
 
+            QVector<Edge> tempEdges = this->stadiumMap.getGraph()[tempIndex].incidentEdges;
 
-            QVector<QString> visits;
+            int index = 0;
+            bool found = false;
+            int weight;
+            while(!found && index < tempEdges.size())
+            {
+                if(listTrip[0] == tempEdges[index].connectedVertex->id)
+                {
+                    weight = tempEdges[index].weight;
+                    found = true;
+                }
+                else
+                {
+                    index++;
+                }
+            }
+
+            this->totalDistance += weight;
+
             visits.push_back(ui->tripCreationComboBox->currentText());
             this->visitAllStadiumsEfficiently(ui->tripCreationComboBox->currentText(), this->listTrip, visits);
+
             for(int i = 0; i < visits.size(); i++)
             {
                 QString chosenStadium = visits[i];
@@ -1150,6 +1170,9 @@ void MainWindow::on_visitAllStadiumsButton_clicked()
             }
             this->stadiumMap.resetVisitedVector();
         }
+
+        qDebug() << "trip list: " << this->listTrip.size();
+        qDebug() << "visited size: " << visits.size();
 
         this->on_finishAddingButton_clicked();
     }
@@ -1265,7 +1288,7 @@ void MainWindow::on_purchaseButton_clicked()
 void MainWindow::on_dreamVacationButton_clicked()
 {
     QStringList temp;
-    if(ui->tripCreationComboBox->currentText() != "Select a Stadium")
+    if(this->listTrip.size() > 0)
     {
         if(tripTableViewRowNumber == 0)
             return;
