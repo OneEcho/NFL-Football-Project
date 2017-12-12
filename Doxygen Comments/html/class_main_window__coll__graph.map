@@ -8,7 +8,11 @@
 <area shape="rect" id="node10" href="$class_ui_1_1admin_window.html" title="{Ui::adminWindow\n||}" alt="" coords="136,835,259,913"/>
 <area shape="rect" id="node11" href="$class_ui__admin_window.html" title="{Ui_adminWindow\n|+ centralwidget\l+ gridLayout\l+ Pages\l+ page_0\l+ gridLayout_4\l+ groupBox\l+ gridLayout_2\l+ horizontalLayout\l+ loginButton\l+ cancelLoginButton\land 37 more...\l|+ setupUi()\l+ retranslateUi()\l}" alt="" coords="99,373,240,611"/>
 <area shape="rect" id="node12" href="$class_ui_1_1_main_window.html" title="{Ui::MainWindow\n||}" alt="" coords="711,1195,827,1273"/>
+<<<<<<< HEAD
 <area shape="rect" id="node13" href="$class_ui___main_window.html" title="{Ui_MainWindow\n|+ centralWidget\l+ gridLayout_2\l+ horizontalLayout_2\l+ horizontalSpacer_8\l+ adminButton\l+ tabWidget\l+ Conference\l+ gridLayout\l+ ConferenceTableView\l+ groupBox\land 84 more...\l|+ setupUi()\l+ retranslateUi()\l}" alt="" coords="711,755,870,993"/>
+=======
+<area shape="rect" id="node13" href="$class_ui___main_window.html" title="{Ui_MainWindow\n|+ centralWidget\l+ gridLayout_2\l+ tabWidget\l+ Conference\l+ gridLayout\l+ ConferenceTableView\l+ groupBox\l+ formLayout\l+ TeamsComboBox\l+ NFLCheckBox\land 53 more...\l|+ setupUi()\l+ retranslateUi()\l}" alt="" coords="711,755,870,993"/>
+>>>>>>> 143edfd9820bc60ce19867fd5da837f486619a9f
 <area shape="rect" id="node14" href="$class_map.html" title="{Map\n|&#45; capacity\l|+ Map()\l+ ~Map()\l+ Map()\l+ setCapacity()\l+ put()\l+ print()\l+ remove()\l&#45; getValidIndex()\l&#45; translateKeyIntoInt()\l&#45; getValidIndex()\l&#45; equationOne()\l&#45; equationTwo()\l&#45; find()\l&#45; find()\l}" alt="" coords="852,1100,999,1368"/>
 <area shape="rect" id="node15" href="$class_map_node.html" title="{MapNode\n|&#45; value\l&#45; souvenirs\l&#45; key\l&#45; occupied\l|+ MapNode()\l+ MapNode()\l+ getValue()\l+ setValue()\l+ setKey()\l+ getKey()\l+ isOccupied()\l+ setAvailable()\l+ addSouvenir()\l+ operator=()\l+ getSouvenirs()\l}" alt="" coords="894,740,1010,1008"/>
 <area shape="rect" id="node16" href="$class_cart.html" title="{Cart\n|&#45; souvenirs\l|+ addPurchase()\l+ getTotalSpent()\l+ getTotalSpentAt()\l+ getQuantity()\l+ getSouvenirName()\l+ getTotalPrice()\l+ getTeamName()\l+ size()\l}" alt="" coords="1023,1144,1166,1324"/>
