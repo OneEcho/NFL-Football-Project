@@ -1,0 +1,3 @@
+<map id="Purchase" name="Purchase">
+<area shape="rect" id="node2" href="$class_souvenir.html" title="{Souvenir\n|&#45; itemName\l&#45; price\l&#45; teamName\l|+ Souvenir()\l+ setItemName()\l+ setPrice()\l+ setTeamName()\l+ getItemName()\l+ getPrice()\l+ getTeamName()\l}" alt="" coords="5,5,132,200"/>
+</map>

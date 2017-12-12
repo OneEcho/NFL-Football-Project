@@ -1,0 +1,6 @@
+<map id="modifysouvenirs" name="modifysouvenirs">
+<area shape="rect" id="node3" href="$class_ui_1_1modifysouvenirs.html" title="{Ui::modifysouvenirs\n||}" alt="" coords="97,453,232,531"/>
+<area shape="rect" id="node4" href="$class_ui__modifysouvenirs.html" title="{Ui_modifysouvenirs\n|+ doneButton\l+ groupBox\l+ souvenirView\l+ formLayoutWidget\l+ formLayout\l+ souvenirLabel\l+ nflTeamLabel\l+ priceLabel\l+ priceLineEdit\l+ teamComboBox\land 10 more...\l|+ setupUi()\l+ retranslateUi()\l}" alt="" coords="95,5,234,244"/>
+<area shape="rect" id="node5" href="$class_graph.html" title="Used to represent a graph data structure. " alt="" coords="256,307,423,677"/>
+<area shape="rect" id="node6" href="$struct_graph_1_1traversal_info.html" title="{Graph::traversalInfo\n|+ traversal\l+ distanceTraveled\l|}" alt="" coords="273,79,406,171"/>
+</map>
