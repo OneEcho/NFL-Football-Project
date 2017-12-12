@@ -19,21 +19,21 @@ modifyStadiumInfo::~modifyStadiumInfo()
 
 void modifyStadiumInfo::on_PB_Update_clicked()
 {
-//    QSqlQuery query;
-//    Database::getInstance();
-//    // changes price in souvenir table
-//    qDebug() << "column name: " << this->columnName;
-//    qDebug() << "old value: " << this->oldData;
-//    qDebug() << "new value: " << ui->newData->text();
+    //    QSqlQuery query;
+    //    Database::getInstance();
+    //    // changes price in souvenir table
+    //    qDebug() << "column name: " << this->columnName;
+    //    qDebug() << "old value: " << this->oldData;
+    //    qDebug() << "new value: " << ui->newData->text();
 
 
-//    query.prepare(QString("UPDATE Teams SET %1 = :newValue WHERE TeamName = :teamName AND StadiumName = :stadiumName").arg(columnName));
-//    query.bindValue(":newValue", ui->newData->text());
-//    query.bindValue(":teamName", teamName);
-//    query.bindValue(":stadiumName", stadiumName);
-//    query.exec();
-//    (parentWindow.*functor)();
-//    this->close();
+    //    query.prepare(QString("UPDATE Teams SET %1 = :newValue WHERE TeamName = :teamName AND StadiumName = :stadiumName").arg(columnName));
+    //    query.bindValue(":newValue", ui->newData->text());
+    //    query.bindValue(":teamName", teamName);
+    //    query.bindValue(":stadiumName", stadiumName);
+    //    query.exec();
+    //    (parentWindow.*functor)();
+    //    this->close();
     updateData(ui->newData->text());
 }
 void modifyStadiumInfo::setData(QString eraseData, QString team, QString stadium, QString column, QString header) {
@@ -125,6 +125,38 @@ void modifyStadiumInfo::updateData(QString newData) {
         query.bindValue(":teamName", teamName);
         query.bindValue(":stadiumName", stadiumName);
         query.exec();
+
+        if(columnName == "TeamName")
+        {
+            QSqlQuery souvenirQuery;
+
+            souvenirQuery.prepare("UPDATE Souvenirs SET NFLTeam = :newValue WHERE NFLTeam = :teamName");
+            souvenirQuery.bindValue(":newValue", newData);
+            souvenirQuery.bindValue(":teamName", teamName);
+
+            souvenirQuery.exec();
+        }
+        else if(columnName == "StadiumName")
+        {
+            QSqlQuery distanceBeginningQuery;
+
+            distanceBeginningQuery.prepare("UPDATE Distances SET BeginningStadium = :newValue WHERE BeginningStadium = :stadiumName");
+            distanceBeginningQuery.bindValue(":newValue", newData);
+            distanceBeginningQuery.bindValue(":stadiumName", stadiumName);
+
+            distanceBeginningQuery.exec();
+
+
+            QSqlQuery distanceEndingQuery;
+
+            distanceEndingQuery.prepare("UPDATE Distances SET EndingStadium = :newValue WHERE EndingStadium = :stadiumName");
+            distanceEndingQuery.bindValue(":newValue", newData);
+            distanceEndingQuery.bindValue(":stadiumName", stadiumName);
+
+            distanceEndingQuery.exec();
+        }
+
+
 
         graphPointer->updateGraph();
 

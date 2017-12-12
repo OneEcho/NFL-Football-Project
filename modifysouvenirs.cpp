@@ -18,7 +18,9 @@ modifysouvenirs::modifysouvenirs(QWidget *parent) :
     ui->souvenirView->horizontalHeader()->setStretchLastSection(true);
 
     //Sets up the team combo box
-    QSqlQuery teamsList("SELECT teamName FROM Teams ORDER BY teamName");
+    QSqlQuery teamsList("SELECT distinct NFLTeam FROM Souvenirs ORDER BY NFLTeam");
+
+    teamsList.exec();
 
     while(teamsList.next())
     {
