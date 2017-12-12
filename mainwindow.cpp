@@ -200,7 +200,7 @@ void MainWindow::showStartingTripInputs()
 
 void MainWindow::visitAllStadiumsEfficiently(QString startingStadium, QStringList stadiumsToVisit, QVector<QString> &visitedStadiums)
 {
-    if(stadiumsToVisit.size() == visitedStadiums.size())
+    if(stadiumsToVisit.size() + 1 == visitedStadiums.size())
     {
         return;
     }
