@@ -1,0 +1,9 @@
+<map id="adminWindow" name="adminWindow">
+<area shape="rect" id="node3" href="$class_graph.html" title="Used to represent a graph data structure. " alt="" coords="334,307,501,677"/>
+<area shape="rect" id="node5" href="$classmodifysouvenirs.html" title="{modifysouvenirs\n||+ modifysouvenirs()\l+ ~modifysouvenirs()\l+ setGraphPointer()\l&#45; on_addSouvenir_clicked()\l&#45; on_deleteSouvenir_clicked()\l&#45; on_modifySouvenir_clicked()\l&#45; on_doneButton_clicked()\l&#45; on_addSandiegoSailorsButton\l_clicked()\l&#45; on_teamComboBox_currentIndex\lChanged()\l&#45; updateSouvenirView()\l}" alt="" coords="137,740,359,979"/>
+<area shape="rect" id="node4" href="$struct_graph_1_1traversal_info.html" title="{Graph::traversalInfo\n|+ traversal\l+ distanceTraveled\l|}" alt="" coords="351,79,484,171"/>
+<area shape="rect" id="node7" href="$class_ui_1_1modifysouvenirs.html" title="{Ui::modifysouvenirs\n||}" alt="" coords="175,453,310,531"/>
+<area shape="rect" id="node8" href="$class_ui__modifysouvenirs.html" title="{Ui_modifysouvenirs\n|+ doneButton\l+ groupBox\l+ souvenirView\l+ formLayoutWidget\l+ formLayout\l+ souvenirLabel\l+ nflTeamLabel\l+ priceLabel\l+ priceLineEdit\l+ teamComboBox\land 10 more...\l|+ setupUi()\l+ retranslateUi()\l}" alt="" coords="173,5,312,244"/>
+<area shape="rect" id="node9" href="$class_ui_1_1admin_window.html" title="{Ui::adminWindow\n||}" alt="" coords="529,821,652,898"/>
+<area shape="rect" id="node10" href="$class_ui__admin_window.html" title="{Ui_adminWindow\n|+ centralwidget\l+ gridLayout\l+ Pages\l+ page_0\l+ gridLayout_4\l+ groupBox\l+ gridLayout_2\l+ horizontalLayout\l+ loginButton\l+ cancelLoginButton\land 37 more...\l|+ setupUi()\l+ retranslateUi()\l}" alt="" coords="525,373,667,611"/>
+</map>
